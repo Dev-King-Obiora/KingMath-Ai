@@ -13,8 +13,11 @@ from pydantic import BaseModel
 app = FastAPI()
 
 GEMINI_MODEL = "gemini-3.8-flash"
-GEMINI_HTTP_TIMEOUT_MS = 15_000
-GEMINI_REQUEST_TIMEOUT_SECONDS = 18
+GEMINI_FALLBACK_MODEL = "gemini-3.6-flash"
+GEMINI_HTTP_TIMEOUT_MS = 10_000
+GEMINI_ATTEMPT_TIMEOUT_SECONDS = 11
+GEMINI_REQUEST_TIMEOUT_SECONDS = 22
+TRANSIENT_GEMINI_STATUS_CODES = frozenset({408, 429, 500, 502, 503, 504})
 logger = logging.getLogger(__name__)
 
 
@@ -36,6 +39,45 @@ def get_gemini_client():
 
 class MathQuery(BaseModel):
     problem: str
+
+
+async def generate_with_fallback(client, prompt):
+    try:
+        response = await asyncio.wait_for(
+            client.aio.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+            ),
+            timeout=GEMINI_ATTEMPT_TIMEOUT_SECONDS,
+        )
+        return response, GEMINI_MODEL
+    except (asyncio.TimeoutError, httpx.TransportError) as exc:
+        logger.warning(
+            "Primary Gemini model %s timed out or had a transport error; trying %s: %s",
+            GEMINI_MODEL,
+            GEMINI_FALLBACK_MODEL,
+            exc,
+        )
+    except genai.errors.APIError as exc:
+        status_code = getattr(exc, "code", None)
+        if status_code not in TRANSIENT_GEMINI_STATUS_CODES:
+            raise
+        logger.warning(
+            "Primary Gemini model %s returned transient HTTP %s; trying %s",
+            GEMINI_MODEL,
+            status_code,
+            GEMINI_FALLBACK_MODEL,
+        )
+
+    response = await asyncio.wait_for(
+        client.aio.models.generate_content(
+            model=GEMINI_FALLBACK_MODEL,
+            contents=prompt,
+        ),
+        timeout=GEMINI_ATTEMPT_TIMEOUT_SECONDS,
+    )
+    return response, GEMINI_FALLBACK_MODEL
+
 
 @app.get("/health")
 async def health():
@@ -59,16 +101,14 @@ async def solve_math(query: MathQuery):
         Problem: {query.problem}
         """
         
-        response = await asyncio.wait_for(
-            get_gemini_client().aio.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt,
-            ),
+        response, model_used = await asyncio.wait_for(
+            generate_with_fallback(get_gemini_client(), prompt),
             timeout=GEMINI_REQUEST_TIMEOUT_SECONDS,
         )
         
         if not response.text:
             raise HTTPException(status_code=502, detail="Gemini returned an empty response.")
+        logger.info("Math solution generated with %s", model_used)
         return {"solution": response.text}
     except HTTPException:
         raise
@@ -77,6 +117,12 @@ async def solve_math(query: MathQuery):
         raise HTTPException(
             status_code=504,
             detail="Gemini took too long to respond. Please try again.",
+        ) from exc
+    except httpx.TransportError as exc:
+        logger.warning("Gemini request failed with a transport error: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="Could not reach Gemini right now. Please try again shortly.",
         ) from exc
     except genai.errors.APIError as exc:
         logger.error(
