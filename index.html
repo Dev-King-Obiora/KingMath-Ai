@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta
+      name="description"
+      content="King AI turns math questions into clear, step-by-step worked solutions."
+    />
+    <title>King AI — Math, made understandable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #eef2ff;
+        --muted: #9ba6c3;
+        --dim: #78839f;
+        --night: #0b1020;
+        --panel: rgba(19, 27, 48, 0.72);
+        --line: rgba(172, 190, 231, 0.14);
+        --mint: #8ce9cc;
+        --mint-deep: #66cdb1;
+        --lilac: #b3a8ff;
+        --gold: #f0c982;
+        --font: "Plus Jakarta Sans", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-width: 320px;
+        background: var(--night);
+        scroll-behavior: smooth;
+      }
+
+      body {
+        position: relative;
+        isolation: isolate;
+        min-height: 100dvh;
+        margin: 0;
+        overflow-x: hidden;
+        background:
+          radial-gradient(ellipse at 50% -14%, rgba(39, 58, 102, 0.34), transparent 58%),
+          linear-gradient(180deg, #0b1020 0%, #0d1325 53%, #0b1020 100%);
+        color: var(--ink);
+        font-family: var(--font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body::before,
+      body::after {
+        position: fixed;
+        z-index: -1;
+        width: 34rem;
+        height: 34rem;
+        border-radius: 50%;
+        content: "";
+        pointer-events: none;
+        filter: blur(88px);
+        opacity: 0.17;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+
+      body::before {
+        top: -17rem;
+        left: -12rem;
+        background: radial-gradient(circle, rgba(105, 117, 255, 0.78), transparent 68%);
+      }
+
+      body::after {
+        right: -17rem;
+        bottom: -19rem;
+        background: radial-gradient(circle, rgba(58, 197, 166, 0.54), transparent 69%);
+        animation-delay: -7s;
+      }
+
+      button,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .page-shell {
+        width: min(1120px, calc(100% - 48px));
+        margin-inline: auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 88px;
+        border-bottom: 1px solid rgba(172, 190, 231, 0.08);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.055em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border: 1px solid rgba(140, 233, 204, 0.34);
+        border-radius: 11px;
+        background: linear-gradient(145deg, rgba(140, 233, 204, 0.16), rgba(140, 233, 204, 0.04));
+        color: var(--mint);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .brand-mark svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .top-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: #abb5ce;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .top-note::before {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--mint);
+        box-shadow: 0 0 12px rgba(140, 233, 204, 0.76);
+        content: "";
+      }
+
+      main {
+        padding: 88px 0 54px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.88fr) minmax(480px, 1.12fr);
+        align-items: center;
+        gap: clamp(42px, 7vw, 98px);
+      }
+
+      .intro {
+        padding: 0 0 20px;
+        animation: reveal 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 24px;
+        color: var(--mint);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow-line {
+        display: inline-block;
+        width: 25px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.7;
+      }
+
+      h1 {
+        max-width: 570px;
+        margin: 0;
+        font-size: clamp(42px, 5.5vw, 70px);
+        font-weight: 700;
+        letter-spacing: -0.075em;
+        line-height: 1.03;
+      }
+
+      h1 span {
+        color: var(--mint);
+      }
+
+      .intro-copy {
+        max-width: 405px;
+        margin: 22px 0 0;
+        color: #a6b0c8;
+        font-size: 15px;
+        line-height: 1.85;
+      }
+
+      .trust-line {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-top: 36px;
+        color: #8390ad;
+        font-size: 12px;
+      }
+
+      .trust-stars {
+        display: flex;
+        gap: 3px;
+        color: var(--gold);
+      }
+
+      .trust-stars svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .solver-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(187, 202, 235, 0.17);
+        border-radius: 24px;
+        background:
+          linear-gradient(140deg, rgba(255, 255, 255, 0.055), transparent 46%),
+          var(--panel);
+        box-shadow:
+          0 32px 90px rgba(1, 4, 15, 0.38),
+          inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        animation: reveal 760ms 100ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+
+      .solver-card::before {
+        position: absolute;
+        top: 0;
+        left: 12%;
+        width: 76%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(140, 233, 204, 0.48), transparent);
+        content: "";
+      }
+
+      .card-inner {
+        padding: clamp(22px, 3.2vw, 34px);
+      }
+
+      .card-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .card-heading h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .card-heading p {
+        margin: 7px 0 0;
+        color: var(--dim);
+        font-size: 12px;
+      }
+
+      .secure-badge {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 9px;
+        border: 1px solid rgba(140, 233, 204, 0.16);
+        border-radius: 8px;
+        background: rgba(140, 233, 204, 0.055);
+        color: #a6e8d3;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .secure-badge svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .field-label,
+      .quick-label {
+        display: block;
+        margin-bottom: 10px;
+        color: #c2cbe0;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 137px;
+        resize: vertical;
+        padding: 15px 16px 36px;
+        border: 1px solid rgba(166, 184, 224, 0.16);
+        border-radius: 13px;
+        outline: none;
+        background: rgba(8, 13, 27, 0.55);
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.7;
+        transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      }
+
+      textarea::placeholder {
+        color: #68748f;
+      }
+
+      textarea:hover {
+        border-color: rgba(166, 184, 224, 0.28);
+      }
+
+      textarea:focus-visible {
+        border-color: rgba(140, 233, 204, 0.66);
+        background: rgba(8, 13, 27, 0.76);
+        box-shadow: 0 0 0 3px rgba(140, 233, 204, 0.1);
+      }
+
+      .input-hint {
+        position: absolute;
+        right: 13px;
+        bottom: 12px;
+        color: #64708a;
+        font-size: 10px;
+        pointer-events: none;
+      }
+
+      .quick-prompts {
+        margin-top: 19px;
+      }
+
+      .quick-label {
+        margin-bottom: 10px;
+        color: #8490ab;
+        font-size: 10px;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .prompt-chip {
+        min-height: 32px;
+        padding: 0 11px;
+        border: 1px solid rgba(173, 190, 228, 0.17);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.025);
+        color: #bac4dc;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+      }
+
+      .prompt-chip:hover {
+        transform: translateY(-2px);
+        border-color: rgba(140, 233, 204, 0.45);
+        background: rgba(140, 233, 204, 0.075);
+        color: #d8fff1;
+      }
+
+      .prompt-chip:focus-visible,
+      .solve-button:focus-visible {
+        outline: 2px solid var(--mint);
+        outline-offset: 3px;
+      }
+
+      .solve-button {
+        display: flex;
+        width: 100%;
+        min-height: 49px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 21px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(110deg, #9debd1 0%, #77d9bd 100%);
+        box-shadow: 0 8px 24px rgba(101, 212, 180, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+        color: #10241f;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 800;
+        transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      }
+
+      .solve-button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(101, 212, 180, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+        filter: saturate(1.08);
+      }
+
+      .solve-button:active:not(:disabled) {
+        transform: translateY(0);
+      }
+
+      .solve-button:disabled {
+        cursor: wait;
+        opacity: 0.82;
+      }
+
+      .button-arrow {
+        width: 16px;
+        height: 16px;
+        transition: transform 180ms ease;
+      }
+
+      .solve-button:hover:not(:disabled) .button-arrow {
+        transform: translateX(3px);
+      }
+
+      .spinner {
+        display: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(16, 36, 31, 0.28);
+        border-top-color: #10241f;
+        border-radius: 50%;
+        animation: spin 750ms linear infinite;
+      }
+
+      .solve-button.is-loading .spinner {
+        display: inline-block;
+      }
+
+      .solve-button.is-loading .button-arrow {
+        display: none;
+      }
+
+      .result-card {
+        margin-top: 19px;
+        overflow: hidden;
+        border: 1px solid rgba(173, 190, 228, 0.12);
+        border-radius: 14px;
+        background: rgba(8, 13, 27, 0.45);
+      }
+
+      .result-head {
+        display: flex;
+        min-height: 43px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0 14px;
+        border-bottom: 1px solid rgba(173, 190, 228, 0.09);
+      }
+
+      .result-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #bbc5dc;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .result-title svg {
+        width: 13px;
+        height: 13px;
+        color: var(--lilac);
+      }
+
+      .result-state {
+        color: #6f7a96;
+        font-size: 10px;
+      }
+
+      .result-body {
+        min-height: 90px;
+        padding: 15px 16px 18px;
+        color: #aeb9d1;
+        font-size: 12px;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+      }
+
+      .result-body.is-placeholder {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #75819c;
+        font-size: 11px;
+      }
+
+      .placeholder-spark {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid rgba(179, 168, 255, 0.15);
+        border-radius: 9px;
+        background: rgba(179, 168, 255, 0.07);
+        color: var(--lilac);
+      }
+
+      .placeholder-spark svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .result-body.is-error {
+        color: #f1adae;
+      }
+
+      .result-body.is-loading {
+        color: #aeb9d1;
+      }
+
+      .result-body .katex-display {
+        max-width: 100%;
+        margin: 0.9em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 2px 8px;
+        color: #e7eaff;
+      }
+
+      .result-body .katex {
+        color: #e7eaff;
+      }
+
+      .result-body p {
+        margin: 0 0 0.8em;
+      }
+
+      .under-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 14px;
+        color: #6e7a95;
+        font-size: 10px;
+        text-align: center;
+      }
+
+      .under-card svg {
+        width: 12px;
+        height: 12px;
+        color: #8b96ae;
+      }
+
+      .how-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 42px;
+        margin-top: 114px;
+        padding: 32px 0 0;
+        border-top: 1px solid rgba(172, 190, 231, 0.1);
+        animation: reveal 760ms 240ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+
+      .how-title {
+        margin: 0;
+        color: #cbd3e7;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .how-copy {
+        max-width: 370px;
+        margin: 9px 0 0;
+        color: #78849e;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .steps {
+        display: flex;
+        justify-content: flex-end;
+        gap: clamp(14px, 3vw, 35px);
+      }
+
+      .mini-step {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #9aa6c1;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .step-no {
+        display: grid;
+        width: 25px;
+        height: 25px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid rgba(173, 190, 228, 0.15);
+        border-radius: 50%;
+        color: #a9b5d0;
+        font-size: 9px;
+        font-weight: 700;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 25px 0 28px;
+        color: #66728d;
+        font-size: 10px;
+      }
+
+      .footer-brand {
+        color: #9ba7c1;
+        font-weight: 700;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translate3d(0, 0, 0) scale(0.96);
+        }
+        to {
+          transform: translate3d(34px, 26px, 0) scale(1.06);
+        }
+      }
+
+      @keyframes reveal {
+        from {
+          transform: translateY(12px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 850px) {
+        .page-shell {
+          width: min(640px, calc(100% - 40px));
+        }
+
+        main {
+          padding-top: 60px;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 34px;
+        }
+
+        .intro {
+          padding-bottom: 0;
+        }
+
+        .intro-copy {
+          max-width: 490px;
+          margin-top: 17px;
+        }
+
+        .trust-line {
+          margin-top: 20px;
+        }
+
+        .how-section {
+          grid-template-columns: 1fr;
+          gap: 22px;
+          margin-top: 65px;
+        }
+
+        .steps {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .page-shell {
+          width: calc(100% - 32px);
+        }
+
+        .topbar {
+          min-height: 70px;
+        }
+
+        .top-note {
+          font-size: 9px;
+          letter-spacing: 0.08em;
+        }
+
+        main {
+          padding-top: 45px;
+        }
+
+        h1 {
+          max-width: 420px;
+          font-size: clamp(42px, 12vw, 56px);
+        }
+
+        .intro-copy {
+          font-size: 13px;
+        }
+
+        .card-inner {
+          padding: 21px 17px;
+        }
+
+        .solver-card {
+          border-radius: 19px;
+        }
+
+        .secure-badge {
+          padding: 6px 7px;
+          font-size: 9px;
+        }
+
+        .steps {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        footer {
+          flex-direction: column;
+          padding-top: 22px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="King AI home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4.5 8.2 8 11l4-5 4 5 3.5-2.8-1.2 9.3H5.7L4.5 8.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+              <path d="M6.3 20h11.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              <circle cx="4.5" cy="7.5" r="1" fill="currentColor" />
+              <circle cx="12" cy="5.2" r="1" fill="currentColor" />
+              <circle cx="19.5" cy="7.5" r="1" fill="currentColor" />
+            </svg>
+          </span>
+          <span>King AI</span>
+        </a>
+        <div class="top-note">Your math, made clear</div>
+      </header>
+
+      <main>
+        <section class="hero-grid" aria-labelledby="page-title">
+          <div class="intro">
+            <div class="eyebrow"><span class="eyebrow-line"></span> A clearer way through math</div>
+            <h1 id="page-title">Math, made <span>understandable.</span></h1>
+            <p class="intro-copy">
+              Bring the problem that has you stuck. King AI works it through one clear step at a time, with the equations right there to follow.
+            </p>
+            <div class="trust-line">
+              <span class="trust-stars" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
+              </span>
+              <span>Understand the why, not just the answer.</span>
+            </div>
+          </div>
+
+          <section class="solver-card" aria-labelledby="solver-title">
+            <div class="card-inner">
+              <div class="card-heading">
+                <div>
+                  <h2 id="solver-title">What are you working on?</h2>
+                  <p>Share a question and see each step unfold.</p>
+                </div>
+                <span class="secure-badge">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M4 7V5.5a4 4 0 0 1 8 0V7m-9 0h10v7H3V7Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="8" cy="10.5" r=".8" fill="currentColor" />
+                  </svg>
+                  Ready when you are
+                </span>
+              </div>
+
+              <form id="solver-form">
+                <label class="field-label" for="problem">Your math problem</label>
+                <div class="input-wrap">
+                  <textarea
+                    id="problem"
+                    name="problem"
+                    rows="4"
+                    placeholder="For example: Solve 3x + 5 = 20, showing each step."
+                    aria-describedby="input-hint"
+                    required
+                  ></textarea>
+                  <span class="input-hint" id="input-hint">Ctrl + Enter to solve</span>
+                </div>
+
+                <div class="quick-prompts">
+                  <span class="quick-label">Try a topic</span>
+                  <div class="chip-list" aria-label="Example math prompts">
+                    <button class="prompt-chip" type="button" data-prompt="Solve x² − 5x + 6 = 0 by factoring, and explain each step.">Quadratic</button>
+                    <button class="prompt-chip" type="button" data-prompt="Find the derivative of f(x) = x³ sin(x), showing which differentiation rule you use.">Calculus</button>
+                    <button class="prompt-chip" type="button" data-prompt="Evaluate ∫ (3x² + 2x) dx and explain how to check the result.">Integration</button>
+                  </div>
+                </div>
+
+                <button class="solve-button" id="solve-button" type="submit">
+                  <span class="spinner" aria-hidden="true"></span>
+                  <span class="button-label">Solve step by step</span>
+                  <svg class="button-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M3.5 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </form>
+
+              <section class="result-card" aria-labelledby="result-heading">
+                <div class="result-head">
+                  <div class="result-title" id="result-heading">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M4 2.5h5l3 3v8H4v-11Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                      <path d="M9 2.7v3h2.8M6 8.5h4M6 10.8h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                    </svg>
+                    Worked solution
+                  </div>
+                  <span class="result-state" id="result-state">Waiting for a problem</span>
+                </div>
+                <div class="result-body is-placeholder" id="output" role="region" aria-live="polite" aria-atomic="false" tabindex="0">
+                  <span class="placeholder-spark" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none">
+                      <path d="m8 1.5 1.2 4.3 4.3 1.2-4.3 1.2L8 12.5 6.8 8.2 2.5 7l4.3-1.2L8 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <span>Your explanation will appear here, with equations rendered for you.</span>
+                </div>
+              </section>
+              <div class="under-card">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 1.5 13 3.4v4.1c0 3.2-2.1 5.3-5 7-2.9-1.7-5-3.8-5-7V3.4l5-1.9Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                  <path d="m5.7 7.8 1.5 1.5 3.2-3.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Your question is only used to create your solution.
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="how-section" aria-label="How King AI works">
+          <div>
+            <h2 class="how-title">Clarity, one step at a time.</h2>
+            <p class="how-copy">Follow the reasoning, see the math in context, and build the confidence to solve the next one yourself.</p>
+          </div>
+          <div class="steps">
+            <div class="mini-step"><span class="step-no">01</span><span>Ask your question</span></div>
+            <div class="mini-step"><span class="step-no">02</span><span>Follow each step</span></div>
+            <div class="mini-step"><span class="step-no">03</span><span>Understand the result</span></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span class="footer-brand">King AI <span aria-hidden="true">·</span> Learn it, don’t just solve it.</span>
+        <span>Clear steps. Better understanding.</span>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" defer></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("solver-form");
+        const problemInput = document.getElementById("problem");
+        const solveButton = document.getElementById("solve-button");
+        const buttonLabel = solveButton.querySelector(".button-label");
+        const output = document.getElementById("output");
+        const resultState = document.getElementById("result-state");
+        const chips = document.querySelectorAll(".prompt-chip");
+        const initialButtonLabel = buttonLabel.textContent;
+        let activeController = null;
+
+        function setResultState(message) {
+          resultState.textContent = message;
+        }
+
+        function showMessage(message, type) {
+          output.replaceChildren();
+          output.textContent = message;
+          output.className = "result-body" + (type ? " is-" + type : "");
+        }
+
+        function renderSolution(solution) {
+          // Start as plain text; KaTeX auto-render parses delimiters without treating model output as HTML.
+          output.replaceChildren();
+          output.textContent = solution;
+          output.className = "result-body";
+
+          if (typeof window.renderMathInElement === "function") {
+            window.renderMathInElement(output, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "$", right: "$", display: false },
+              ],
+              throwOnError: false,
+            });
+          }
+        }
+
+        async function solveMath() {
+          const problem = problemInput.value.trim();
+          if (!problem) {
+            problemInput.setCustomValidity("Enter a math problem to get started.");
+            problemInput.reportValidity();
+            problemInput.focus();
+            return;
+          }
+          problemInput.setCustomValidity("");
+
+          if (activeController) activeController.abort();
+          const controller = new AbortController();
+          activeController = controller;
+          const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+
+          solveButton.disabled = true;
+          solveButton.classList.add("is-loading");
+          solveButton.setAttribute("aria-busy", "true");
+          buttonLabel.textContent = "Working through it…";
+          showMessage("Looking at your problem and laying out the steps. This can take a few moments.", "loading");
+          setResultState("Solving your problem");
+
+          try {
+            const response = await fetch("/solve", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ problem }),
+              signal: controller.signal,
+            });
+
+            let data;
+            try {
+              data = await response.json();
+            } catch {
+              throw new Error(response.ok
+                ? "The server returned an unreadable response. Please try again."
+                : "The server could not complete your request. Please try again.");
+            }
+
+            if (!response.ok) {
+              showMessage("Error: " + (data && data.detail ? String(data.detail) : "The solution could not be generated."), "error");
+              setResultState("Could not solve");
+              return;
+            }
+
+            if (!data || typeof data.solution !== "string") {
+              showMessage("The server response did not include a solution. Please try again.", "error");
+              setResultState("Unexpected response");
+              return;
+            }
+
+            renderSolution(data.solution);
+            setResultState("Solution ready");
+          } catch (error) {
+            if (error && error.name === "AbortError") {
+              showMessage("The request timed out after 25 seconds. Please try again.", "error");
+              setResultState("Request timed out");
+            } else {
+              showMessage(error instanceof Error && error.message
+                ? error.message
+                : "Network error occurred. Check your connection and try again.", "error");
+              setResultState("Connection issue");
+            }
+          } finally {
+            window.clearTimeout(timeoutId);
+            if (activeController === controller) activeController = null;
+            solveButton.disabled = false;
+            solveButton.classList.remove("is-loading");
+            solveButton.removeAttribute("aria-busy");
+            buttonLabel.textContent = initialButtonLabel;
+          }
+        }
+
+        chips.forEach((chip) => {
+          chip.addEventListener("click", () => {
+            problemInput.value = chip.dataset.prompt || "";
+            problemInput.setCustomValidity("");
+            problemInput.focus();
+            problemInput.setSelectionRange(problemInput.value.length, problemInput.value.length);
+          });
+        });
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          solveMath();
+        });
+
+        problemInput.addEventListener("input", () => {
+          if (problemInput.value.trim()) problemInput.setCustomValidity("");
+        });
+
+        problemInput.addEventListener("keydown", (event) => {
+          if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+            event.preventDefault();
+            if (!solveButton.disabled) solveMath();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
