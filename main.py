@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
 from google import genai
+from functools import lru_cache
 import os
 
 app = FastAPI()
@@ -9,6 +10,7 @@ app = FastAPI()
 GEMINI_MODEL = "gemini-3.8-flash"
 
 
+@lru_cache(maxsize=1)
 def get_gemini_client():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
