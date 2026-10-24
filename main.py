@@ -1,13 +1,21 @@
+import asyncio
+import logging
+import os
+from functools import lru_cache
+
+import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, Response
-from pydantic import BaseModel
 from google import genai
-from functools import lru_cache
-import os
+from google.genai import types
+from pydantic import BaseModel
 
 app = FastAPI()
 
 GEMINI_MODEL = "gemini-3.8-flash"
+GEMINI_HTTP_TIMEOUT_MS = 15_000
+GEMINI_REQUEST_TIMEOUT_SECONDS = 18
+logger = logging.getLogger(__name__)
 
 
 @lru_cache(maxsize=1)
@@ -18,7 +26,13 @@ def get_gemini_client():
             status_code=503,
             detail="Gemini is not configured. Add GEMINI_API_KEY in the project Secrets.",
         )
-    return genai.Client(api_key=api_key)
+    return genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(
+            timeout=GEMINI_HTTP_TIMEOUT_MS,
+            retry_options=types.HttpRetryOptions(attempts=1),
+        ),
+    )
 
 class MathQuery(BaseModel):
     problem: str
@@ -34,7 +48,7 @@ async def favicon():
 
 
 @app.post("/solve")
-def solve_math(query: MathQuery):
+async def solve_math(query: MathQuery):
     try:
         prompt = f"""
         You are an expert math tutor. Solve the following math problem step-by-step.
@@ -45,9 +59,12 @@ def solve_math(query: MathQuery):
         Problem: {query.problem}
         """
         
-        response = get_gemini_client().models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
+        response = await asyncio.wait_for(
+            get_gemini_client().aio.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+            ),
+            timeout=GEMINI_REQUEST_TIMEOUT_SECONDS,
         )
         
         if not response.text:
@@ -55,8 +72,39 @@ def solve_math(query: MathQuery):
         return {"solution": response.text}
     except HTTPException:
         raise
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Gemini request failed: {e}")
+    except (asyncio.TimeoutError, httpx.TimeoutException) as exc:
+        logger.warning("Gemini request timed out: %s", exc)
+        raise HTTPException(
+            status_code=504,
+            detail="Gemini took too long to respond. Please try again.",
+        ) from exc
+    except genai.errors.APIError as exc:
+        logger.error(
+            "Gemini API request failed: code=%s message=%s",
+            getattr(exc, "code", None),
+            getattr(exc, "message", str(exc)),
+        )
+        status_code = getattr(exc, "code", None)
+        if status_code in (408, 504):
+            raise HTTPException(
+                status_code=504,
+                detail="Gemini timed out before completing the request. Please try again.",
+            ) from exc
+        if status_code == 429 or (isinstance(status_code, int) and status_code >= 500):
+            raise HTTPException(
+                status_code=503,
+                detail="Gemini is temporarily unavailable. Please try again shortly.",
+            ) from exc
+        raise HTTPException(
+            status_code=502,
+            detail=f"Gemini rejected the request (HTTP {status_code or 'unknown'}).",
+        ) from exc
+    except Exception as exc:
+        logger.exception("Unexpected error while requesting Gemini")
+        raise HTTPException(
+            status_code=502,
+            detail="Gemini request failed. Please try again.",
+        ) from exc
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -83,7 +131,7 @@ async def home():
         <p>Type your math problem below:</p>
         <textarea id="problem" placeholder="e.g., Solve 3x + 5 = 20 or find the derivative of x^2 + 3x"></textarea>
         <br>
-        <button onclick="solveMath()">Solve Problem</button>
+        <button id="solve-button" onclick="solveMath()">Solve Problem</button>
         <div class="result" id="output">Your solution will appear here...</div>
 
         <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
@@ -92,15 +140,20 @@ async def home():
             async function solveMath() {
                 const problem = document.getElementById('problem').value;
                 const output = document.getElementById('output');
+                const solveButton = document.getElementById('solve-button');
                 if (!problem) return alert('Please enter a math problem!');
                 
-                output.innerText = 'Solving... Please wait...';
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 25000);
+                solveButton.disabled = true;
+                output.textContent = 'Solving... Please wait...';
                 
                 try {
                     const res = await fetch('/solve', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ problem })
+                        body: JSON.stringify({ problem }),
+                        signal: controller.signal
                     });
                     const data = await res.json();
                     if(res.ok) {
@@ -117,10 +170,15 @@ async def home():
                             });
                         }
                     } else {
-                        output.textContent = 'Error: ' + data.detail;
+                        output.textContent = 'Error: ' + (data.detail || 'The solution could not be generated.');
                     }
                 } catch (err) {
-                    output.textContent = 'Network error occurred.';
+                    output.textContent = err.name === 'AbortError'
+                        ? 'The request timed out. Please try again.'
+                        : 'Network error occurred.';
+                } finally {
+                    clearTimeout(timeoutId);
+                    solveButton.disabled = false;
                 }
             }
         </script>

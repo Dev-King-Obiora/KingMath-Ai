@@ -1,0 +1,1 @@
+- [Gemini request timeouts](gemini-timeouts.md) — keep model calls async and bound SDK retries, HTTP timeouts, server deadlines, and browser waits.
