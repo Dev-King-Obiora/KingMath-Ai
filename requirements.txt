@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-google-genai
-python-multipart
+groq
+httpx
 pydantic
+
