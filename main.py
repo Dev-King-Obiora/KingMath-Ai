@@ -34,7 +34,7 @@ APP_DIR = Path(__file__).resolve().parent
 
 @lru_cache(maxsize=1)
 def get_gemini_client():
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY_2")
     if not api_key:
         raise HTTPException(
             status_code=503,
