@@ -6,6 +6,7 @@ from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from groq import AsyncGroq, GroqError
