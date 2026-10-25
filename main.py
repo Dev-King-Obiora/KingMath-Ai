@@ -7,10 +7,8 @@ from pathlib import Path
 import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, Response
-from google import genai
-from google.genai import types
-from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+from groq import AsyncGroq, GroqError
 
 app = FastAPI()
 
@@ -22,72 +20,52 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-GEMINI_MODEL = "gemini-3.8-flash"
-GEMINI_FALLBACK_MODEL = "gemini-3.6-flash"
-GEMINI_HTTP_TIMEOUT_MS = 30_000
-GEMINI_ATTEMPT_TIMEOUT_SECONDS = 12
-GEMINI_REQUEST_TIMEOUT_SECONDS = 24
-TRANSIENT_GEMINI_STATUS_CODES = frozenset({408, 429, 500, 502, 503, 504})
+GROQ_PRIMARY_MODEL = "llama-3.3-70b-versatile"
+GROQ_FALLBACK_MODEL = "llama-3.1-8b-instant"
+REQUEST_TIMEOUT_SECONDS = 20
+
 logger = logging.getLogger(__name__)
 APP_DIR = Path(__file__).resolve().parent
 
 
 @lru_cache(maxsize=1)
-def get_gemini_client():
-    api_key = os.environ.get("GEMINI_API_KEY")
+def get_groq_client():
+    api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
         raise HTTPException(
             status_code=503,
-            detail="Gemini is not configured. Add GEMINI_API_KEY in the project Secrets.",
+            detail="Groq is not configured. Add GROQ_API_KEY in the project Secrets.",
         )
-    return genai.Client(
-        api_key=api_key,
-        http_options=types.HttpOptions(
-            timeout=GEMINI_HTTP_TIMEOUT_MS,
-            retry_options=types.HttpRetryOptions(attempts=1),
-        ),
-    )
+    return AsyncGroq(api_key=api_key)
+
 
 class MathQuery(BaseModel):
     problem: str
 
 
-async def generate_with_fallback(client, prompt):
+async def generate_with_fallback(client: AsyncGroq, prompt: str):
+    # Try Primary 70B Model first
     try:
-        response = await asyncio.wait_for(
-            client.aio.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt,
+        completion = await asyncio.wait_for(
+            client.chat.completions.create(
+                model=GROQ_PRIMARY_MODEL,
+                messages=[{"role": "user", "content": prompt}],
             ),
-            timeout=GEMINI_ATTEMPT_TIMEOUT_SECONDS,
+            timeout=12,
         )
-        return response, GEMINI_MODEL
-    except (asyncio.TimeoutError, httpx.TransportError) as exc:
-        logger.warning(
-            "Primary Gemini model %s timed out or had a transport error; trying %s: %s",
-            GEMINI_MODEL,
-            GEMINI_FALLBACK_MODEL,
-            exc,
-        )
-    except genai.errors.APIError as exc:
-        status_code = getattr(exc, "code", None)
-        if status_code not in TRANSIENT_GEMINI_STATUS_CODES:
-            raise
-        logger.warning(
-            "Primary Gemini model %s returned transient HTTP %s; trying %s",
-            GEMINI_MODEL,
-            status_code,
-            GEMINI_FALLBACK_MODEL,
-        )
+        return completion.choices[0].message.content, GROQ_PRIMARY_MODEL
+    except Exception as exc:
+        logger.warning("Primary model %s failed: %s. Trying fallback...", GROQ_PRIMARY_MODEL, exc)
 
-    response = await asyncio.wait_for(
-        client.aio.models.generate_content(
-            model=GEMINI_FALLBACK_MODEL,
-            contents=prompt,
+    # Fallback to faster 8B Model if primary fails or rate-limits
+    completion = await asyncio.wait_for(
+        client.chat.completions.create(
+            model=GROQ_FALLBACK_MODEL,
+            messages=[{"role": "user", "content": prompt}],
         ),
-        timeout=GEMINI_ATTEMPT_TIMEOUT_SECONDS,
+        timeout=12,
     )
-    return response, GEMINI_FALLBACK_MODEL
+    return completion.choices[0].message.content, GROQ_FALLBACK_MODEL
 
 
 @app.get("/health")
@@ -112,57 +90,45 @@ async def solve_math(query: MathQuery):
         Problem: {query.problem}
         """
         
-        response, model_used = await asyncio.wait_for(
-            generate_with_fallback(get_gemini_client(), prompt),
-            timeout=GEMINI_REQUEST_TIMEOUT_SECONDS,
+        client = get_groq_client()
+        solution_text, model_used = await asyncio.wait_for(
+            generate_with_fallback(client, prompt),
+            timeout=REQUEST_TIMEOUT_SECONDS,
         )
         
-        if not response.text:
+        if not solution_text:
             raise HTTPException(status_code=502, detail="KingMath-Ai returned an empty response.")
         logger.info("Math solution generated with %s", model_used)
-        return {"solution": response.text}
+        return {"solution": solution_text}
+
     except HTTPException:
         raise
-    except (asyncio.TimeoutError, httpx.TimeoutException) as exc:
-        logger.warning("Gemini request timed out: %s", exc)
+    except asyncio.TimeoutError:
         raise HTTPException(
             status_code=504,
             detail="KingMath-Ai took too long to respond. Please try again.",
-        ) from exc
-    except httpx.TransportError as exc:
-        logger.warning("Gemini request failed with a transport error: %s", exc)
-        raise HTTPException(
-            status_code=503,
-            detail="Could not reach KingMath-Ai right now. Please try again shortly.",
-        ) from exc
-    except genai.errors.APIError as exc:
-        logger.error(
-            "Gemini API request failed: code=%s message=%s",
-            getattr(exc, "code", None),
-            getattr(exc, "message", str(exc)),
         )
-        status_code = getattr(exc, "code", None)
-        if status_code in (408, 504):
-            raise HTTPException(
-                status_code=504,
-                detail="KingMath-Ai timed out before completing the request. Please try again.",
-            ) from exc
-        if status_code == 429 or (isinstance(status_code, int) and status_code >= 500):
+    except GroqError as exc:
+        logger.error("Groq API error: %s", exc)
+        status_code = getattr(exc, "status_code", 500)
+        if status_code == 429:
             raise HTTPException(
                 status_code=503,
-                detail="KingMath-Ai is temporarily unavailable. Please try again shortly.",
-            ) from exc
+                detail="KingMath-Ai is temporarily busy. Please wait a few seconds and try again.",
+            )
         raise HTTPException(
             status_code=502,
-            detail=f" KingMath-Ai rejected the request (HTTP {status_code or 'unknown'}).",
-        ) from exc
+            detail=f"KingMath-Ai request failed (HTTP {status_code}).",
+        )
     except Exception as exc:
-        logger.exception("Unexpected error while requesting Gemini")
+        logger.exception("Unexpected error during processing")
         raise HTTPException(
             status_code=502,
             detail="KingMath-Ai request failed. Please try again.",
-        ) from exc
+        )
+
 
 @app.get("/")
 async def home():
     return FileResponse(APP_DIR / "index.html")
+    
