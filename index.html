@@ -1259,8 +1259,7 @@
               return;
             }
 
-            renderSolution(data.solution);
-            setResultState(data.engine ? `Solved via ${data.engine}` : "Solution ready");
+            renderSolution(data.solution);   setResultState("");
           } catch (error) {
             if (error && error.name === "AbortError") {
               showMessage("The request timed out. Please try again.", "error");
