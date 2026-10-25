@@ -1088,7 +1088,7 @@
           setResultState("Solving your problem");
 
           try {
-        const response = await fetch("https://kingmath-ai-backend.onrender.com/solve", {
+            const response = await fetch("https://kingmath-ai-backend.onrender.com/solve", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ problem }),
