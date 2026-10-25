@@ -26,7 +26,7 @@ GEMINI_MODEL = "gemini-3.8-flash"
 GEMINI_FALLBACK_MODEL = "gemini-3.6-flash"
 GEMINI_HTTP_TIMEOUT_MS = 30_000
 GEMINI_ATTEMPT_TIMEOUT_SECONDS = 12
-GEMINI_REQUEST_TIMEOUT_SECONDS =24
+GEMINI_REQUEST_TIMEOUT_SECONDS = 24
 TRANSIENT_GEMINI_STATUS_CODES = frozenset({408, 429, 500, 502, 503, 504})
 logger = logging.getLogger(__name__)
 APP_DIR = Path(__file__).resolve().parent
@@ -34,7 +34,7 @@ APP_DIR = Path(__file__).resolve().parent
 
 @lru_cache(maxsize=1)
 def get_gemini_client():
-    api_key = os.environ.get("GEMINI_API_KEY_2")
+    api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise HTTPException(
             status_code=503,
