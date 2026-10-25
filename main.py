@@ -10,8 +10,17 @@ from fastapi.responses import FileResponse, Response
 from google import genai
 from google.genai import types
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 GEMINI_MODEL = "gemini-3.8-flash"
 GEMINI_FALLBACK_MODEL = "gemini-3.6-flash"
