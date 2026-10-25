@@ -80,7 +80,17 @@ async def solve_with_groq(prompt: str) -> str:
     completion = await asyncio.wait_for(
         client.chat.completions.create(
             model=GROQ_MODEL,
-            messages=[{"role": "user", "content": prompt}],
+            messages=[
+    {
+        "role": "system",
+        "content": "You are KingMath AI, a professional, elite math tutoring assistant. You solve mathematics problems and explain them step-by-step. If anyone asks who you are, you must state that you are KingMath AI. Never mention OpenAI, ChatGPT, or Groq."
+    },
+    {
+        "role": "user",
+        "content": prompt
+    }
+],
+
         ),
         timeout=15,
     )
@@ -114,7 +124,7 @@ async def solve_math(query: MathQuery):
         prompt = f"{system_prompt}\nProblem: {query.problem}"
         solution_text = await solve_with_groq(prompt)
 
-        return {"solution": solution_text, "engine": "Groq"}
+        return {"solution": solution_text }
 
     except asyncio.TimeoutError:
         raise HTTPException(
