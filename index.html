@@ -322,7 +322,7 @@
       textarea {
         display: block;
         width: 100%;
-        min-height: 137px;
+        min-height: 120px;
         resize: vertical;
         padding: 15px 16px 36px;
         border: 1px solid rgba(166, 184, 224, 0.16);
@@ -358,8 +358,88 @@
         pointer-events: none;
       }
 
+      /* Image Upload Styles */
+      .upload-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .upload-btn-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border: 1px dashed rgba(140, 233, 204, 0.35);
+        border-radius: 10px;
+        background: rgba(140, 233, 204, 0.04);
+        color: var(--mint);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        transition: background 180ms ease, border-color 180ms ease;
+      }
+
+      .upload-btn-label:hover {
+        background: rgba(140, 233, 204, 0.1);
+        border-color: rgba(140, 233, 204, 0.6);
+      }
+
+      .upload-btn-label svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      #image-input {
+        display: none;
+      }
+
+      .image-preview-box {
+        display: none;
+        position: relative;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        padding: 8px 12px;
+        border: 1px solid rgba(173, 190, 228, 0.15);
+        border-radius: 10px;
+        background: rgba(8, 13, 27, 0.4);
+      }
+
+      .image-preview-box.has-image {
+        display: flex;
+      }
+
+      .image-preview-thumb {
+        width: 38px;
+        height: 38px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .image-preview-name {
+        flex: 1 1 auto;
+        color: #bac4dc;
+        font-size: 11px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .remove-image-btn {
+        background: transparent;
+        border: none;
+        color: #f1adae;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 8px;
+      }
+
       .quick-prompts {
-        margin-top: 19px;
+        margin-top: 16px;
       }
 
       .quick-label {
@@ -848,7 +928,7 @@
               <div class="card-heading">
                 <div>
                   <h2 id="solver-title">What are you working on?</h2>
-                  <p>Share a question and see each step unfold.</p>
+                  <p>Share a question or snap a photo to solve.</p>
                 </div>
                 <span class="secure-badge">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -860,17 +940,35 @@
               </div>
 
               <form id="solver-form">
-                <label class="field-label" for="problem">Your math problem</label>
+                <label class="field-label" for="problem">Your math problem or notes</label>
                 <div class="input-wrap">
                   <textarea
                     id="problem"
                     name="problem"
-                    rows="4"
-                    placeholder="For example: Solve 3x + 5 = 20, showing each step."
+                    rows="3"
+                    placeholder="Type your problem here, or attach an image below..."
                     aria-describedby="input-hint"
-                    required
                   ></textarea>
                   <span class="input-hint" id="input-hint">Ctrl + Enter to solve</span>
+                </div>
+
+                <!-- Image Upload & Camera Attachment Row -->
+                <div class="upload-row">
+                  <label class="upload-btn-label" for="image-input">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                      <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                    <span>Attach Photo / Snap Problem</span>
+                  </label>
+                  <input type="file" id="image-input" accept="image/*" capture="environment" />
+                </div>
+
+                <!-- Image Preview Box -->
+                <div class="image-preview-box" id="image-preview-box">
+                  <img id="image-preview-thumb" class="image-preview-thumb" src="" alt="Preview" />
+                  <span class="image-preview-name" id="image-preview-name"></span>
+                  <button type="button" class="remove-image-btn" id="remove-image-btn" title="Remove image">×</button>
                 </div>
 
                 <div class="quick-prompts">
@@ -949,6 +1047,11 @@
       window.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("solver-form");
         const problemInput = document.getElementById("problem");
+        const imageInput = document.getElementById("image-input");
+        const imagePreviewBox = document.getElementById("image-preview-box");
+        const imagePreviewThumb = document.getElementById("image-preview-thumb");
+        const imagePreviewName = document.getElementById("image-preview-name");
+        const removeImageBtn = document.getElementById("remove-image-btn");
         const solveButton = document.getElementById("solve-button");
         const buttonLabel = solveButton.querySelector(".button-label");
         const output = document.getElementById("output");
@@ -956,13 +1059,38 @@
         const chips = document.querySelectorAll(".prompt-chip");
         const initialButtonLabel = buttonLabel.textContent;
         let activeController = null;
+        let selectedImageBase64 = null;
 
-        // Dynamic API Endpoint Routing (Handles localhost and Render seamlessly)
+        // Dynamic API Endpoint Routing
         const API_URL = window.location.hostname.includes("onrender.com") 
           ? "https://kingmath-ai-backend.onrender.com/solve" 
           : window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
             ? "/solve"
             : "https://kingmath-ai-backend.onrender.com/solve";
+
+        // Handle Image Attachment Selection
+        imageInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (uploadEvent) => {
+            selectedImageBase64 = uploadEvent.target.result;
+            imagePreviewThumb.src = selectedImageBase64;
+            imagePreviewName.textContent = file.name;
+            imagePreviewBox.classList.add("has-image");
+          };
+          reader.readAsDataURL(file);
+        });
+
+        // Remove Attached Image
+        removeImageBtn.addEventListener("click", () => {
+          selectedImageBase64 = null;
+          imageInput.value = "";
+          imagePreviewThumb.src = "";
+          imagePreviewName.textContent = "";
+          imagePreviewBox.classList.remove("has-image");
+        });
 
         function setResultState(message) {
           resultState.textContent = message;
@@ -1074,8 +1202,8 @@
 
         async function solveMath() {
           const problem = problemInput.value.trim();
-          if (!problem) {
-            problemInput.setCustomValidity("Enter a math problem to get started.");
+          if (!problem && !selectedImageBase64) {
+            problemInput.setCustomValidity("Please enter a math problem or attach an image.");
             problemInput.reportValidity();
             problemInput.focus();
             return;
@@ -1085,20 +1213,27 @@
           if (activeController) activeController.abort();
           const controller = new AbortController();
           activeController = controller;
-          const timeoutId = window.setTimeout(() => controller.abort(), 25000);
+          const timeoutId = window.setTimeout(() => controller.abort(), 30000);
 
           solveButton.disabled = true;
           solveButton.classList.add("is-loading");
           solveButton.setAttribute("aria-busy", "true");
-          buttonLabel.textContent = "Working through it…";
-          showMessage("Looking at your problem and laying out the steps. This can take a few moments.", "loading");
+          buttonLabel.textContent = selectedImageBase64 ? "Analyzing photo…" : "Working through it…";
+          showMessage("Reading your problem and preparing step-by-step guidance. This can take a few moments.", "loading");
           setResultState("Solving your problem");
 
           try {
+            const requestBody = {
+              problem: problem || "Solve the math problem shown in this image.",
+            };
+            if (selectedImageBase64) {
+              requestBody.image_base64 = selectedImageBase64;
+            }
+
             const response = await fetch(API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ problem }),
+              body: JSON.stringify(requestBody),
               signal: controller.signal,
             });
 
@@ -1125,10 +1260,10 @@
             }
 
             renderSolution(data.solution);
-            setResultState("Solution ready");
+            setResultState(data.engine ? `Solved via ${data.engine}` : "Solution ready");
           } catch (error) {
             if (error && error.name === "AbortError") {
-              showMessage("The request timed out after 25 seconds. Please try again.", "error");
+              showMessage("The request timed out. Please try again.", "error");
               setResultState("Request timed out");
             } else {
               showMessage(error instanceof Error && error.message
