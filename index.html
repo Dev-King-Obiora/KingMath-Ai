@@ -563,6 +563,24 @@
         margin: 0 0 0.8em;
       }
 
+      .result-body > :first-child {
+        margin-top: 0;
+      }
+
+      .result-body > :last-child {
+        margin-bottom: 0;
+      }
+
+      .result-body ol,
+      .result-body ul {
+        padding-left: 1.5rem;
+      }
+
+      .result-body pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+      }
+
       .under-card {
         display: flex;
         align-items: center;
@@ -925,6 +943,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
     <script>
       window.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("solver-form");
@@ -947,23 +967,102 @@
           output.className = "result-body" + (type ? " is-" + type : "");
         }
 
+        function protectMath(markdown) {
+          const backslash = String.fromCharCode(92);
+          const delimiters = [
+            { open: backslash + "[", close: backslash + "]" },
+            { open: backslash + "(", close: backslash + ")" },
+            { open: "$$", close: "$$" },
+            { open: "$", close: "$", singleLine: true },
+          ];
+          let marker = "MATHPLACEHOLDER";
+          while (markdown.includes(marker)) marker += "_";
+
+          const expressions = [];
+          let protectedText = "";
+          let index = 0;
+          while (index < markdown.length) {
+            const delimiter = delimiters.find(({ open }) =>
+              markdown.startsWith(open, index) &&
+              (open !== "$" || markdown[index + 1] !== "$")
+            );
+            if (!delimiter) {
+              protectedText += markdown[index];
+              index += 1;
+              continue;
+            }
+
+            let end = markdown.indexOf(delimiter.close, index + delimiter.open.length);
+            while (end !== -1 && (
+              (delimiter.singleLine && markdown.slice(index, end).includes("\n")) ||
+              (delimiter.close === "$" && (markdown[end - 1] === "$" || markdown[end + 1] === "$"))
+            )) {
+              end = markdown.indexOf(delimiter.close, end + delimiter.close.length);
+            }
+            if (end === -1) {
+              protectedText += markdown[index];
+              index += 1;
+              continue;
+            }
+
+            const expressionEnd = end + delimiter.close.length;
+            const expressionIndex = expressions.push(markdown.slice(index, expressionEnd)) - 1;
+            protectedText += `${marker}${expressionIndex}END`;
+            index = expressionEnd;
+          }
+          return { text: protectedText, marker, expressions };
+        }
+
+        function renderMath(element) {
+          if (typeof window.renderMathInElement !== "function") return;
+          window.renderMathInElement(element, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "\\[", right: "\\]", display: true },
+              { left: "\\(", right: "\\)", display: false },
+              { left: "$", right: "$", display: false },
+            ],
+            throwOnError: false,
+          });
+        }
+
         function renderSolution(solution) {
-          // Start as plain text; KaTeX auto-render parses delimiters without treating model output as HTML.
           output.replaceChildren();
-          output.textContent = solution;
           output.className = "result-body";
 
-          if (typeof window.renderMathInElement === "function") {
-            window.renderMathInElement(output, {
-              delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "\\[", right: "\\]", display: true },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "$", right: "$", display: false },
-              ],
-              throwOnError: false,
-            });
+          if (!window.marked || typeof window.marked.parse !== "function" || !window.DOMPurify) {
+            output.textContent = solution;
+            renderMath(output);
+            return;
           }
+
+          const math = protectMath(solution);
+          const parsedHtml = window.marked.parse(math.text);
+          const safeHtml = window.DOMPurify.sanitize(parsedHtml, {
+            ALLOWED_TAGS: [
+              "a", "blockquote", "br", "code", "del", "em",
+              "h1", "h2", "h3", "h4", "h5", "h6", "hr",
+              "li", "ol", "p", "pre", "strong", "ul",
+              "table", "thead", "tbody", "tr", "th", "td",
+            ],
+            ALLOWED_ATTR: ["href", "title"],
+            ALLOW_DATA_ATTR: false,
+          });
+          output.innerHTML = safeHtml;
+
+          const tokenPattern = new RegExp(math.marker + "(\\d+)END", "g");
+          const walker = document.createTreeWalker(output, NodeFilter.SHOW_TEXT);
+          const textNodes = [];
+          let node;
+          while ((node = walker.nextNode())) {
+            if (node.nodeValue.includes(math.marker)) textNodes.push(node);
+          }
+          for (const textNode of textNodes) {
+            textNode.nodeValue = textNode.nodeValue.replace(tokenPattern, (token, index) =>
+              math.expressions[Number(index)] ?? token
+            );
+          }
+          renderMath(output);
         }
 
         async function solveMath() {
