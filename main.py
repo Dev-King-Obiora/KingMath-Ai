@@ -21,8 +21,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-GROQ_PRIMARY_MODEL = "llama-3.3-70b-versatile"
-GROQ_FALLBACK_MODEL = "llama-3.1-8b-instant"
+# Updated to Groq's active high-performance models
+GROQ_PRIMARY_MODEL = "openai/gpt-oss-120b"
+GROQ_FALLBACK_MODEL = "openai/gpt-oss-20b"
 REQUEST_TIMEOUT_SECONDS = 20
 
 logger = logging.getLogger(__name__)
@@ -45,7 +46,6 @@ class MathQuery(BaseModel):
 
 
 async def generate_with_fallback(client: AsyncGroq, prompt: str):
-    # Try Primary 70B Model first
     try:
         completion = await asyncio.wait_for(
             client.chat.completions.create(
@@ -58,7 +58,6 @@ async def generate_with_fallback(client: AsyncGroq, prompt: str):
     except Exception as exc:
         logger.warning("Primary model %s failed: %s. Trying fallback...", GROQ_PRIMARY_MODEL, exc)
 
-    # Fallback to faster 8B Model if primary fails or rate-limits
     completion = await asyncio.wait_for(
         client.chat.completions.create(
             model=GROQ_FALLBACK_MODEL,
@@ -132,4 +131,3 @@ async def solve_math(query: MathQuery):
 @app.get("/")
 async def home():
     return FileResponse(APP_DIR / "index.html")
-    
