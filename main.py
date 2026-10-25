@@ -118,7 +118,7 @@ async def solve_math(query: MathQuery):
         )
         
         if not response.text:
-            raise HTTPException(status_code=502, detail="Gemini returned an empty response.")
+            raise HTTPException(status_code=502, detail="KingMath-Ai returned an empty response.")
         logger.info("Math solution generated with %s", model_used)
         return {"solution": response.text}
     except HTTPException:
@@ -127,13 +127,13 @@ async def solve_math(query: MathQuery):
         logger.warning("Gemini request timed out: %s", exc)
         raise HTTPException(
             status_code=504,
-            detail="Gemini took too long to respond. Please try again.",
+            detail="KingMath-Ai took too long to respond. Please try again.",
         ) from exc
     except httpx.TransportError as exc:
         logger.warning("Gemini request failed with a transport error: %s", exc)
         raise HTTPException(
             status_code=503,
-            detail="Could not reach Gemini right now. Please try again shortly.",
+            detail="Could not reach KingMath-Ai right now. Please try again shortly.",
         ) from exc
     except genai.errors.APIError as exc:
         logger.error(
@@ -145,22 +145,22 @@ async def solve_math(query: MathQuery):
         if status_code in (408, 504):
             raise HTTPException(
                 status_code=504,
-                detail="Gemini timed out before completing the request. Please try again.",
+                detail="KingMath-Ai timed out before completing the request. Please try again.",
             ) from exc
         if status_code == 429 or (isinstance(status_code, int) and status_code >= 500):
             raise HTTPException(
                 status_code=503,
-                detail="Gemini is temporarily unavailable. Please try again shortly.",
+                detail="KingMath-Ai is temporarily unavailable. Please try again shortly.",
             ) from exc
         raise HTTPException(
             status_code=502,
-            detail=f"Gemini rejected the request (HTTP {status_code or 'unknown'}).",
+            detail=f" KingMath-Ai rejected the request (HTTP {status_code or 'unknown'}).",
         ) from exc
     except Exception as exc:
         logger.exception("Unexpected error while requesting Gemini")
         raise HTTPException(
             status_code=502,
-            detail="Gemini request failed. Please try again.",
+            detail="KingMath-Ai request failed. Please try again.",
         ) from exc
 
 @app.get("/")
