@@ -1,9 +1,11 @@
 fastapi
 uvicorn
 groq
-google-genai
 supabase
 httpx
 pydantic
 slowapi
 python-multipart
+requests
+google-generativeai
+python-dotenv
