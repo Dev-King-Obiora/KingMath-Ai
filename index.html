@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#0b1020" />
     <meta
       name="description"
-      content="KingMath AI turns math questions into clear, step-by-step worked solutions."
+      content="KingMath AI — Comprehensive Math & Science Platform for Nigerian Students (SS1–SS3, WAEC, JAMB)."
     />
-    <title>KingMath AI — Math, made understandable</title>
+    <title>KingMath AI — Learn, Solve & Excel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,6 +32,7 @@
         --mint-deep: #66cdb1;
         --lilac: #b3a8ff;
         --gold: #f0c982;
+        --danger: #f1adae;
         --font: "Plus Jakarta Sans", sans-serif;
       }
 
@@ -88,26 +89,28 @@
         animation-delay: -7s;
       }
 
-      button,
-      textarea {
+      button, textarea, select, input {
         font: inherit;
       }
 
       button {
         -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
       }
 
       .page-shell {
-        width: min(1120px, calc(100% - 48px));
+        width: min(1200px, calc(100% - 48px));
         margin-inline: auto;
       }
 
+      /* Topbar Header & Navigation */
       .topbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
         min-height: 88px;
         border-bottom: 1px solid rgba(172, 190, 231, 0.08);
+        gap: 16px;
       }
 
       .brand {
@@ -115,7 +118,7 @@
         align-items: center;
         gap: 11px;
         color: var(--ink);
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 800;
         letter-spacing: -0.055em;
         text-decoration: none;
@@ -123,62 +126,131 @@
 
       .brand-mark {
         display: grid;
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
         place-items: center;
         border: 1px solid rgba(140, 233, 204, 0.34);
-        border-radius: 11px;
+        border-radius: 12px;
         background: linear-gradient(145deg, rgba(140, 233, 204, 0.16), rgba(140, 233, 204, 0.04));
         color: var(--mint);
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
 
       .brand-mark svg {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
       }
 
-      .top-note {
+      /* Navigation Tabs */
+      .main-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(8, 13, 27, 0.5);
+        padding: 5px;
+        border-radius: 14px;
+        border: 1px solid rgba(172, 190, 231, 0.1);
+      }
+
+      .nav-tab {
+        padding: 8px 14px;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 180ms ease;
+      }
+
+      .nav-tab:hover {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .nav-tab.is-active {
+        background: linear-gradient(135deg, rgba(140, 233, 204, 0.2), rgba(179, 168, 255, 0.15));
+        color: var(--mint);
+        border: 1px solid rgba(140, 233, 204, 0.3);
+      }
+
+      /* Auth & User Tier Badge */
+      .auth-widget {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .tier-badge {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
-        color: #abb5ce;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 20px;
         font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        font-weight: 700;
+        background: rgba(240, 201, 130, 0.1);
+        border: 1px solid rgba(240, 201, 130, 0.3);
+        color: var(--gold);
       }
 
-      .top-note::before {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--mint);
-        box-shadow: 0 0 12px rgba(140, 233, 204, 0.76);
-        content: "";
+      .btn-upgrade {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f0c982, #e5a93b);
+        color: #1a1200;
+        font-size: 11px;
+        font-weight: 800;
+        box-shadow: 0 4px 14px rgba(240, 201, 130, 0.25);
+        transition: transform 180ms ease;
+      }
+
+      .btn-upgrade:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-auth {
+        padding: 8px 16px;
+        border: 1px solid rgba(172, 190, 231, 0.2);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
       }
 
       main {
-        padding: 88px 0 54px;
+        padding: 32px 0 60px;
       }
 
+      /* View Sections */
+      .view-panel {
+        display: none;
+        animation: reveal 400ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+
+      .view-panel.is-active {
+        display: block;
+      }
+
+      /* Hero Grid for Solver */
       .hero-grid {
         display: grid;
-        grid-template-columns: minmax(0, 0.88fr) minmax(480px, 1.12fr);
-        align-items: center;
-        gap: clamp(42px, 7vw, 98px);
+        grid-template-columns: minmax(0, 0.85fr) minmax(480px, 1.15fr);
+        align-items: start;
+        gap: clamp(32px, 5vw, 64px);
       }
 
       .intro {
-        padding: 0 0 20px;
-        animation: reveal 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        padding-top: 10px;
       }
 
       .eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 9px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         color: var(--mint);
         font-size: 11px;
         font-weight: 700;
@@ -191,16 +263,14 @@
         width: 25px;
         height: 1px;
         background: currentColor;
-        opacity: 0.7;
       }
 
       h1 {
-        max-width: 570px;
         margin: 0;
-        font-size: clamp(42px, 5.5vw, 70px);
-        font-weight: 700;
-        letter-spacing: -0.075em;
-        line-height: 1.03;
+        font-size: clamp(36px, 4.5vw, 58px);
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 1.05;
       }
 
       h1 span {
@@ -208,34 +278,13 @@
       }
 
       .intro-copy {
-        max-width: 405px;
-        margin: 22px 0 0;
+        margin: 18px 0 0;
         color: #a6b0c8;
         font-size: 15px;
-        line-height: 1.85;
+        line-height: 1.8;
       }
 
-      .trust-line {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        margin-top: 36px;
-        color: #8390ad;
-        font-size: 12px;
-      }
-
-      .trust-stars {
-        display: flex;
-        gap: 3px;
-        color: var(--gold);
-      }
-
-      .trust-stars svg {
-        width: 12px;
-        height: 12px;
-      }
-
-      .solver-card {
+      .solver-card, .glass-card {
         position: relative;
         overflow: hidden;
         border: 1px solid rgba(187, 202, 235, 0.17);
@@ -243,119 +292,51 @@
         background:
           linear-gradient(140deg, rgba(255, 255, 255, 0.055), transparent 46%),
           var(--panel);
-        box-shadow:
-          0 32px 90px rgba(1, 4, 15, 0.38),
-          inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        box-shadow: 0 32px 90px rgba(1, 4, 15, 0.38);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
-        animation: reveal 760ms 100ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        padding: clamp(22px, 3vw, 32px);
       }
 
-      .solver-card::before {
-        position: absolute;
-        top: 0;
-        left: 12%;
-        width: 76%;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(140, 233, 204, 0.48), transparent);
-        content: "";
-      }
-
-      .card-inner {
-        padding: clamp(22px, 3.2vw, 34px);
-      }
-
-      .card-heading {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .card-heading h2 {
-        margin: 0;
-        font-size: 17px;
-        font-weight: 700;
-        letter-spacing: -0.04em;
-      }
-
-      .card-heading p {
-        margin: 7px 0 0;
-        color: var(--dim);
-        font-size: 12px;
-      }
-
-      .secure-badge {
-        flex: 0 0 auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 9px;
-        border: 1px solid rgba(140, 233, 204, 0.16);
-        border-radius: 8px;
-        background: rgba(140, 233, 204, 0.055);
-        color: #a6e8d3;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.03em;
-      }
-
-      .secure-badge svg {
-        width: 12px;
-        height: 12px;
-      }
-
-      .field-label,
-      .quick-label {
-        display: block;
-        margin-bottom: 10px;
-        color: #c2cbe0;
-        font-size: 12px;
-        font-weight: 600;
-      }
-
-      .input-wrap {
-        position: relative;
-      }
-
-      textarea {
+      /* Inputs & Textareas */
+      textarea, select, input[type="text"], input[type="email"], input[type="password"] {
         display: block;
         width: 100%;
-        min-height: 120px;
-        resize: vertical;
-        padding: 15px 16px 36px;
+        padding: 12px 14px;
         border: 1px solid rgba(166, 184, 224, 0.16);
-        border-radius: 13px;
+        border-radius: 12px;
         outline: none;
-        background: rgba(8, 13, 27, 0.55);
+        background: rgba(8, 13, 27, 0.6);
         color: var(--ink);
         font-size: 13px;
-        line-height: 1.7;
-        transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+        transition: border-color 180ms ease, box-shadow 180ms ease;
       }
 
-      textarea::placeholder {
-        color: #68748f;
-      }
-
-      textarea:hover {
-        border-color: rgba(166, 184, 224, 0.28);
-      }
-
-      textarea:focus-visible {
+      textarea:focus, select:focus, input:focus {
         border-color: rgba(140, 233, 204, 0.66);
-        background: rgba(8, 13, 27, 0.76);
         box-shadow: 0 0 0 3px rgba(140, 233, 204, 0.1);
       }
 
-      .input-hint {
-        position: absolute;
-        right: 13px;
-        bottom: 12px;
-        color: #64708a;
-        font-size: 10px;
-        pointer-events: none;
+      /* Buttons */
+      .btn-primary {
+        display: flex;
+        width: 100%;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(110deg, #9debd1 0%, #77d9bd 100%);
+        color: #10241f;
+        font-size: 13px;
+        font-weight: 800;
+        transition: transform 180ms ease, filter 180ms ease;
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        filter: saturate(1.08);
       }
 
       /* Image Upload Styles */
@@ -378,26 +359,12 @@
         cursor: pointer;
         font-size: 11px;
         font-weight: 600;
-        transition: background 180ms ease, border-color 180ms ease;
       }
 
-      .upload-btn-label:hover {
-        background: rgba(140, 233, 204, 0.1);
-        border-color: rgba(140, 233, 204, 0.6);
-      }
-
-      .upload-btn-label svg {
-        width: 15px;
-        height: 15px;
-      }
-
-      #image-input {
-        display: none;
-      }
+      #image-input { display: none; }
 
       .image-preview-box {
         display: none;
-        position: relative;
         align-items: center;
         gap: 10px;
         margin-top: 10px;
@@ -407,536 +374,179 @@
         background: rgba(8, 13, 27, 0.4);
       }
 
-      .image-preview-box.has-image {
-        display: flex;
-      }
+      .image-preview-box.has-image { display: flex; }
 
       .image-preview-thumb {
         width: 38px;
         height: 38px;
         object-fit: cover;
         border-radius: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      .image-preview-name {
-        flex: 1 1 auto;
-        color: #bac4dc;
-        font-size: 11px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .remove-image-btn {
-        background: transparent;
-        border: none;
-        color: #f1adae;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 700;
-        padding: 4px 8px;
-      }
-
-      .quick-prompts {
-        margin-top: 16px;
-      }
-
-      .quick-label {
-        margin-bottom: 10px;
-        color: #8490ab;
-        font-size: 10px;
-        letter-spacing: 0.11em;
-        text-transform: uppercase;
-      }
-
-      .chip-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .prompt-chip {
-        min-height: 32px;
-        padding: 0 11px;
-        border: 1px solid rgba(173, 190, 228, 0.17);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.025);
-        color: #bac4dc;
-        cursor: pointer;
-        font-size: 11px;
-        font-weight: 600;
-        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
-      }
-
-      .prompt-chip:hover {
-        transform: translateY(-2px);
-        border-color: rgba(140, 233, 204, 0.45);
-        background: rgba(140, 233, 204, 0.075);
-        color: #d8fff1;
-      }
-
-      .prompt-chip:focus-visible,
-      .solve-button:focus-visible {
-        outline: 2px solid var(--mint);
-        outline-offset: 3px;
-      }
-
-      .solve-button {
-        display: flex;
-        width: 100%;
-        min-height: 49px;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 21px;
-        border: 0;
-        border-radius: 12px;
-        background: linear-gradient(110deg, #9debd1 0%, #77d9bd 100%);
-        box-shadow: 0 8px 24px rgba(101, 212, 180, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.48);
-        color: #10241f;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 800;
-        transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
-      }
-
-      .solve-button:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(101, 212, 180, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.52);
-        filter: saturate(1.08);
-      }
-
-      .solve-button:active:not(:disabled) {
-        transform: translateY(0);
-      }
-
-      .solve-button:disabled {
-        cursor: wait;
-        opacity: 0.82;
-      }
-
-      .button-arrow {
-        width: 16px;
-        height: 16px;
-        transition: transform 180ms ease;
-      }
-
-      .solve-button:hover:not(:disabled) .button-arrow {
-        transform: translateX(3px);
-      }
-
-      .spinner {
-        display: none;
-        width: 16px;
-        height: 16px;
-        border: 2px solid rgba(16, 36, 31, 0.28);
-        border-top-color: #10241f;
-        border-radius: 50%;
-        animation: spin 750ms linear infinite;
-      }
-
-      .solve-button.is-loading .spinner {
-        display: inline-block;
-      }
-
-      .solve-button.is-loading .button-arrow {
-        display: none;
-      }
-
+      /* Result Display Card */
       .result-card {
-        margin-top: 19px;
-        overflow: hidden;
+        margin-top: 20px;
         border: 1px solid rgba(173, 190, 228, 0.12);
         border-radius: 14px;
         background: rgba(8, 13, 27, 0.45);
+        overflow: hidden;
       }
 
       .result-head {
         display: flex;
-        min-height: 43px;
+        min-height: 42px;
         align-items: center;
         justify-content: space-between;
-        gap: 10px;
         padding: 0 14px;
         border-bottom: 1px solid rgba(173, 190, 228, 0.09);
-      }
-
-      .result-title {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #bbc5dc;
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        color: #bbc5dc;
         text-transform: uppercase;
       }
 
-      .result-title svg {
-        width: 13px;
-        height: 13px;
-        color: var(--lilac);
-      }
-
-      .result-state {
-        color: #6f7a96;
-        font-size: 10px;
-      }
-
       .result-body {
-        min-height: 90px;
-        padding: 15px 16px 18px;
+        min-height: 100px;
+        padding: 16px;
         color: #aeb9d1;
-        font-size: 12px;
+        font-size: 13px;
         line-height: 1.8;
-        overflow-wrap: anywhere;
       }
 
-      .result-body.is-placeholder {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #75819c;
-        font-size: 11px;
-      }
-
-      .placeholder-spark {
+      /* CBT Engine UI */
+      .cbt-header {
         display: grid;
-        width: 28px;
-        height: 28px;
-        flex: 0 0 auto;
-        place-items: center;
-        border: 1px solid rgba(179, 168, 255, 0.15);
-        border-radius: 9px;
-        background: rgba(179, 168, 255, 0.07);
-        color: var(--lilac);
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
       }
 
-      .placeholder-spark svg {
-        width: 14px;
-        height: 14px;
+      .cbt-question-card {
+        padding: 24px;
+        border-radius: 16px;
+        background: rgba(8, 13, 27, 0.6);
+        border: 1px solid rgba(172, 190, 231, 0.12);
+        margin-bottom: 20px;
       }
 
-      .result-body.is-error {
-        color: #f1adae;
-      }
-
-      .result-body.is-loading {
-        color: #aeb9d1;
-      }
-
-      .result-body .katex-display {
-        max-width: 100%;
-        margin: 0.9em 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 4px 2px 8px;
-        color: #e7eaff;
-      }
-
-      .result-body .katex {
-        color: #e7eaff;
-      }
-
-      .result-body p {
-        margin: 0 0 0.8em;
-      }
-
-      .result-body > :first-child {
-        margin-top: 0;
-      }
-
-      .result-body > :last-child {
-        margin-bottom: 0;
-      }
-
-      .result-body ol,
-      .result-body ul {
-        padding-left: 1.5rem;
-      }
-
-      .result-body pre {
-        overflow-x: auto;
-        white-space: pre-wrap;
-      }
-
-      .under-card {
+      .option-item {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 7px;
-        margin-top: 14px;
-        color: #6e7a95;
-        font-size: 10px;
+        gap: 12px;
+        padding: 12px 16px;
+        margin-top: 10px;
+        border: 1px solid rgba(172, 190, 231, 0.12);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        cursor: pointer;
+        transition: background 180ms;
+      }
+
+      .option-item:hover {
+        background: rgba(140, 233, 204, 0.08);
+        border-color: rgba(140, 233, 204, 0.3);
+      }
+
+      /* Learning Hub Grid */
+      .hub-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .topic-card {
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(19, 27, 48, 0.5);
+        border: 1px solid rgba(172, 190, 231, 0.12);
+        transition: transform 180ms ease, border-color 180ms ease;
+      }
+
+      .topic-card:hover {
+        transform: translateY(-3px);
+        border-color: rgba(140, 233, 204, 0.4);
+      }
+
+      /* Progress Metrics Dashboard */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .metric-card {
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(8, 13, 27, 0.5);
+        border: 1px solid rgba(172, 190, 231, 0.12);
         text-align: center;
       }
 
-      .under-card svg {
-        width: 12px;
-        height: 12px;
-        color: #8b96ae;
+      .metric-val {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--mint);
+        margin-top: 6px;
       }
 
-      .how-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+      /* Modals */
+      .modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(5, 9, 20, 0.85);
+        backdrop-filter: blur(12px);
         align-items: center;
-        gap: 42px;
-        margin-top: 114px;
-        padding: 32px 0 0;
-        border-top: 1px solid rgba(172, 190, 231, 0.1);
-        animation: reveal 760ms 240ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        justify-content: center;
+        padding: 20px;
       }
 
-      .how-title {
-        margin: 0;
-        color: #cbd3e7;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: -0.04em;
-      }
+      .modal-backdrop.is-open { display: flex; }
 
-      .how-copy {
-        max-width: 370px;
-        margin: 9px 0 0;
-        color: #78849e;
-        font-size: 12px;
-        line-height: 1.8;
-      }
-
-      .steps {
-        display: flex;
-        justify-content: flex-end;
-        gap: clamp(14px, 3vw, 35px);
-      }
-
-      .mini-step {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        color: #9aa6c1;
-        font-size: 11px;
-        white-space: nowrap;
-      }
-
-      .step-no {
-        display: grid;
-        width: 25px;
-        height: 25px;
-        flex: 0 0 auto;
-        place-items: center;
-        border: 1px solid rgba(173, 190, 228, 0.15);
-        border-radius: 50%;
-        color: #a9b5d0;
-        font-size: 9px;
-        font-weight: 700;
+      .modal-box {
+        width: min(440px, 100%);
+        padding: 32px;
+        border-radius: 20px;
+        background: var(--night);
+        border: 1px solid rgba(172, 190, 231, 0.2);
+        box-shadow: 0 24px 60px rgba(0,0,0,0.6);
       }
 
       footer {
         display: flex;
         justify-content: space-between;
-        gap: 18px;
-        padding: 25px 0 28px;
+        padding: 24px 0;
         color: #66728d;
-        font-size: 10px;
-      }
-
-      .footer-brand {
-        color: #9ba7c1;
-        font-weight: 700;
-      }
-
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
+        font-size: 11px;
+        border-top: 1px solid rgba(172, 190, 231, 0.08);
       }
 
       @keyframes drift {
-        from {
-          transform: translate3d(0, 0, 0) scale(0.96);
-        }
-        to {
-          transform: translate3d(34px, 26px, 0) scale(1.06);
-        }
+        from { transform: translate3d(0, 0, 0) scale(0.96); }
+        to { transform: translate3d(34px, 26px, 0) scale(1.06); }
       }
 
       @keyframes reveal {
-        from {
-          transform: translateY(12px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       @media (max-width: 850px) {
-        .page-shell {
-          width: min(640px, calc(100% - 40px));
-        }
-
-        main {
-          padding-top: 60px;
-        }
-
-        .hero-grid {
-          grid-template-columns: 1fr;
-          gap: 34px;
-        }
-
-        .intro {
-          padding-bottom: 0;
-        }
-
-        .intro-copy {
-          max-width: 490px;
-          margin-top: 17px;
-        }
-
-        .trust-line {
-          margin-top: 20px;
-        }
-
-        .how-section {
-          grid-template-columns: 1fr;
-          gap: 22px;
-          margin-top: 65px;
-        }
-
-        .steps {
-          justify-content: flex-start;
-        }
-      }
-
-      @media (max-width: 520px) {
-        .page-shell {
-          width: calc(100% - 32px);
-        }
-
-        .topbar {
-          min-height: 70px;
-        }
-
-        .top-note {
-          font-size: 9px;
-          letter-spacing: 0.08em;
-        }
-
-        main {
-          padding-top: 45px;
-        }
-
-        h1 {
-          max-width: 420px;
-          font-size: clamp(42px, 12vw, 56px);
-        }
-
-        .intro-copy {
-          font-size: 13px;
-        }
-
-        .card-inner {
-          padding: 21px 17px;
-        }
-
-        .solver-card {
-          border-radius: 19px;
-        }
-
-        .secure-badge {
-          padding: 6px 7px;
-          font-size: 9px;
-        }
-
-        .steps {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-
-        footer {
-          flex-direction: column;
-          padding-top: 22px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          scroll-behavior: auto !important;
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
+        .hero-grid { grid-template-columns: 1fr; }
+        .topbar { flex-wrap: wrap; }
+        .main-nav { order: 3; width: 100%; justify-content: space-between; overflow-x: auto; }
       }
     </style>
   </head>
   <body>
-    <div style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99999;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    background: #0f172a; 
-    color: #ffffff; 
-    font-family: system-ui, sans-serif; 
-    text-align: center; 
-    padding: 20px;">
-    
-    <div style="
-        background: rgba(255, 255, 255, 0.05); 
-        backdrop-filter: blur(10px); 
-        border: 1px solid rgba(255, 255, 255, 0.1); 
-        border-radius: 16px; 
-        padding: 40px; 
-        max-width: 450px; 
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">
-        
-        <h1 style="
-            font-size: 2.2rem; 
-            margin-bottom: 12px; 
-            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent;">
-            KingMath AI
-        </h1>
-        
-        <p style="font-size: 1.2rem; font-weight: 500; color: #e2e8f0; margin-bottom: 8px;">
-            We will be right back! ✨
-        </p>
-        
-        <p style="font-size: 0.95rem; color: #94a3b8; line-height: 1.5;">
-            We are upgrading our platform infrastructure to bring you an even faster and seamless math-solving experience.
-        </p>
-    </div>
-</div>
-
     <div class="page-shell">
+      <!-- Top Navigation Bar -->
       <header class="topbar">
-        <a class="brand" href="/" aria-label="KingMath AI home">
-          <span class="brand-mark" aria-hidden="true">
+        <a class="brand" href="#">
+          <span class="brand-mark">
             <svg viewBox="0 0 24 24" fill="none">
               <path d="M4.5 8.2 8 11l4-5 4 5 3.5-2.8-1.2 9.3H5.7L4.5 8.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
               <path d="M6.3 20h11.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
@@ -947,406 +557,293 @@
           </span>
           <span>KingMath AI</span>
         </a>
-        <div class="top-note">Your math, made clear</div>
+
+        <!-- Platform Navigation Tabs -->
+        <nav class="main-nav">
+          <button class="nav-tab is-active" data-target="solver-view">AI Solver</button>
+          <button class="nav-tab" data-target="cbt-view">CBT Practice</button>
+          <button class="nav-tab" data-target="hub-view">Learning Hub</button>
+          <button class="nav-tab" data-target="recommend-view">Personalised</button>
+          <button class="nav-tab" data-target="progress-view">My Progress</button>
+        </nav>
+
+        <!-- Auth & Tier Status -->
+        <div class="auth-widget">
+          <span class="tier-badge" id="user-tier-badge">Free Plan (5/5)</span>
+          <button class="btn-upgrade" id="open-upgrade-btn">Upgrade ₦3,500/mo</button>
+          <button class="btn-auth" id="open-auth-btn">Sign In</button>
+        </div>
       </header>
 
       <main>
-        <section class="hero-grid" aria-labelledby="page-title">
-          <div class="intro">
-            <div class="eyebrow"><span class="eyebrow-line"></span> A clearer way through math</div>
-            <h1 id="page-title">Math, made <span>understandable.</span></h1>
-            <p class="intro-copy">
-              Bring the problem that has you stuck. KingMath AI works it through one clear step at a time, with the equations right there to follow.
-            </p>
-            <div class="trust-line">
-              <span class="trust-stars" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
-                <svg viewBox="0 0 16 16" fill="currentColor"><path d="m8 1.2 2 4.1 4.5.7-3.25 3.2.77 4.5L8 11.57 3.98 13.7l.77-4.5L1.5 6l4.5-.7L8 1.2Z" /></svg>
-              </span>
-              <span>Understand the why, not just the answer.</span>
+        <!-- FEATURE 1: AI MATH SOLVER -->
+        <section class="view-panel is-active" id="solver-view">
+          <div class="hero-grid">
+            <div class="intro">
+              <div class="eyebrow"><span class="eyebrow-line"></span> Next-Gen Nigerian AI Study Companion</div>
+              <h1>Math & Science, <span>made clear.</span></h1>
+              <p class="intro-copy">
+                Type your problem or snap a photo of your WAEC/JAMB question. KingMath AI breaks it down step-by-step with clear latex equations.
+              </p>
             </div>
-          </div>
 
-          <section class="solver-card" aria-labelledby="solver-title">
-            <div class="card-inner">
-              <div class="card-heading">
-                <div>
-                  <h2 id="solver-title">What are you working on?</h2>
-                  <p>Share a question or snap a photo to solve.</p>
-                </div>
-                <span class="secure-badge">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M4 7V5.5a4 4 0 0 1 8 0V7m-9 0h10v7H3V7Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="8" cy="10.5" r=".8" fill="currentColor" />
-                  </svg>
-                  Ready when you are
-                </span>
-              </div>
-
+            <div class="solver-card">
               <form id="solver-form">
-                <label class="field-label" for="problem">Your math problem or notes</label>
-                <div class="input-wrap">
-                  <textarea
-                    id="problem"
-                    name="problem"
-                    rows="3"
-                    placeholder="Type your problem here, or attach an image below..."
-                    aria-describedby="input-hint"
-                  ></textarea>
-                  <span class="input-hint" id="input-hint">Ctrl + Enter to solve</span>
-                </div>
+                <label style="font-size: 12px; font-weight:600; margin-bottom: 8px; display:block;">Your Question or Notes</label>
+                <textarea id="problem" rows="3" placeholder="Type your problem here or attach an image below..."></textarea>
 
-                <!-- Image Upload & Camera Attachment Row -->
                 <div class="upload-row">
                   <label class="upload-btn-label" for="image-input">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                      <circle cx="12" cy="13" r="4"></circle>
-                    </svg>
-                    <span>Attach Photo / Snap Problem</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <span>Snap / Attach Problem</span>
                   </label>
                   <input type="file" id="image-input" accept="image/*" capture="environment" />
                 </div>
 
-                <!-- Image Preview Box -->
                 <div class="image-preview-box" id="image-preview-box">
                   <img id="image-preview-thumb" class="image-preview-thumb" src="" alt="Preview" />
-                  <span class="image-preview-name" id="image-preview-name"></span>
-                  <button type="button" class="remove-image-btn" id="remove-image-btn" title="Remove image">×</button>
+                  <span id="image-preview-name" style="font-size:11px; flex:1;"></span>
+                  <button type="button" id="remove-image-btn" style="background:none; border:none; color:var(--danger); font-weight:bold;">×</button>
                 </div>
 
-                <div class="quick-prompts">
-                  <span class="quick-label">Try a topic</span>
-                  <div class="chip-list" aria-label="Example math prompts">
-                    <button class="prompt-chip" type="button" data-prompt="Solve x² − 5x + 6 = 0 by factoring, and explain each step.">Quadratic</button>
-                    <button class="prompt-chip" type="button" data-prompt="Find the derivative of f(x) = x³ sin(x), showing which differentiation rule you use.">Calculus</button>
-                    <button class="prompt-chip" type="button" data-prompt="Evaluate ∫ (3x² + 2x) dx and explain how to check the result.">Integration</button>
-                  </div>
-                </div>
-
-                <button class="solve-button" id="solve-button" type="submit">
-                  <span class="spinner" aria-hidden="true"></span>
-                  <span class="button-label">Solve step by step</span>
-                  <svg class="button-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M3.5 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+                <button class="btn-primary" id="solve-button" type="submit" style="margin-top: 18px;">
+                  <span>Solve Step by Step</span>
                 </button>
               </form>
 
-              <section class="result-card" aria-labelledby="result-heading">
+              <div class="result-card">
                 <div class="result-head">
-                  <div class="result-title" id="result-heading">
-                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                      <path d="M4 2.5h5l3 3v8H4v-11Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
-                      <path d="M9 2.7v3h2.8M6 8.5h4M6 10.8h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                    </svg>
-                    Worked solution
-                  </div>
-                  <span class="result-state" id="result-state">Waiting for a problem</span>
+                  <span>Worked Solution</span>
+                  <span id="result-state" style="color:var(--muted); font-weight:normal;">Waiting...</span>
                 </div>
-                <div class="result-body is-placeholder" id="output" role="region" aria-live="polite" aria-atomic="false" tabindex="0">
-                  <span class="placeholder-spark" aria-hidden="true">
-                    <svg viewBox="0 0 16 16" fill="none">
-                      <path d="m8 1.5 1.2 4.3 4.3 1.2-4.3 1.2L8 12.5 6.8 8.2 2.5 7l4.3-1.2L8 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
-                    </svg>
-                  </span>
-                  <span>Your explanation will appear here, with equations rendered for you.</span>
-                </div>
-              </section>
-              <div class="under-card">
-                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 1.5 13 3.4v4.1c0 3.2-2.1 5.3-5 7-2.9-1.7-5-3.8-5-7V3.4l5-1.9Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
-                  <path d="m5.7 7.8 1.5 1.5 3.2-3.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Your question is only used to create your solution.
+                <div class="result-body" id="output">Your rendered solution and step-by-step guidance will appear here.</div>
               </div>
             </div>
-          </section>
+          </div>
         </section>
 
-        <section class="how-section" aria-label="How KingMath AI works">
-          <div>
-            <h2 class="how-title">Clarity, one step at a time.</h2>
-            <p class="how-copy">Follow the reasoning, see the math in context, and build the confidence to solve the next one yourself.</p>
+        <!-- FEATURE 2: CBT PRACTICE ENGINE -->
+        <section class="view-panel" id="cbt-view">
+          <div class="glass-card">
+            <h2>CBT Practice Center (WAEC, JAMB, SS1–SS3)</h2>
+            <p style="color: var(--muted); font-size: 13px;">Test your knowledge under real exam conditions with server-side automated grading.</p>
+            
+            <div class="cbt-header">
+              <div>
+                <label style="font-size:11px; color:var(--muted);">Exam Level</label>
+                <select id="cbt-level">
+                  <option>JAMB UTME</option>
+                  <option>WAEC SSCE</option>
+                  <option>SS3 Mock</option>
+                  <option>SS2 Assessment</option>
+                  <option>SS1 Practice</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--muted);">Subject</label>
+                <select id="cbt-subject">
+                  <option>Mathematics</option>
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Biology</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--muted);">Select Topic / Mode</label>
+                <select id="cbt-topic">
+                  <option>Full Exam Simulation</option>
+                  <option>Algebra & Quadratics</option>
+                  <option>Trigonometry & Calculus</option>
+                  <option>Statistics & Probability</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cbt-question-card">
+              <div style="display:flex; justify-between; align-items:center; margin-bottom: 12px;">
+                <span style="font-size:11px; color:var(--mint); font-weight:bold;">Question 1 of 10</span>
+                <span style="font-size:11px; color:var(--gold);">Timer: 14:52</span>
+              </div>
+              <p style="font-size: 14px; font-weight:600;">Simplify $\log_2(32) + \log_3(27) - \log_5(25)$.</p>
+
+              <div class="option-item"><input type="radio" name="cbt-opt" id="optA"> <label for="optA">A) 6</label></div>
+              <div class="option-item"><input type="radio" name="cbt-opt" id="optB"> <label for="optB">B) 8</label></div>
+              <div class="option-item"><input type="radio" name="cbt-opt" id="optC"> <label for="optC">C) 5</label></div>
+              <div class="option-item"><input type="radio" name="cbt-opt" id="optD"> <label for="optD">D) 10</label></div>
+
+              <button class="btn-primary" style="margin-top: 20px; width: auto; padding: 0 24px;">Submit Test & View AI Breakdown</button>
+            </div>
           </div>
-          <div class="steps">
-            <div class="mini-step"><span class="step-no">01</span><span>Ask your question</span></div>
-            <div class="mini-step"><span class="step-no">02</span><span>Follow each step</span></div>
-            <div class="mini-step"><span class="step-no">03</span><span>Understand the result</span></div>
+        </section>
+
+        <!-- FEATURE 3: LEARNING HUB -->
+        <section class="view-panel" id="hub-view">
+          <div class="glass-card">
+            <h2>Curriculum Learning Hub</h2>
+            <p style="color: var(--muted); font-size: 13px;">Structured notes, worked examples, and formulas aligned with Nigerian educational syllabus.</p>
+
+            <div class="hub-grid">
+              <div class="topic-card">
+                <span style="font-size: 10px; color: var(--mint); font-weight: 700;">MATHEMATICS</span>
+                <h3 style="font-size: 16px; margin: 8px 0 4px;">Quadratic Equations</h3>
+                <p style="font-size: 12px; color: var(--muted);">Factorization, Completing the Square, and Quadratic Formula and more...</p>
+              </div>
+              <div class="topic-card">
+                <span style="font-size: 10px; color: var(--lilac); font-weight: 700;">PHYSICS</span>
+                <h3 style="font-size: 16px; margin: 8px 0 4px;">Projectiles & Motion</h3>
+                <p style="font-size: 12px; color: var(--muted);">Calculations of Range, Height, and Flight Time under gravity and more...</p>
+              </div>
+              <div class="topic-card">
+                <span style="font-size: 10px; color: var(--gold); font-weight: 700;">CHEMISTRY</span>
+                <h3 style="font-size: 16px; margin: 8px 0 4px;">Stoichiometry & Gas Laws</h3>
+                <p style="font-size: 12px; color: var(--muted);">Moles, Avogadro's constant, and ideal gas equation computations,organic chemistry,and more...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEATURE 4: PERSONALISED LEARNING RECOMMENDATIONS -->
+        <section class="view-panel" id="recommend-view">
+          <div class="glass-card">
+            <h2>Personalised Study Plan</h2>
+            <p style="color: var(--muted); font-size: 13px;">AI analysis of your CBT test scores and solver activity.</p>
+
+            <div style="margin-top: 20px; padding: 20px; border-radius: 14px; background: rgba(240, 201, 130, 0.08); border: 1px solid rgba(240, 201, 130, 0.2);">
+              <h4 style="margin: 0 0 8px; color: var(--gold);">Recommended Focus Area: Trigonometric Ratios</h4>
+              <p style="font-size: 12px; color: #d0c8b0; margin: 0 0 12px;">Your recent CBT score in Trigonometry was 40%. We recommend reviewing Sine/Cosine rules before taking your next JAMB mock test.</p>
+              <button class="btn-upgrade" style="font-size:11px;">Review Topic Lessons</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEATURE 5: MY PROGRESS DASHBOARD -->
+        <section class="view-panel" id="progress-view">
+          <div class="glass-card">
+            <h2>My Progress & Performance History</h2>
+            <p style="color: var(--muted); font-size: 13px;">Track test scores, completed topics, and accuracy improvement over time.</p>
+
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div style="font-size:11px; color:var(--muted);">Tests Completed</div>
+                <div class="metric-val">12</div>
+              </div>
+              <div class="metric-card">
+                <div style="font-size:11px; color:var(--muted);">Average CBT Score</div>
+                <div class="metric-val">76%</div>
+              </div>
+              <div class="metric-card">
+                <div style="font-size:11px; color:var(--muted);">Questions Solved</div>
+                <div class="metric-val">48</div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
 
+      <!-- PAYSTACK PRO SUBSCRIPTION MODAL -->
+      <div class="modal-backdrop" id="upgrade-modal">
+        <div class="modal-box">
+          <h3 style="margin: 0 0 8px; font-size: 20px; color: var(--gold);">Upgrade to KingMath Pro</h3>
+          <p style="font-size: 12px; color: var(--muted); line-height: 1.6;">Unlock unlimited AI solves, 30 daily photo snaps, full WAEC & JAMB question bank, and detailed analytics.</p>
+          
+          <div style="margin: 20px 0; text-align: center;">
+            <span style="font-size: 32px; font-weight: 800; color: var(--ink);">₦3,500</span>
+            <span style="font-size: 12px; color: var(--muted);">/ month</span>
+          </div>
+
+          <button class="btn-primary" id="paystack-pay-btn" style="background: linear-gradient(110deg, #f0c982, #e5a93b); color: #1a1200;">Pay with Paystack</button>
+          <button id="close-upgrade-btn" style="width:100%; margin-top:10px; background:none; border:none; color:var(--muted); font-size:12px;">Cancel</button>
+        </div>
+      </div>
+
+      <!-- SUPABASE AUTH MODAL -->
+      <div class="modal-backdrop" id="auth-modal">
+        <div class="modal-box">
+          <h3 style="margin: 0 0 16px; font-size: 18px;">Sign In to KingMath AI</h3>
+          <input type="email" id="auth-email" placeholder="Student Email" style="margin-bottom: 12px;" />
+          <input type="password" id="auth-password" placeholder="Password" style="margin-bottom: 16px;" />
+          <button class="btn-primary" id="auth-submit-btn">Continue</button>
+          <button id="close-auth-btn" style="width:100%; margin-top:10px; background:none; border:none; color:var(--muted); font-size:12px;">Close</button>
+        </div>
+      </div>
+
       <footer>
-        <span class="footer-brand">KingMath AI <span aria-hidden="true">·</span> Learn it, don’t just solve it.</span>
-        <span>Clear steps. Better understanding.</span>
+        <span>KingMath AI — Educational Platform for Nigerian Secondary Students.</span>
+        <span>Built for WAEC, JAMB & SS1–SS3 Excellence</span>
       </footer>
     </div>
 
+    <!-- External Libraries for Math rendering and Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js" defer></script>
+
     <script>
       window.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("solver-form");
-        const problemInput = document.getElementById("problem");
-        const imageInput = document.getElementById("image-input");
-        const imagePreviewBox = document.getElementById("image-preview-box");
-        const imagePreviewThumb = document.getElementById("image-preview-thumb");
-        const imagePreviewName = document.getElementById("image-preview-name");
-        const removeImageBtn = document.getElementById("remove-image-btn");
-        const solveButton = document.getElementById("solve-button");
-        const buttonLabel = solveButton.querySelector(".button-label");
-        const output = document.getElementById("output");
-        const resultState = document.getElementById("result-state");
-        const chips = document.querySelectorAll(".prompt-chip");
-        const initialButtonLabel = buttonLabel.textContent;
-        let activeController = null;
-        let selectedImageBase64 = null;
+        // Tab Navigation Controller
+        const tabs = document.querySelectorAll(".nav-tab");
+        const panels = document.querySelectorAll(".view-panel");
 
-        // Dynamic API Endpoint Routing
+        tabs.forEach(tab => {
+          tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("is-active"));
+            panels.forEach(p => p.classList.remove("is-active"));
+
+            tab.classList.add("is-active");
+            document.getElementById(tab.dataset.target).classList.add("is-active");
+          });
+        });
+
+        // Modals Controller
+        const upgradeModal = document.getElementById("upgrade-modal");
+        const authModal = document.getElementById("auth-modal");
+
+        document.getElementById("open-upgrade-btn").addEventListener("click", () => upgradeModal.classList.add("is-open"));
+        document.getElementById("close-upgrade-btn").addEventListener("click", () => upgradeModal.classList.remove("is-open"));
+
+        document.getElementById("open-auth-btn").addEventListener("click", () => authModal.classList.add("is-open"));
+        document.getElementById("close-auth-btn").addEventListener("click", () => authModal.classList.remove("is-open"));
+
+        // Solver Dynamic Routing
         const API_URL = window.location.hostname.includes("onrender.com") 
           ? "https://kingmath-ai-backend.onrender.com/solve" 
           : window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
             ? "/solve"
             : "https://kingmath-ai-backend.onrender.com/solve";
 
-        // Handle Image Attachment Selection
-        imageInput.addEventListener("change", (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
+        const solverForm = document.getElementById("solver-form");
+        const problemInput = document.getElementById("problem");
+        const output = document.getElementById("output");
+        const resultState = document.getElementById("result-state");
 
-          const reader = new FileReader();
-          reader.onload = (uploadEvent) => {
-            selectedImageBase64 = uploadEvent.target.result;
-            imagePreviewThumb.src = selectedImageBase64;
-            imagePreviewName.textContent = file.name;
-            imagePreviewBox.classList.add("has-image");
-          };
-          reader.readAsDataURL(file);
-        });
-
-        // Remove Attached Image
-        removeImageBtn.addEventListener("click", () => {
-          selectedImageBase64 = null;
-          imageInput.value = "";
-          imagePreviewThumb.src = "";
-          imagePreviewName.textContent = "";
-          imagePreviewBox.classList.remove("has-image");
-        });
-
-        function setResultState(message) {
-          resultState.textContent = message;
-        }
-
-        function showMessage(message, type) {
-          output.replaceChildren();
-          output.textContent = message;
-          output.className = "result-body" + (type ? " is-" + type : "");
-        }
-
-        function protectMath(markdown) {
-          const backslash = String.fromCharCode(92);
-          const delimiters = [
-            { open: backslash + "[", close: backslash + "]" },
-            { open: backslash + "(", close: backslash + ")" },
-            { open: "$$", close: "$$" },
-            { open: "$", close: "$", singleLine: true },
-          ];
-          let marker = "MATHPLACEHOLDER";
-          while (markdown.includes(marker)) marker += "_";
-
-          const expressions = [];
-          let protectedText = "";
-          let index = 0;
-          while (index < markdown.length) {
-            const delimiter = delimiters.find(({ open }) =>
-              markdown.startsWith(open, index) &&
-              (open !== "$" || markdown[index + 1] !== "$")
-            );
-            if (!delimiter) {
-              protectedText += markdown[index];
-              index += 1;
-              continue;
-            }
-
-            let end = markdown.indexOf(delimiter.close, index + delimiter.open.length);
-            while (end !== -1 && (
-              (delimiter.singleLine && markdown.slice(index, end).includes("\n")) ||
-              (delimiter.close === "$" && (markdown[end - 1] === "$" || markdown[end + 1] === "$"))
-            )) {
-              end = markdown.indexOf(delimiter.close, end + delimiter.close.length);
-            }
-            if (end === -1) {
-              protectedText += markdown[index];
-              index += 1;
-              continue;
-            }
-
-            const expressionEnd = end + delimiter.close.length;
-            const expressionIndex = expressions.push(markdown.slice(index, expressionEnd)) - 1;
-            protectedText += `${marker}${expressionIndex}END`;
-            index = expressionEnd;
-          }
-          return { text: protectedText, marker, expressions };
-        }
-
-        function renderMath(element) {
-          if (typeof window.renderMathInElement !== "function") return;
-          window.renderMathInElement(element, {
-            delimiters: [
-              { left: "$$", right: "$$", display: true },
-              { left: "\\[", right: "\\]", display: true },
-              { left: "\\(", right: "\\)", display: false },
-              { left: "$", right: "$", display: false },
-            ],
-            throwOnError: false,
-          });
-        }
-
-        function renderSolution(solution) {
-          output.replaceChildren();
-          output.className = "result-body";
-
-          if (!window.marked || typeof window.marked.parse !== "function" || !window.DOMPurify) {
-            output.textContent = solution;
-            renderMath(output);
-            return;
-          }
-
-          const math = protectMath(solution);
-          const parsedHtml = window.marked.parse(math.text);
-          const safeHtml = window.DOMPurify.sanitize(parsedHtml, {
-            ALLOWED_TAGS: [
-              "a", "blockquote", "br", "code", "del", "em",
-              "h1", "h2", "h3", "h4", "h5", "h6", "hr",
-              "li", "ol", "p", "pre", "strong", "ul",
-              "table", "thead", "tbody", "tr", "th", "td",
-            ],
-            ALLOWED_ATTR: ["href", "title"],
-            ALLOW_DATA_ATTR: false,
-          });
-          output.innerHTML = safeHtml;
-
-          const tokenPattern = new RegExp(math.marker + "(\\d+)END", "g");
-          const walker = document.createTreeWalker(output, NodeFilter.SHOW_TEXT);
-          const textNodes = [];
-          let node;
-          while ((node = walker.nextNode())) {
-            if (node.nodeValue.includes(math.marker)) textNodes.push(node);
-          }
-          for (const textNode of textNodes) {
-            textNode.nodeValue = textNode.nodeValue.replace(tokenPattern, (token, index) =>
-              math.expressions[Number(index)] ?? token
-            );
-          }
-          renderMath(output);
-        }
-
-        async function solveMath() {
+        solverForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
           const problem = problemInput.value.trim();
-          if (!problem && !selectedImageBase64) {
-            problemInput.setCustomValidity("Please enter a math problem or attach an image.");
-            problemInput.reportValidity();
-            problemInput.focus();
-            return;
-          }
-          problemInput.setCustomValidity("");
+          if (!problem) return;
 
-          if (activeController) activeController.abort();
-          const controller = new AbortController();
-          activeController = controller;
-          const timeoutId = window.setTimeout(() => controller.abort(), 30000);
-
-          solveButton.disabled = true;
-          solveButton.classList.add("is-loading");
-          solveButton.setAttribute("aria-busy", "true");
-          buttonLabel.textContent = selectedImageBase64 ? "Analyzing photo…" : "Working through it…";
-          showMessage("Reading your problem and preparing step-by-step guidance. This can take a few moments.", "loading");
-          setResultState("Solving your problem");
+          resultState.textContent = "Solving...";
+          output.textContent = "Processing problem step-by-step...";
 
           try {
-            const requestBody = {
-              problem: problem || "Solve the math problem shown in this image.",
-            };
-            if (selectedImageBase64) {
-              requestBody.image_base64 = selectedImageBase64;
-            }
-
-            const response = await fetch(API_URL, {
+            const res = await fetch(API_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(requestBody),
-              signal: controller.signal,
+              body: JSON.stringify({ problem })
             });
-
-            let data;
-            const textResponse = await response.text();
-            try {
-              data = JSON.parse(textResponse);
-            } catch {
-              throw new Error(response.ok
-                ? "The server returned an unreadable response. Please try again."
-                : `Server error encountered (HTTP ${response.status}). Please verify backend status.`);
-            }
-
-            if (!response.ok) {
-              showMessage("Error: " + (data && data.detail ? String(data.detail) : "The solution could not be generated."), "error");
-              setResultState("Could not solve");
-              return;
-            }
-
-            if (!data || typeof data.solution !== "string") {
-              showMessage("The server response did not include a solution. Please try again.", "error");
-              setResultState("Unexpected response");
-              return;
-            }
-
-            renderSolution(data.solution);   setResultState("");
-          } catch (error) {
-            if (error && error.name === "AbortError") {
-              showMessage("The request timed out. Please try again.", "error");
-              setResultState("Request timed out");
+            const data = await res.json();
+            
+            if (res.ok && data.solution) {
+              output.textContent = data.solution;
+              if (window.renderMathInElement) window.renderMathInElement(output);
+              resultState.textContent = "Complete";
             } else {
-              showMessage(error instanceof Error && error.message
-                ? error.message
-                : "Network error occurred. Check your connection and try again.", "error");
-              setResultState("Connection issue");
+              output.textContent = "Error: " + (data.detail || "Could not generate solution");
+              resultState.textContent = "Failed";
             }
-          } finally {
-            window.clearTimeout(timeoutId);
-            if (activeController === controller) activeController = null;
-            solveButton.disabled = false;
-            solveButton.classList.remove("is-loading");
-            solveButton.removeAttribute("aria-busy");
-            buttonLabel.textContent = initialButtonLabel;
-          }
-        }
-
-        chips.forEach((chip) => {
-          chip.addEventListener("click", () => {
-            problemInput.value = chip.dataset.prompt || "";
-            problemInput.setCustomValidity("");
-            problemInput.focus();
-            problemInput.setSelectionRange(problemInput.value.length, problemInput.value.length);
-          });
-        });
-
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          solveMath();
-        });
-
-        problemInput.addEventListener("input", () => {
-          if (problemInput.value.trim()) problemInput.setCustomValidity("");
-        });
-
-        problemInput.addEventListener("keydown", (event) => {
-          if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-            event.preventDefault();
-            if (!solveButton.disabled) solveMath();
+          } catch (err) {
+            output.textContent = "Backend Connection Error. Please verify Render service state.";
+            resultState.textContent = "Connection Error";
           }
         });
       });
