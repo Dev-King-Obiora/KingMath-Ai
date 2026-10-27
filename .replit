@@ -1,4 +1,4 @@
-modules = ["python-3.11", "nodejs-24"]
+modules = ["web", "python-3.12"]
 
 [[ports]]
 localPort = 5000
@@ -37,3 +37,6 @@ waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[nix]
+channel = "stable-25_05"
