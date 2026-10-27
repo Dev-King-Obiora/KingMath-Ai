@@ -66,7 +66,7 @@ async def protect_rate(request: Request, call_next):
 async def groq_chat(messages: list[dict[str, Any]], *, json_mode: bool=False, max_tokens: int=3500) -> str:
     key = os.getenv("GROQ_API_KEY", "").strip()
     if not key: raise HTTPException(503, "AI tutoring is not configured yet. Add the required server key in your environment settings.")
-    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
     payload: dict[str, Any] = {"model": model, "messages": messages, "temperature": 0.25, "max_tokens": max_tokens}
     if json_mode: payload["response_format"] = {"type":"json_object"}
     try:
