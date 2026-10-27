@@ -1,0 +1,1 @@
+{ "rewrites": [ { "source": "/(.*)", "destination": "https://kingmath-ai-backend.onrender.com/$1" } ] }
