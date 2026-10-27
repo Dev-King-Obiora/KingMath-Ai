@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f5f6fb">
 <meta name="referrer" content="no-referrer">
-<title>KingMath-AI - Learn with Clarity and Understanding</title>
+<title>KingMath-AI - Learn with clarity</title>
 <script nonce="__NONCE__">try{var t=localStorage.getItem('km_theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t}catch(e){}</script>
 <style nonce="__NONCE__">
 :root{--bg:#f5f6fb;--surface:#fff;--surface2:#f0f2f9;--text:#141a2e;--muted:#667089;--line:#e3e7f1;--primary:#4f46e5;--on-primary:#fff;--primary-soft:#eceafe;--good:#12805c;--good-soft:#e3f6ee;--bad:#c2343f;--bad-soft:#fdeaec;--warn:#a96a0b;--warn-soft:#fff3dc;--shadow:0 1px 2px rgba(20,26,46,.04),0 10px 30px rgba(20,26,46,.06);color-scheme:light;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -70,7 +70,7 @@ textarea{min-height:140px;resize:vertical;line-height:1.6}
 .step{border:1px solid var(--line);border-radius:13px;margin:8px 0;background:var(--surface)}
 .step summary{list-style:none;cursor:pointer;padding:12px 13px;font-weight:700;display:flex;gap:11px;align-items:center}.step summary::-webkit-details-marker{display:none}
 .step .num{width:26px;height:26px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:13px;flex-shrink:0}
-.stepbody{padding:0 14px 14px}.work{background:var(--surface2);border-radius:10px;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,Consolas,monospace;font-size:13px;margin:0 0 9px}
+.stepbody{padding:0 14px 14px}.work{background:var(--surface2);border-radius:10px;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.7;margin:0 0 9px}
 .final{background:var(--good-soft);border-radius:14px;padding:14px}.final .lbl2{color:var(--good)}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:10px 0 22px}
@@ -193,7 +193,7 @@ body.in-exam .tabbar{display:none}body.in-exam .page{padding-bottom:30px}
       </div>
       <div id="imagePreview"></div>
       <label class="label mt" for="level">Learning level</label>
-      <select id="level"><option>Secondary school</option><option>Junior secondary</option><option>Senior secondary / WAEC</option><option>JAMB student</option><option>Independent learner</option></select>
+      <select id="level"><option>Secondary school</option><option>Junior secondary</option><option>Senior secondary / WAEC</option><option>UTME candidate </option><option>Independent learner</option></select>
       <div class="row between mt"><button class="btn ghost" data-act="clear">Clear</button><button class="btn primary" id="solveBtn" data-act="solve">Solve question</button></div>
       <div id="solveError"></div>
       <div class="mt"><div class="label">Try a sample</div><div class="chips">
@@ -226,7 +226,7 @@ body.in-exam .tabbar{display:none}body.in-exam .page{padding-bottom:30px}
 <!-- CBT -->
 <section class="view" data-view="cbt" id="view-cbt" hidden>
   <div id="examSetup">
-    <div class="pagehead"><p class="eyebrow">Computer-based test</p><h1>Practise under exam conditions.</h1><p class="lead">A fresh 20-question multiple-choice exam, timed and marked instantly.</p></div>
+    <div class="pagehead"><p class="eyebrow">Computer-based test</p><h1>Practise under exam conditions.</h1><p class="lead">A multiple-choice exam, timed and marked instantly.</p></div>
     <div class="card setup">
       <div class="block"><h3>1. What do you want to practise?</h3>
         <div class="chips" id="subjChips">
@@ -268,7 +268,7 @@ body.in-exam .tabbar{display:none}body.in-exam .page{padding-bottom:30px}
   <div class="about"><div class="card"><div class="sym">∑</div><h3>Step-by-step solving</h3><p>Structured working, the key principle, and a verification step.</p></div>
   <div class="card"><div class="sym">▣</div><h3>Camera and photos</h3><p>Snap a printed or handwritten question and get a worked solution.</p></div>
   <div class="card"><div class="sym">✓</div><h3>Instant CBT marking</h3><p>Submit and see your score, evaluation, topic breakdown and explanations at once.</p></div></div>
-  <div class="card pad mt"><h3>A tutor, not just an answer machine</h3><p class="muted">Improve your learning through our AI assistant.</p></div>
+  <div class="card pad mt"><h3>A tutor, not an answer machine</h3><p class="muted"> use our AI as your tutor and personal assistance.</p></div>
 </section>
 
 </main></div></div>
@@ -276,7 +276,7 @@ body.in-exam .tabbar{display:none}body.in-exam .page{padding-bottom:30px}
 <nav class="tabbar" aria-label="Main navigation">
   <button class="tab" data-go="solve"><svg class="ic"><use href="#i-solve"/></svg>Solve</button>
   <button class="tab" data-go="explore"><svg class="ic"><use href="#i-explore"/></svg>Practice</button>
-  <button class="tab" data-go="cbt"><svg class="ic"><use href="#i-cbt"/></svg>CBT Exam</button>
+  <button class="tab" data-go="cbt"><svg class="ic"><use href="#i-cbt"/></svg>Exam</button>
   <button class="tab" data-go="about"><svg class="ic"><use href="#i-about"/></svg>About</button>
 </nav>
 

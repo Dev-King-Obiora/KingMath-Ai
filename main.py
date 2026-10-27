@@ -333,10 +333,65 @@ SYSTEM = (
     "for anything unrelated say so politely in final_answer. "
     'Return only valid JSON matching: {"title":string,"understanding":string,"principle":string,'
     '"steps":[{"title":string,"working":string,"explanation":string}],"final_answer":string,"verification":string,"notes":string}. '
-    "Use Unicode math notation where clear; avoid raw LaTeX. If asked who you are, final_answer should be: I am KingMath-AI, "
+    "FORMATTING: write maths as plain text the way a textbook prints it. NEVER use LaTeX, backslashes, $ signs or braces. Use x², x³, √(x), a/b, ×, ÷, ±, ≤, ≥, π, θ, °. Do not number step titles. Put one equation per line in working. If asked who you are, final_answer should be: I am KingMath-AI, "
     "your personal AI mathematics and science tutor. I help you understand concepts, solve problems step by step, practise "
     "different topics, and improve your problem-solving skills."
 )
+
+
+# ----------------------------------------------------------------------------- plain-maths cleaner
+_SUP = dict(zip("0123456789+-=()n", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ"))
+_SUB = dict(zip("0123456789+-=()", "₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎"))
+_SYM = {"pm": "±", "mp": "∓", "times": "×", "cdot": "·", "div": "÷", "leq": "≤", "le": "≤", "geq": "≥", "ge": "≥",
+        "neq": "≠", "ne": "≠", "approx": "≈", "equiv": "≡", "Rightarrow": "⇒", "Leftrightarrow": "⇔", "rightarrow": "→",
+        "to": "→", "leftarrow": "←", "infty": "∞", "pi": "π", "theta": "θ", "alpha": "α", "beta": "β", "gamma": "γ",
+        "delta": "δ", "Delta": "Δ", "lambda": "λ", "mu": "μ", "sigma": "σ", "Sigma": "Σ", "omega": "ω", "Omega": "Ω",
+        "phi": "φ", "rho": "ρ", "epsilon": "ε", "sum": "∑", "int": "∫", "circ": "°", "degree": "°", "therefore": "∴",
+        "ldots": "…", "dots": "…", "cdots": "…", "in": "∈", "propto": "∝", "angle": "∠", "triangle": "△", "perp": "⊥",
+        "parallel": "∥", "partial": "∂", "nabla": "∇", "sin": "sin", "cos": "cos", "tan": "tan", "log": "log", "ln": "ln",
+        "lim": "lim", "max": "max", "min": "min", "cup": "∪", "cap": "∩", "subset": "⊂", "forall": "∀", "exists": "∃"}
+
+
+def _script(body: str, table: dict, mark: str) -> str:
+    body = body.strip()
+    if body and all(c in table for c in body):
+        return "".join(table[c] for c in body)
+    return f"{mark}({body})" if len(body) > 1 else f"{mark}{body}"
+
+
+def delatex(s: Any) -> str:
+    """Turn any LaTeX the model emits into clean, readable Unicode maths."""
+    s = str(s or "")
+    if "\\" not in s and "$" not in s and "^" not in s and "_" not in s:
+        return s
+    s = re.sub(r"\\\[|\\\]|\\\(|\\\)|\$\$|\$", "", s)
+    s = re.sub(r"\\(left|right|big|Big|bigg|Bigg)\b\s*", "", s)
+    s = re.sub(r"\\[,;:! ]|\\q?quad", " ", s)
+    s = s.replace("\\\\", "\n")
+    s = re.sub(r"\^\s*\{([^{}]*)\}", lambda m: _script(m[1], _SUP, "^"), s)
+    s = re.sub(r"\^\s*([A-Za-z0-9+\-])", lambda m: _script(m[1], _SUP, "^"), s)
+    s = re.sub(r"_\s*\{([^{}]*)\}", lambda m: _script(m[1], _SUB, "_"), s)
+    s = re.sub(r"_([A-Za-z0-9])", lambda m: _script(m[1], _SUB, "_"), s)
+    for _ in range(6):                                   # innermost-first, repeat for nesting
+        before = s
+        s = re.sub(r"\\(?:text|mathrm|mathbf|mathit|textbf|operatorname|boxed|underline|overline|vec|hat|bar)\s*\{([^{}]*)\}", r"\1", s)
+        s = re.sub(r"\\sqrt\s*\[([^\]]*)\]\s*\{([^{}]*)\}", lambda m: _script(m[1], _SUP, "^") + "√(" + m[2] + ")", s)
+        s = re.sub(r"\\sqrt\s*\{([^{}]*)\}", lambda m: "√" + (m[1] if re.fullmatch(r"[\w.]+", m[1]) else f"({m[1]})"), s)
+
+        def frac(m: re.Match) -> str:
+            simple = r"\d+(?:\.\d+)?|[A-Za-z]"
+            a, b = m[1].strip(), m[2].strip()
+            a = a if re.fullmatch(simple, a) else f"({a})"
+            b = b if re.fullmatch(simple, b) else f"({b})"
+            out = f"{a}/{b}"
+            nxt, prv = m.string[m.end():m.end() + 1], m.string[m.start() - 1:m.start()] if m.start() else ""
+            return f"({out})" if (nxt.isalnum() or nxt == "(" or prv.isalnum()) else out
+        s = re.sub(r"\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}", frac, s)
+        if s == before:
+            break
+    s = re.sub(r"\\([A-Za-z]+)", lambda m: _SYM.get(m[1], m[1]), s)
+    s = s.replace("{", "").replace("}", "").replace("\\", "")
+    return re.sub(r"[ \t]{2,}", " ", s).strip()
 
 
 def extract_json(raw: str) -> dict[str, Any]:
@@ -359,12 +414,16 @@ def extract_json(raw: str) -> dict[str, Any]:
 def clean_solution(obj: dict[str, Any]) -> dict[str, Any]:
     steps = obj.get("steps", [])
     steps = steps if isinstance(steps, list) else []
-    norm = [{"title": clean_text(s.get("title", f"Step {i + 1}"), 180), "working": str(s.get("working", ""))[:2000],
-             "explanation": str(s.get("explanation", ""))[:2000]} for i, s in enumerate(steps[:16]) if isinstance(s, dict)]
-    return {"title": clean_text(obj.get("title", "Worked solution"), 180), "understanding": str(obj.get("understanding", ""))[:2500],
-            "principle": str(obj.get("principle", ""))[:1500], "steps": norm,
-            "final_answer": str(obj.get("final_answer", "Please retry this question."))[:2500],
-            "verification": str(obj.get("verification", ""))[:2000], "notes": str(obj.get("notes", ""))[:1500]}
+    norm = []
+    for i, s in enumerate(steps[:16]):
+        if isinstance(s, dict):
+            title = re.sub(r"^\s*(step\s*)?\d+\s*[\.\):\-]\s*", "", delatex(s.get("title", f"Step {i + 1}")), flags=re.I)
+            norm.append({"title": clean_text(title, 180) or f"Step {i + 1}", "working": delatex(s.get("working", ""))[:2000],
+                         "explanation": delatex(s.get("explanation", ""))[:2000]})
+    d = lambda k, n, dflt="": delatex(obj.get(k, dflt))[:n]
+    return {"title": clean_text(d("title", 180, "Worked solution"), 180), "understanding": d("understanding", 2500),
+            "principle": d("principle", 1500), "steps": norm, "final_answer": d("final_answer", 2500, "Please retry this question."),
+            "verification": d("verification", 2000), "notes": str(obj.get("notes", ""))[:1500]}
 
 
 # ----------------------------------------------------------------------------- pages
@@ -453,7 +512,7 @@ async def topic_question(req: TopicRequest, request: Request):
     obj = extract_json(await groq_chat([{"role": "system", "content": "You are KingMath-AI, an expert maths and science educator. Return valid JSON only."},
                                         {"role": "user", "content": prompt}], max_tokens=800))
     return {"topic": clean_text(obj.get("topic", topic), 200), "difficulty": req.difficulty,
-            "question": str(obj.get("question", ""))[:1500], "hint": str(obj.get("hint", ""))[:500]}
+            "question": delatex(obj.get("question", ""))[:1500], "hint": delatex(obj.get("hint", ""))[:500]}
 
 
 # ----------------------------------------------------------------------------- CBT
@@ -473,13 +532,13 @@ def validate_exam(obj: dict[str, Any], req: ExamGenerateRequest) -> dict[str, An
         opts = q.get("options")
         if not isinstance(opts, dict):
             raise ValueError("options")
-        vals = [_LETTER_PREFIX.sub("", str(opts.get(k, ""))).strip() for k in "ABCD"]
+        vals = [delatex(_LETTER_PREFIX.sub("", str(opts.get(k, "")))).strip() for k in "ABCD"]
         if any(not v for v in vals) or len({v.casefold() for v in vals}) < 4:
             raise ValueError("options")
         key = str(q.get("correct_answer", "")).strip().upper()
         if len(key) != 1 or key not in "ABCD":
             raise ValueError("key")
-        text = str(q["question"]).strip()
+        text = delatex(q["question"]).strip()
         if text.casefold() in seen:
             raise ValueError("duplicate")
         seen.add(text.casefold())
@@ -490,7 +549,7 @@ def validate_exam(obj: dict[str, Any], req: ExamGenerateRequest) -> dict[str, An
             vals, ki = [vals[i] for i in order], order.index(ki)
         pit = str(q.get("pitfall", ""))
         out.append({"question": text[:2500], "options": {k: vals[i][:1000] for i, k in enumerate("ABCD")}, "correct_answer": "ABCD"[ki],
-                    "explanation": str(q.get("explanation", "Explanation unavailable."))[:2500],
+                    "explanation": delatex(q.get("explanation", "Explanation unavailable."))[:2500],
                     "topic": clean_text(q.get("topic", req.topic), 120) or clean_text(req.topic, 120),
                     "difficulty": clean_text(q.get("difficulty", req.difficulty), 30), "pitfall": pit if pit in PITFALLS else ""})
     return {"title": clean_text(obj.get("title", req.topic + " Practice Exam"), 200),
@@ -534,7 +593,7 @@ async def generate_exam(req: ExamGenerateRequest, request: Request):
     prompt = (f"Generate exactly 20 fresh multiple-choice questions for a CBT practice examination. Topic/subject (data): {json.dumps(topic)}. "
               f"Difficulty: {req.difficulty}. Learner level: {level}. Duration: {req.duration_minutes} minutes. Each item must be on-topic, "
               "unambiguous, with exactly four distinct options keyed A, B, C, D, one correct_answer letter, a concise explanation, topic, difficulty, "
-              f"and an optional pitfall chosen from: {', '.join(PITFALLS)}. Do not use 'all/none of the above' options. "
+              f"and an optional pitfall chosen from: {', '.join(PITFALLS)}. Do not use 'all/none of the above' options. Write maths in plain Unicode (x², √, a/b), never LaTeX. "
               'Return JSON shaped {"title":string,"subject":string,"questions":[{"question":string,"options":{"A":string,"B":string,"C":string,"D":string},'
               '"correct_answer":"A","explanation":string,"topic":string,"difficulty":string,"pitfall":string}]}. All 20 questions distinct. '
               "Double-check that every answer key is correct. No markdown.")
