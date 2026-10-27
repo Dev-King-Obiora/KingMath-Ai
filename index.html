@@ -1,66 +1,572 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10213d">
-<title>KingMath-AI — Learn with clarity</title>
-<style>
-:root{color-scheme:light;--navy:#10213d;--navy2:#172e52;--blue:#2867d7;--blue2:#eaf1ff;--bg:#f5f7fb;--surface:#fff;--text:#182338;--muted:#68758a;--border:#e1e7f0;--success:#16835c;--danger:#c03942;--warning:#a76b12;--shadow:0 8px 28px rgba(22,40,70,.06);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-[data-theme="dark"]{color-scheme:dark;--navy:#0d1729;--navy2:#17253c;--blue:#82adff;--blue2:#1b2b47;--bg:#101722;--surface:#172130;--text:#e8edf5;--muted:#a0aec1;--border:#2a374a;--success:#56d6a4;--danger:#ff8e96;--warning:#f3c36d;--shadow:0 8px 28px rgba(0,0,0,.18)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:2px}.app{min-height:100vh}.topbar{height:72px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1240px)/2));position:sticky;top:0;z-index:10}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;font-size:19px}.brand-mark{width:37px;height:37px;background:var(--navy);color:white;border-radius:11px;display:grid;place-items:center;font-weight:800}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.2px;font-weight:700;margin-top:-3px}.nav{display:flex;gap:5px;align-items:center}.nav button,.icon-btn{border:0;background:transparent;color:var(--muted);border-radius:9px;padding:10px 13px;font-weight:650}.nav button.active,.nav button:hover{background:var(--blue2);color:var(--blue)}.icon-btn{border:1px solid var(--border);padding:9px 11px;color:var(--text)}.mobile-menu{display:none}.container{max-width:1180px;padding:28px 22px 70px;margin:auto}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:15px 0 25px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase}.hero h1{font-size:clamp(27px,4vw,38px);letter-spacing:-1.2px;line-height:1.15;margin:8px 0 10px}.hero p{color:var(--muted);margin:0;max-width:650px}.hero-actions{display:flex;gap:10px;flex-shrink:0}.btn{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:10px 15px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,border-color .15s}.btn:hover{border-color:var(--blue);transform:translateY(-1px)}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.btn.blue{background:var(--blue);border-color:var(--blue);color:white}.btn.subtle{background:var(--blue2);border-color:transparent;color:var(--blue)}.btn.danger{color:var(--danger)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px;align-items:start}.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-head{padding:19px 21px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}.card-head h2,.card-head h3{margin:0;font-size:16px;letter-spacing:-.25px}.card-head p{margin:3px 0 0;color:var(--muted);font-size:12px}.card-body{padding:20px}.label{font-size:12px;font-weight:750;display:block;margin-bottom:8px}.field,textarea,select{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px 13px}.field:focus,textarea:focus,select:focus{border-color:var(--blue);outline:none}.question-input{min-height:155px;resize:vertical;line-height:1.6}.input-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.muted{color:var(--muted)}.small{font-size:12px}.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.chip{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:99px;padding:7px 11px;font-size:12px}.chip:hover{border-color:var(--blue);color:var(--blue)}.upload-box{border:1px dashed var(--border);border-radius:11px;padding:12px;margin-top:15px;display:flex;align-items:center;gap:12px}.upload-icon{background:var(--blue2);color:var(--blue);width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}.upload-box .grow{flex:1;min-width:0}.preview{margin-top:12px;position:relative;display:inline-block}.preview img{max-width:100%;max-height:240px;object-fit:contain;border:1px solid var(--border);border-radius:10px}.preview button{position:absolute;right:7px;top:7px}.solution-empty{min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px}.empty-icon{width:54px;height:54px;background:var(--blue2);color:var(--blue);border-radius:16px;display:grid;place-items:center;font-size:24px;margin-bottom:16px}.solution-empty h3{margin:0 0 6px}.solution-empty p{margin:0;color:var(--muted);max-width:270px;font-size:13px}.solution-content{padding:20px}.solution-title{font-size:21px;line-height:1.3;margin:0 0 16px}.section-block{margin:17px 0}.section-label{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:7px}.prose{white-space:pre-wrap;overflow-wrap:anywhere}.principle-box{padding:12px 14px;background:var(--blue2);border-radius:10px;border-left:3px solid var(--blue)}.step{border:1px solid var(--border);border-radius:11px;margin:9px 0;overflow:hidden}.step-toggle{width:100%;border:0;background:transparent;color:var(--text);padding:12px 13px;display:flex;justify-content:space-between;gap:12px;text-align:left;font-weight:750}.step-body{padding:0 14px 15px}.working{background:var(--bg);border-radius:8px;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;margin:7px 0}.final-box{background:color-mix(in srgb,var(--success) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--success) 30%,var(--border));padding:14px;border-radius:11px}.final-box .section-label{color:var(--success)}.solution-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.solution-actions .btn{font-size:12px;padding:9px 11px}.loading{display:flex;align-items:center;gap:10px;color:var(--muted);padding:18px}.spinner{width:17px;height:17px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.notice{border:1px solid var(--border);background:var(--bg);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:13px}.notice.error{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,var(--border))}.notice.success{color:var(--success)}.section-view{display:none}.section-view.active{display:block}.topic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:20px}.topic-card{padding:17px;border:1px solid var(--border);background:var(--surface);border-radius:13px;text-align:left;color:var(--text)}.topic-card:hover{border-color:var(--blue);transform:translateY(-2px)}.topic-symbol{width:37px;height:37px;border-radius:10px;display:grid;place-items:center;background:var(--blue2);color:var(--blue);font-weight:800;margin-bottom:12px}.topic-card b{display:block;margin-bottom:3px}.topic-card span{font-size:12px;color:var(--muted)}.explore-controls{display:grid;grid-template-columns:1fr 190px auto;gap:10px;margin-top:20px}.exam-setup{max-width:820px;margin:8px auto}.setup-step{padding:21px;border-bottom:1px solid var(--border)}.setup-step:last-child{border-bottom:0}.setup-step h3{font-size:16px;margin:0 0 6px}.setup-step p{font-size:13px;color:var(--muted);margin:0 0 14px}.choice-row{display:flex;flex-wrap:wrap;gap:9px}.choice{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:10px;padding:10px 14px;font-weight:700}.choice.selected{border-color:var(--blue);background:var(--blue2);color:var(--blue)}.exam-summary{background:var(--bg);border-radius:12px;padding:16px;margin:16px 0}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--border)}.summary-row:last-child{border-bottom:0}.exam-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.timer{font-variant-numeric:tabular-nums;font-size:20px;font-weight:850;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:9px 14px}.timer.urgent{color:var(--danger);border-color:var(--danger)}.exam-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px}.exam-question{padding:22px}.question-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;font-weight:700}.question-text{font-size:20px;line-height:1.5;margin:23px 0}.option{width:100%;display:flex;align-items:flex-start;gap:12px;padding:13px;margin:9px 0;text-align:left;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text)}.option .letter{width:27px;height:27px;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;font-weight:800;flex-shrink:0}.option.selected{border-color:var(--blue);background:var(--blue2)}.option.selected .letter{background:var(--blue);color:white;border-color:var(--blue)}.exam-nav{padding:17px}.number-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:14px 0}.qnum{aspect-ratio:1;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--muted);font-weight:750}.qnum.current{outline:2px solid var(--blue);color:var(--blue)}.qnum.answered{background:var(--blue2);border-color:var(--blue);color:var(--blue)}.qnum.review{box-shadow:inset 0 -3px 0 var(--warning)}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--muted)}.legend span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--border);margin-right:5px}.legend .l-answered:before{background:var(--blue)}.legend .l-review:before{background:var(--warning)}.exam-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}.results-hero{text-align:center;padding:28px}.score-ring{width:124px;height:124px;border-radius:50%;border:8px solid var(--blue2);display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 16px}.score-ring strong{font-size:28px}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{padding:15px;border:1px solid var(--border);border-radius:11px;background:var(--surface)}.stat strong{display:block;font-size:22px}.stat span{font-size:12px;color:var(--muted)}.review-item{padding:17px;border:1px solid var(--border);border-radius:12px;margin:11px 0}.review-item h4{margin:0 0 12px}.review-option{font-size:13px;padding:8px 10px;border-radius:7px;margin:5px 0;background:var(--bg)}.review-option.good{border:1px solid var(--success);color:var(--success)}.review-option.bad{border:1px solid var(--danger);color:var(--danger)}.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.about-card{padding:20px}.about-card h3{margin:0 0 7px}.about-card p{color:var(--muted);font-size:13px;margin:0}.footer{margin-top:35px;text-align:center;color:var(--muted);font-size:12px}.hidden{display:none!important}.modal-backdrop{position:fixed;inset:0;background:#071225a8;display:grid;place-items:center;padding:18px;z-index:30}.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;width:min(460px,100%);box-shadow:var(--shadow)}.modal h3{margin:0 0 8px}.modal p{color:var(--muted);font-size:13px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.hero-actions{width:100%}.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-layout{grid-template-columns:1fr}.exam-nav{order:-1}.number-grid{grid-template-columns:repeat(10,1fr)}.qnum{aspect-ratio:1.1}.about-grid{grid-template-columns:1fr}.topbar{padding:0 15px}.nav{gap:0}.nav button{padding:9px 8px;font-size:12px}}
-@media(max-width:560px){.topbar{height:62px}.brand{font-size:16px}.brand-mark{width:33px;height:33px}.brand small{font-size:9px}.nav{display:none;position:absolute;top:61px;left:0;right:0;padding:8px;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;align-items:stretch}.nav.open{display:flex}.nav button{text-align:left}.mobile-menu{display:inline-flex}.container{padding:21px 13px 50px}.hero h1{font-size:29px}.hero-actions{flex-wrap:wrap}.card-head{padding:16px}.card-body{padding:15px}.question-input{min-height:130px}.topic-grid{gap:9px}.topic-card{padding:13px}.explore-controls{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.exam-question{padding:16px}.question-text{font-size:18px}.number-grid{grid-template-columns:repeat(5,1fr)}.exam-bottom{flex-wrap:wrap}.exam-bottom .btn{flex:1}.solution-actions .btn{flex:1 1 42%}.input-foot{align-items:stretch}.input-foot .btn{white-space:nowrap}.timer{font-size:17px}.results-hero{padding:20px}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6fb">
+<meta name="referrer" content="no-referrer">
+<title>KingMath-AI - Learn with Clarity and Understanding</title>
+<script nonce="__NONCE__">try{var t=localStorage.getItem('km_theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.dataset.theme=t}catch(e){}</script>
+<style nonce="__NONCE__">
+:root{--bg:#f5f6fb;--surface:#fff;--surface2:#f0f2f9;--text:#141a2e;--muted:#667089;--line:#e3e7f1;--primary:#4f46e5;--on-primary:#fff;--primary-soft:#eceafe;--good:#12805c;--good-soft:#e3f6ee;--bad:#c2343f;--bad-soft:#fdeaec;--warn:#a96a0b;--warn-soft:#fff3dc;--shadow:0 1px 2px rgba(20,26,46,.04),0 10px 30px rgba(20,26,46,.06);color-scheme:light;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+[data-theme=dark]{--bg:#0d111c;--surface:#151b2b;--surface2:#1c2336;--text:#e9edf7;--muted:#9aa5bd;--line:#273049;--primary:#8b85ff;--on-primary:#0d111c;--primary-soft:#232a4a;--good:#4fd3a0;--good-soft:#12302a;--bad:#ff8a93;--bad-soft:#3a1d24;--warn:#f2c06b;--warn-soft:#38301a;--shadow:0 10px 30px rgba(0,0,0,.35);color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 50%,transparent);outline-offset:2px}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:22px 14px;border-right:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;gap:11px;align-items:center;font-weight:800;font-size:18px;letter-spacing:-.3px;padding:2px 8px 20px}
+.brand small{display:block;font-size:9.5px;letter-spacing:1.4px;color:var(--muted);font-weight:700;margin-top:-2px}
+.mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#4f46e5,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.nav-item{display:flex;align-items:center;gap:12px;border:0;background:none;color:var(--muted);padding:11px 12px;border-radius:12px;font-weight:650;width:100%;text-align:left}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item[aria-current=page]{background:var(--primary-soft);color:var(--primary)}
+.side .spacer{flex:1}
+.mtop{display:none}
+.page{max-width:1080px;margin:0 auto;padding:30px 24px 60px}
+.pagehead{margin-bottom:22px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--primary);text-transform:uppercase;margin:0 0 6px}
+h1{font-size:clamp(26px,4vw,36px);letter-spacing:-1px;line-height:1.15;margin:0 0 10px}h2{margin:0;font-size:17px}h3{margin:0 0 8px}
+.lead{color:var(--muted);margin:0;max-width:640px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.pad{padding:20px}.chead{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chead p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+.label{display:block;font-size:12px;font-weight:750;margin-bottom:7px}.hint{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}
+textarea,select,.field{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 13px}
+textarea:focus,select:focus,.field:focus{border-color:var(--primary);outline:none}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.wrap{flex-wrap:wrap}.mt{margin-top:14px}
+.btn{border:1px solid var(--line);background:var(--surface);padding:10px 15px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s,border-color .12s}
+.btn:hover{border-color:var(--primary)}.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.btn.soft{background:var(--primary-soft);border-color:transparent;color:var(--primary)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.sm{padding:7px 11px;font-size:13px}.btn:disabled{opacity:.5;cursor:not-allowed}
+.link{border:0;background:none;color:var(--primary);font-weight:700;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:7px 12px;font-size:13px}
+.chip:hover,.chip.on{border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+.attach{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;padding:12px;border:1.5px dashed var(--line);border-radius:14px;align-items:center}
+.attach.drag{border-color:var(--primary);background:var(--primary-soft)}
+.attach .hint{flex:1;min-width:140px}
+.preview{display:flex;gap:12px;align-items:center;margin-top:10px;padding:8px;border:1px solid var(--line);border-radius:12px}
+.preview img{width:72px;height:72px;object-fit:cover;border-radius:9px}
+.preview div{flex:1;min-width:0;font-size:13px}
+.notice{border:1px solid var(--line);background:var(--surface2);border-radius:12px;padding:11px 14px;margin:12px 0;font-size:13px}
+.notice.error{color:var(--bad);background:var(--bad-soft);border-color:transparent}
+.notice.ok{color:var(--good);background:var(--good-soft);border-color:transparent}
+.loading{display:flex;gap:10px;align-items:center;padding:20px;color:var(--muted)}
+.spin{width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--primary);border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.empty{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;color:var(--muted)}
+.empty .big{width:56px;height:56px;border-radius:18px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;margin-bottom:14px;font-size:26px;font-weight:700}
+.empty h3{color:var(--text);margin-bottom:4px}
+.sol{padding:20px}.sol h3{font-size:20px;line-height:1.3}.sec{margin:18px 0}.sechead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.lbl2{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.callout{background:var(--primary-soft);border-left:3px solid var(--primary);padding:11px 14px;border-radius:10px}
+.step{border:1px solid var(--line);border-radius:13px;margin:8px 0;background:var(--surface)}
+.step summary{list-style:none;cursor:pointer;padding:12px 13px;font-weight:700;display:flex;gap:11px;align-items:center}.step summary::-webkit-details-marker{display:none}
+.step .num{width:26px;height:26px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.stepbody{padding:0 14px 14px}.work{background:var(--surface2);border-radius:10px;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,Consolas,monospace;font-size:13px;margin:0 0 9px}
+.final{background:var(--good-soft);border-radius:14px;padding:14px}.final .lbl2{color:var(--good)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:10px 0 22px}
+.tcard{padding:15px;border:1px solid var(--line);background:var(--surface);border-radius:14px;text-align:left}
+.tcard:hover{border-color:var(--primary);transform:translateY(-2px)}.tcard b{display:block}.tcard span.d{font-size:12px;color:var(--muted)}
+.sym{width:36px;height:36px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:800;margin-bottom:10px}
+.ctrl{display:grid;grid-template-columns:1fr 170px auto;gap:10px}
+.choices{display:flex;flex-wrap:wrap;gap:8px}.choice{border:1px solid var(--line);background:var(--surface);border-radius:11px;padding:9px 14px;font-weight:700}.choice.on{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}
+.setup{max-width:760px;margin:0 auto}.setup .block{padding:20px;border-bottom:1px solid var(--line)}.setup .block:last-child{border:0}
+.sum{background:var(--surface2);border-radius:12px;padding:12px 14px;font-size:13px}
+.examtop{position:sticky;top:0;z-index:15;background:var(--bg);padding:10px 0 12px;margin:-10px 0 12px}
+.examtop .inner{display:flex;gap:12px;align-items:center;justify-content:space-between}
+.examtitle{min-width:0}.examtitle b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{font-variant-numeric:tabular-nums;font-weight:850;font-size:19px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 13px;display:flex;gap:7px;align-items:center}
+.timer.urgent{color:var(--bad);border-color:var(--bad)}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--primary);border-radius:9px;transition:width .3s}
+.bar.good i{background:var(--good)}.bar.bad i{background:var(--bad)}.bar.mid i{background:var(--warn)}
+.exgrid{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+.qmeta{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:700;color:var(--muted)}
+.qtext{font-size:19px;line-height:1.5;margin:18px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.opt{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;padding:13px;margin:8px 0;border:1.5px solid var(--line);border-radius:14px;background:var(--surface)}
+.opt .l{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.opt.sel{border-color:var(--primary);background:var(--primary-soft)}.opt.sel .l{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.opt span.t{overflow-wrap:anywhere;padding-top:3px}
+.flag{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:12px}.flag input{width:18px;height:18px}
+.numgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0}
+.qn{aspect-ratio:1;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--muted);font-weight:750}
+.qn.ans{background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}.qn.flg{box-shadow:inset 0 -3px 0 var(--warn)}.qn.cur{outline:2px solid var(--text);outline-offset:1px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.examfoot{display:flex;gap:10px;margin-top:16px}.examfoot .btn{flex:1}
+.only-m{display:none}.mt2{margin-top:10px}.mt3{margin-top:26px}.block{width:100%}.mb{margin-bottom:6px}.center-p{max-width:520px;margin:10px auto 0}.bigq{font-size:17px}.tips{margin:0;padding-left:18px}.qq{margin:10px 0;font-weight:650}
+.hero-r{text-align:center;padding:28px 20px 8px}
+.ring{--p:0;width:150px;height:150px;border-radius:50%;margin:14px auto;display:grid;place-items:center;background:conic-gradient(var(--rc,var(--primary)) calc(var(--p)*1%),var(--line) 0)}
+.ring>div{width:118px;height:118px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring strong{font-size:30px;line-height:1}.ring.good{--rc:var(--good)}.ring.mid{--rc:var(--warn)}.ring.bad{--rc:var(--bad)}
+.band{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:800;font-size:13px;background:var(--primary-soft);color:var(--primary)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.stat strong{font-size:24px;display:block;line-height:1.1}.stat span{font-size:12px;color:var(--muted)}
+.stat.g strong{color:var(--good)}.stat.b strong{color:var(--bad)}.stat.w strong{color:var(--warn)}
+.tp{margin:10px 0}.tp .row{margin-bottom:5px;font-size:14px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:14px 0}.tabs .chip{white-space:nowrap}
+.ritem{border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;background:var(--surface)}
+.ritem.correct{border-left:4px solid var(--good)}.ritem.incorrect{border-left:4px solid var(--bad)}.ritem.unanswered{border-left:4px solid var(--warn)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px}
+.badge.correct{background:var(--good-soft);color:var(--good)}.badge.incorrect{background:var(--bad-soft);color:var(--bad)}.badge.unanswered,.badge.flagged{background:var(--warn-soft);color:var(--warn)}
+.ropt{padding:9px 11px;border-radius:10px;margin:5px 0;background:var(--surface2);font-size:14px;overflow-wrap:anywhere}
+.ropt.good{background:var(--good-soft);color:var(--good);font-weight:650}.ropt.bad{background:var(--bad-soft);color:var(--bad);font-weight:650}
+.expl{background:var(--surface2);border-radius:12px;padding:11px 13px;margin-top:10px;font-size:14px}
+.about{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.about .card{padding:20px}.about p{color:var(--muted);font-size:14px;margin:0}
+.tabbar{display:none}
+dialog{border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--text);padding:20px;width:min(480px,calc(100% - 24px));box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(7,12,28,.6)}
+.cam video,.cam img{width:100%;max-height:60vh;border-radius:14px;background:#000;object-fit:contain;display:block}
+.dactions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:860px){
+.shell{display:block}.side{display:none}
+.mtop{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--line)}
+.mtop .brand{padding:0;font-size:17px}.mtop .brand small{display:none}
+.page{padding:18px 14px calc(100px + env(safe-area-inset-bottom))}
+.grid2,.exgrid{grid-template-columns:1fr}.aside-nav{display:none}.only-m{display:flex}
+.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.about{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.ctrl{grid-template-columns:1fr}
+.tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:20}
+.tab{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:6px 2px;border-radius:12px}
+.tab[aria-current=page]{color:var(--primary);background:var(--primary-soft)}
+body.in-exam .tabbar{display:none}body.in-exam .page{padding-bottom:30px}
+.examfoot{position:sticky;bottom:0;background:var(--bg);padding:10px 0 calc(10px + env(safe-area-inset-bottom));margin-bottom:-16px}
+.qtext{font-size:18px}#toast{bottom:100px}
+}
 </style>
 </head>
-<body><div class="app" id="app">
-<header class="topbar"><div class="brand"><div class="brand-mark">K</div><div>KingMath-AI<small>LEARN WITH CLARITY</small></div></div><nav class="nav" id="nav"><button class="active" data-view="solve">Solve</button><button data-view="explore">Explore Topics</button><button data-view="cbt">Start CBT Exam</button><button data-view="about">About</button></nav><div style="display:flex;gap:8px"><button class="icon-btn" id="themeToggle" aria-label="Toggle light or dark mode" title="Toggle theme">☾</button><button class="icon-btn mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button></div></header>
-<main class="container">
-<section class="section-view active" id="view-solve"><div class="hero"><div><div class="eyebrow">Your personal learning workspace</div><h1>Understand the why,<br>not just the answer.</h1><p>Work through mathematics and science questions with clear steps, useful explanations, and a tutor that helps you learn at your pace.</p></div><div class="hero-actions"><button class="btn" id="newQuestion">＋ New question</button><button class="btn primary" id="heroCbt">Start CBT Exam ↗</button></div></div>
-<div class="layout"><section class="card"><div class="card-head"><div><h2>Ask KingMath-AI</h2><p>Mathematics, physics, chemistry and science</p></div><span class="small muted">● Ready to help</span></div><div class="card-body"><label class="label" for="question">Your question</label><textarea id="question" class="question-input" maxlength="6000" placeholder="Type a question, equation, or concept you want to understand…"></textarea><div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px"><span class="small muted">Be as specific as you can.</span><span class="small muted" id="charCount">0 / 6000</span></div><div class="upload-box"><div class="upload-icon">▧</div><div class="grow"><b style="font-size:13px">Solve from an image</b><div class="small muted">PNG, JPG or WebP · up to 7 MB</div></div><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp" class="hidden"><button class="btn" id="chooseImage">Upload image</button></div><div id="imagePreview" class="preview hidden"></div><label class="label" for="level" style="margin-top:16px">Learning level</label><select id="level"><option>Secondary school</option><option>Junior secondary</option><option>Senior secondary / WAEC</option><option>University</option><option>Independent learner</option></select><div class="input-foot"><button class="btn danger" id="clearQuestion">Clear</button><button class="btn primary" id="solveBtn">Solve question <span>→</span></button></div><div id="solveError"></div><div style="margin-top:22px"><div class="label">Try a sample question</div><div class="chip-row"><button class="chip sample" data-q="Solve 3x + 7 = 22 and verify the answer.">Linear equation</button><button class="chip sample" data-q="A car travels 150 km in 2.5 hours. Calculate its average speed.">Average speed</button><button class="chip sample" data-q="Explain the difference between ionic and covalent bonding with examples.">Chemical bonding</button><button class="chip sample" data-q="Differentiate y = 3x² + 4x − 5 with respect to x.">Differentiation</button></div></div></div></section>
-<section class="card" id="solutionCard"><div class="card-head"><div><h2>Worked solution</h2><p>Reasoning you can follow and revisit</p></div><button class="icon-btn" id="showAllTop" title="Show all steps">↕</button></div><div id="solutionArea"><div class="solution-empty"><div class="empty-icon">∑</div><h3>Your solution appears here</h3><p>Ask a question or upload a clear image to get a structured, step-by-step explanation.</p></div></div></section></div><div class="footer">KingMath-AI · Learn carefully. Practise confidently.</div></section>
-<section class="section-view" id="view-explore"><div class="hero"><div><div class="eyebrow">Build understanding</div><h1>Explore topics</h1><p>Choose a subject and difficulty to get a fresh practice question generated for you.</p></div></div><div class="card"><div class="card-head"><div><h2>Find your next challenge</h2><p>Pick a topic below or enter your own.</p></div></div><div class="card-body"><div class="label">Mathematics</div><div class="topic-grid" id="mathTopics"></div><div class="label" style="margin-top:24px">Physics</div><div class="topic-grid" id="physicsTopics"></div><div class="label" style="margin-top:24px">Chemistry</div><div class="topic-grid" id="chemTopics"></div><div class="explore-controls"><input id="customTopic" class="field" placeholder="Or enter a custom topic…"><select id="topicDifficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select><button class="btn primary" id="generateTopic">Generate question</button></div><div id="topicResult"></div></div></div></section>
-<section class="section-view" id="view-cbt"><div class="hero"><div><div class="eyebrow">Computer-based test practice</div><h1>Practise under exam conditions.</h1><p>Build a fresh, personalised 20-question multiple-choice examination around your subject, topic, and available time.</p></div></div><div class="exam-setup card" id="examSetup"><div class="card-head"><div><h2>Welcome to KingMath-AI CBT Practice</h2><p>Let's set up an examination that fits your goals.</p></div><span class="small muted">20 questions</span></div><div class="setup-step"><h3>1. What would you like to practise?</h3><p>Choose a suggestion or describe your examination in your own words.</p><div class="chip-row" id="examSuggestions"><button class="chip exam-topic" data-topic="Mathematics">Mathematics</button><button class="chip exam-topic" data-topic="WAEC Physics: Mechanics">Physics</button><button class="chip exam-topic" data-topic="Chemistry: Stoichiometry and chemical calculations">Chemistry</button><button class="chip exam-topic" data-topic="Biology">Biology</button><button class="chip exam-topic" data-topic="Algebra">Algebra</button><button class="chip exam-topic" data-topic="Trigonometry">Trigonometry</button><button class="chip exam-topic" data-topic="University Calculus: Differentiation">Calculus</button><button class="chip exam-topic" data-topic="Organic chemistry">Organic chemistry</button></div><label class="label" for="examTopic" style="margin-top:16px">Subject or examination description</label><textarea id="examTopic" rows="3" placeholder="e.g. SS3 Mathematics: Quadratic equations"></textarea><div class="input-foot"><span class="small muted">A specific topic helps tailor the questions.</span><button class="btn primary" id="confirmTopic">Continue →</button></div><div id="examSetupError"></div></div><div class="setup-step hidden" id="durationStep"><h3>2. How much time would you like?</h3><p>Choose a duration. The timer starts only when you start the examination.</p><div class="choice-row" id="durationChoices"><button class="choice" data-min="10">10 min</button><button class="choice" data-min="15">15 min</button><button class="choice selected" data-min="20">20 min</button><button class="choice" data-min="30">30 min</button><button class="choice" data-min="45">45 min</button><button class="choice" data-min="60">60 min</button></div><div style="margin-top:12px;max-width:240px"><label class="label" for="customDuration">Or custom duration (minutes)</label><input id="customDuration" class="field" type="number" min="1" max="180" placeholder="1–180 minutes"></div><label class="label" for="examDifficulty" style="margin-top:14px">Difficulty</label><select id="examDifficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select><div class="exam-summary" id="examSummary"></div><div class="input-foot"><button class="btn" id="backSetup">← Back</button><button class="btn primary" id="startExam">Generate & start exam →</button></div><div id="examGenerateError"></div></div></div>
-<div id="examActive" class="hidden"><div class="exam-header"><div><div class="eyebrow">KingMath-AI CBT</div><h2 id="activeExamTitle" style="margin:4px 0">Practice Examination</h2><div class="small muted" id="activeExamMeta"></div></div><div class="timer" id="timer">20:00</div></div><div class="exam-layout"><section class="card"><div class="exam-question"><div class="question-meta"><span id="questionPosition">QUESTION 1 OF 20</span><span id="questionTopic">Topic</span></div><div class="question-text" id="examQuestionText"></div><div id="examOptions"></div><label style="display:flex;align-items:center;gap:8px;margin-top:15px;font-size:13px"><input id="markReview" type="checkbox"> Mark this question for review</label><div class="exam-bottom"><button class="btn" id="prevQuestion">← Previous</button><button class="btn primary" id="nextQuestion">Next →</button></div></div></section><aside class="card exam-nav"><h3 style="margin:0">Question navigator</h3><p class="small muted" id="answeredLabel">0 of 20 answered</p><div class="number-grid" id="numberGrid"></div><div class="legend"><span class="l-answered">Answered</span><span class="l-review">Review</span><span>Unanswered</span></div><button class="btn primary" style="width:100%;margin-top:19px" id="submitExam">Submit examination</button><p class="small muted">Your selected answers are saved as you go.</p></aside></div></div>
-<div id="examResults" class="hidden"></div></section>
-<section class="section-view" id="view-about"><div class="hero"><div><div class="eyebrow">About the platform</div><h1>Learning built around understanding.</h1><p>KingMath-AI is designed to help learners move from a question to a clear explanation, then from practice to greater confidence.</p></div></div><div class="about-grid"><div class="card about-card"><div class="topic-symbol">∑</div><h3>Step-by-step solving</h3><p>Structured working, relevant principles, readable notation, and verification when appropriate.</p></div><div class="card about-card"><div class="topic-symbol">▧</div><h3>Image-based questions</h3><p>Submit a clear picture of a printed or handwritten question and receive a worked explanation.</p></div><div class="card about-card"><div class="topic-symbol">✓</div><h3>Personalised CBT</h3><p>Generate a fresh 20-question practice exam for your topic, difficulty, and selected duration.</p></div></div><div class="card" style="margin-top:18px"><div class="card-body"><h3 style="margin-top:0">A tutor, not just an answer machine</h3><p class="muted">Use the explanation controls to clarify reasoning, simplify difficult concepts, verify a result, or practise with a similar question. Generated explanations can make mistakes, so check important results against your course materials and teacher's guidance.</p><p class="small muted">KingMath-AI uses server-configured AI services. No provider API key is placed in your browser. Active CBT sessions are held in server memory in this starter version and may expire if the server restarts.</p></div></div></section>
-</main></div>
-<div class="modal-backdrop hidden" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h3 id="modalTitle">Confirm submission</h3><p id="modalText"></p><div class="modal-actions"><button class="btn" id="modalCancel">Go back</button><button class="btn primary" id="modalConfirm">Submit exam</button></div></div></div>
-<script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const state={solution:null,question:'',image:null,imageUrl:null,solverBusy:false,exam:null,examId:null,examIndex:0,answers:{},review:new Set(),deadline:null,timerHandle:null,examBusy:false,topic:'',difficulty:'Intermediate',duration:20,sessionId:sessionStorage.getItem('km_session')||crypto.randomUUID()};sessionStorage.setItem('km_session',state.sessionId);
-const headers={'Content-Type':'application/json','X-Session-ID':state.sessionId};
-async function api(url,opts={}){const h={...headers,...(opts.headers||{})};if(opts.body instanceof FormData)delete h['Content-Type'];let r;try{r=await fetch(url,{...opts,headers:h})}catch(e){throw Error('Unable to reach KingMath-AI. Check your connection and try again.')}let data;try{data=await r.json()}catch{data={}}if(!r.ok)throw Error(data.detail||'The request could not be completed. Please try again.');return data}
-function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function pretty(s=''){return escapeHtml(s).replace(/\n/g,'<br>')}
-function showError(el,msg){el.innerHTML=msg?`<div class="notice error" role="alert">${escapeHtml(msg)} <button class="btn" onclick="this.parentElement.remove()" style="padding:4px 8px;margin-left:6px">Dismiss</button></div>`:''}
-function loading(el,msg){el.innerHTML=`<div class="loading"><span class="spinner"></span><span>${escapeHtml(msg)}</span></div>`}
-function goView(name){if(name==='cbt'&&state.exam&&state.exam.status==='active'){} $$('.section-view').forEach(x=>x.classList.toggle('active',x.id==='view-'+name));$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===name));$('#nav').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'})}
-$$('.nav button').forEach(b=>b.addEventListener('click',()=>goView(b.dataset.view)));$('#heroCbt').onclick=()=>goView('cbt');$('#menuToggle').onclick=()=>$('#nav').classList.toggle('open');
-$('#themeToggle').onclick=()=>{let dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';localStorage.setItem('km_theme',dark?'dark':'light');$('#themeToggle').textContent=dark?'☀':'☾'};
-if(localStorage.getItem('km_theme')==='dark'){document.documentElement.dataset.theme='dark';$('#themeToggle').textContent='☀'}
-$('#question').addEventListener('input',()=>$('#charCount').textContent=$('#question').value.length+' / 6000');$$('.sample').forEach(b=>b.onclick=()=>{$('#question').value=b.dataset.q;$('#charCount').textContent=$('#question').value.length+' / 6000';$('#question').focus()});
-$('#chooseImage').onclick=()=>$('#imageFile').click();$('#imageFile').onchange=()=>{const f=$('#imageFile').files[0];if(!f)return;if(!['image/png','image/jpeg','image/webp'].includes(f.type)||f.size>7*1024*1024){showError($('#solveError'),'Choose a PNG, JPG or WebP image smaller than 7 MB.');$('#imageFile').value='';return}state.image=f;if(state.imageUrl)URL.revokeObjectURL(state.imageUrl);state.imageUrl=URL.createObjectURL(f);$('#imagePreview').classList.remove('hidden');$('#imagePreview').innerHTML=`<img src="${state.imageUrl}" alt="Preview of question image"><button class="btn" id="removeImage" aria-label="Remove image">✕</button>`;$('#removeImage').onclick=clearImage;showError($('#solveError'),'')};
-function clearImage(){state.image=null;if(state.imageUrl)URL.revokeObjectURL(state.imageUrl);state.imageUrl=null;$('#imageFile').value='';$('#imagePreview').classList.add('hidden');$('#imagePreview').innerHTML=''}
-$('#clearQuestion').onclick=()=>{if(($('#question').value.trim()||state.solution||state.image)&&!confirm('Clear the current question and solution? Your CBT exam will not be affected.'))return;resetSolver()};$('#newQuestion').onclick=()=>{resetSolver();$('#question').focus()};function resetSolver(){state.solution=null;state.question='';$('#question').value='';$('#charCount').textContent='0 / 6000';clearImage();$('#solveError').innerHTML='';$('#solutionArea').innerHTML='<div class="solution-empty"><div class="empty-icon">∑</div><h3>Your solution appears here</h3><p>Ask a question or upload a clear image to get a structured, step-by-step explanation.</p></div>'}
-$('#solveBtn').onclick=solveQuestion;$('#question').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')solveQuestion()});
-async function solveQuestion(){if(state.solverBusy)return;const q=$('#question').value.trim();if(!q&&!state.image){showError($('#solveError'),'Enter a question or upload an image first.');return}state.question=q||'Please solve the question shown in the uploaded image.';state.solverBusy=true;$('#solveBtn').disabled=true;$('#solveError').innerHTML='';loading($('#solutionArea'),state.image?'Reading the image and working through the question…':'Working through your question…');try{let sol;if(state.image){const fd=new FormData();fd.append('file',state.image);fd.append('question',q);fd.append('level',$('#level').value);sol=await api('/api/solve-image',{method:'POST',body:fd})}else{sol=await api('/api/solve',{method:'POST',body:JSON.stringify({question:q,level:$('#level').value})})}state.solution=sol;renderSolution(sol)}catch(e){$('#solutionArea').innerHTML='<div class="solution-empty"><div class="empty-icon">!</div><h3>We couldn’t finish that</h3><p>'+escapeHtml(e.message)+'</p><button class="btn primary" style="margin-top:15px" onclick="solveQuestion()">Try again</button></div>'}finally{state.solverBusy=false;$('#solveBtn').disabled=false}}
-function renderSolution(sol){let html=`<div class="solution-content"><h3 class="solution-title">${escapeHtml(sol.title||'Worked solution')}</h3>`;if(sol.understanding)html+=`<div class="section-block"><div class="section-label">Understanding the question</div><div class="prose">${pretty(sol.understanding)}</div></div>`;if(sol.principle)html+=`<div class="section-block"><div class="section-label">Relevant principle</div><div class="principle-box prose">${pretty(sol.principle)}</div></div>`;if(sol.steps?.length){html+=`<div class="section-block"><div class="section-label">Step-by-step working</div><div class="small muted">Reveal each step as you work, or show all steps.</div><div id="stepsList">`;sol.steps.forEach((s,i)=>{html+=`<div class="step"><button class="step-toggle" aria-expanded="false" data-step="${i}"><span>${escapeHtml(s.title||'Step '+(i+1))}</span><span>＋</span></button><div class="step-body hidden" id="stepBody${i}">${s.working?`<div class="working">${pretty(s.working)}</div>`:''}<div class="prose">${pretty(s.explanation||'')}</div></div></div>`});html+='</div></div>'}if(sol.final_answer)html+=`<div class="section-block final-box"><div class="section-label">Final answer</div><div class="prose"><b>${pretty(sol.final_answer)}</b></div></div>`;if(sol.verification)html+=`<div class="section-block"><div class="section-label">Verification</div><div class="prose">${pretty(sol.verification)}</div></div>`;if(sol.notes)html+=`<div class="notice">${pretty(sol.notes)}</div>`;html+=`<div class="solution-actions"><button class="btn" data-action="clearer">Explain more clearly</button><button class="btn" data-action="simpler">Explain more simply</button><button class="btn" data-action="similar">Generate similar question</button><button class="btn" data-action="verify">Verify answer</button><button class="btn subtle" id="revealAll">Show all steps</button></div><div id="actionFeedback"></div></div>`;$('#solutionArea').innerHTML=html;$$('.step-toggle').forEach(b=>b.onclick=()=>toggleStep(Number(b.dataset.step)));$$('[data-action]').forEach(b=>b.onclick=()=>doAction(b.dataset.action));$('#revealAll').onclick=()=>setAllSteps(true);$('#showAllTop').onclick=()=>setAllSteps(true)}
-function toggleStep(i,force){const body=$('#stepBody'+i),btn=$(`[data-step="${i}"]`);if(!body||!btn)return;const open=force===undefined?body.classList.contains('hidden'):force;body.classList.toggle('hidden',!open);btn.setAttribute('aria-expanded',String(open));btn.lastElementChild.textContent=open?'−':'＋'}function setAllSteps(show){$$('.step-body').forEach((b,i)=>toggleStep(i,show));if($('#revealAll'))$('#revealAll').textContent=show?'Hide all steps':'Show all steps'}
-async function doAction(action){if(!state.solution||state.solverBusy)return;state.solverBusy=true;$$('[data-action]').forEach(b=>b.disabled=true);const fb=$('#actionFeedback');loading(fb,{clearer:'Making the explanation clearer…',simpler:'Rewriting this in simpler language…',similar:'Creating a similar practice question…',verify:'Independently checking the answer…'}[action]);try{const sol=await api('/api/action',{method:'POST',body:JSON.stringify({question:state.question,solution:state.solution,action,level:$('#level').value})});if(action==='similar'){state.question=sol.final_answer.replace(/^New question:\s*/i,'');$('#question').value=state.question;$('#charCount').textContent=$('#question').value.length+' / 6000';state.solution=null;$('#solutionArea').innerHTML=`<div class="solution-content"><div class="eyebrow">Practice independently</div><h3 class="solution-title">Your similar question</h3><div class="prose">${pretty(state.question)}</div><div class="notice">Try it yourself first. When you’re ready, submit it to see a worked solution.</div><button class="btn primary" onclick="solveQuestion()">Solve this question →</button></div>`}else{state.solution=sol;renderSolution(sol);$('#actionFeedback').innerHTML='<div class="notice success">Updated explanation ready.</div>'}}catch(e){showError(fb,e.message)}finally{state.solverBusy=false;$$('[data-action]').forEach(b=>b.disabled=false)}}
-const topicSets={math:[['Algebra','Solve equations and understand expressions.','x'],['Geometry','Angles, shapes and geometric reasoning.','△'],['Trigonometry','Sine, cosine, tangent and identities.','θ'],['Calculus','Limits, differentiation and integration.','∫'],['Statistics','Summarise and interpret data.','σ'],['Probability','Chance, events and distributions.','P'],['Mensuration','Perimeter, area, surface area and volume.','□'],['Coordinate geometry','Lines, gradients and curves.','xy'],['Number theory','Factors, primes and divisibility.','ℕ']],physics:[['Mechanics','Motion, forces, energy and momentum.','↗'],['Electricity','Circuits, current, voltage and resistance.','Ω'],['Waves','Frequency, wavelength and wave behaviour.','〰'],['Optics','Reflection, refraction and lenses.','◉'],['Thermodynamics','Heat, temperature and energy transfer.','T'],['Magnetism','Magnetic fields and induction.','B']],chem:[['Organic chemistry','Hydrocarbons and functional groups.','C'],['Chemical bonding','Ionic, covalent and metallic bonds.','⚛'],['Acids and bases','pH, neutralisation and salts.','pH'],['Stoichiometry','Moles, equations and chemical quantities.','mol'],['Electrochemistry','Redox reactions and electrochemical cells.','e⁻']]};
-function buildTopics(id,arr){$(id).innerHTML=arr.map(([name,desc,sym])=>`<button class="topic-card" data-topic-name="${escapeHtml(name)}"><span class="topic-symbol">${escapeHtml(sym)}</span><b>${escapeHtml(name)}</b><span>${escapeHtml(desc)}</span></button>`).join('');$$(id+' .topic-card').forEach(b=>b.onclick=()=>{$('#customTopic').value=b.dataset.topicName;generateTopic()})}buildTopics('#mathTopics',topicSets.math);buildTopics('#physicsTopics',topicSets.physics);buildTopics('#chemTopics',topicSets.chem);
-$('#generateTopic').onclick=generateTopic;async function generateTopic(){const topic=$('#customTopic').value.trim();if(!topic){$('#customTopic').focus();return}const out=$('#topicResult');loading(out,'Generating a fresh practice question…');$('#generateTopic').disabled=true;try{const r=await api('/api/topic-question',{method:'POST',body:JSON.stringify({topic,difficulty:$('#topicDifficulty').value})});out.innerHTML=`<div class="card" style="margin-top:18px"><div class="card-body"><div class="eyebrow">${escapeHtml(r.difficulty)} practice</div><h3>${escapeHtml(r.topic)}</h3><p style="font-size:17px">${pretty(r.question)}</p>${r.hint?`<details class="notice"><summary>Need a hint?</summary><p>${pretty(r.hint)}</p></details>`:''}<button class="btn primary" id="practiceTopic">Solve with KingMath-AI →</button></div></div>`;$('#practiceTopic').onclick=()=>{goView('solve');$('#question').value=r.question;$('#charCount').textContent=$('#question').value.length+' / 6000';$('#question').focus()}}catch(e){showError(out,e.message)}finally{$('#generateTopic').disabled=false}}
-$$('.exam-topic').forEach(b=>b.onclick=()=>{$('#examTopic').value=b.dataset.topic;$$('.exam-topic').forEach(x=>x.classList.toggle('selected',x===b))});$('#confirmTopic').onclick=()=>{const t=$('#examTopic').value.trim();if(!t){showError($('#examSetupError'),'Choose a suggested subject or enter your own topic.');return}state.topic=t;$('#durationStep').classList.remove('hidden');renderSummary();$('#durationStep').scrollIntoView({behavior:'smooth',block:'nearest'});showError($('#examSetupError'),'')};$$('#durationChoices .choice').forEach(b=>b.onclick=()=>{$$('#durationChoices .choice').forEach(x=>x.classList.toggle('selected',x===b));$('#customDuration').value='';state.duration=Number(b.dataset.min);renderSummary()});$('#customDuration').oninput=()=>{const n=Number($('#customDuration').value);if(n>=1&&n<=180){$$('#durationChoices .choice').forEach(x=>x.classList.remove('selected'));state.duration=n;renderSummary()}};$('#examDifficulty').onchange=renderSummary;function renderSummary(){if(!state.topic)return;const d=Number($('#customDuration').value);if(d>=1&&d<=180)state.duration=d;$('#examSummary').innerHTML=`<b>Examination setup</b><div class="summary-row"><span class="muted">Subject / topic</span><b>${escapeHtml(state.topic)}</b></div><div class="summary-row"><span class="muted">Difficulty</span><b>${escapeHtml($('#examDifficulty').value)}</b></div><div class="summary-row"><span class="muted">Questions</span><b>20 multiple-choice</b></div><div class="summary-row"><span class="muted">Duration</span><b>${state.duration} minutes</b></div><div class="summary-row"><span class="muted">Mode</span><b>Timed CBT practice</b></div>`}
-$('#backSetup').onclick=()=>$('#durationStep').classList.add('hidden');$('#startExam').onclick=startExam;async function startExam(){if(state.examBusy)return;if(!state.topic){showError($('#examSetupError'),'Enter an examination topic first.');return}const duration=Number($('#customDuration').value)||state.duration;if(!Number.isInteger(duration)||duration<1||duration>180){showError($('#examGenerateError'),'Duration must be between 1 and 180 minutes.');return}state.examBusy=true;$('#startExam').disabled=true;loading($('#examGenerateError'),'Generating and validating your 20-question examination. The timer has not started yet…');try{const exam=await api('/api/exam/generate',{method:'POST',body:JSON.stringify({topic:state.topic,difficulty:$('#examDifficulty').value,duration_minutes:duration,count:20,level:$('#level').value})});state.exam=exam;state.examId=exam.exam_id;state.answers={};state.review=new Set();state.examIndex=0;const started=await api(`/api/exam/${state.examId}/start`,{method:'POST',body:JSON.stringify({})});state.exam=started;state.answers=started.answers||{};state.review=new Set(started.review||[]);state.deadline=started.deadline*1000;$('#examSetup').classList.add('hidden');$('#examResults').classList.add('hidden');$('#examActive').classList.remove('hidden');$('#activeExamTitle').textContent=started.title;$('#activeExamMeta').textContent=started.subject+' · '+started.difficulty+' · 20 questions';renderExamQuestion();buildNumberGrid();startTimer();}catch(e){showError($('#examGenerateError'),e.message)}finally{state.examBusy=false;$('#startExam').disabled=false}}
-function buildNumberGrid(){$('#numberGrid').innerHTML=state.exam.questions.map((q,i)=>`<button class="qnum" data-num="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join('');$$('.qnum').forEach(b=>b.onclick=()=>{state.examIndex=Number(b.dataset.num);renderExamQuestion()});updateNumberGrid()}
-function updateNumberGrid(){$$('.qnum').forEach((b,i)=>{b.classList.toggle('current',i===state.examIndex);b.classList.toggle('answered',state.answers[i]!==undefined);b.classList.toggle('review',state.review.has(i))});$('#answeredLabel').textContent=Object.keys(state.answers).length+' of 20 answered'}
-function renderExamQuestion(){const q=state.exam.questions[state.examIndex];$('#questionPosition').textContent=`QUESTION ${state.examIndex+1} OF 20`;$('#questionTopic').textContent=q.topic||state.topic;$('#examQuestionText').textContent=q.question;$('#examOptions').innerHTML='ABCD'.split('').map(k=>`<button class="option ${state.answers[state.examIndex]===k?'selected':''}" data-option="${k}"><span class="letter">${k}</span><span>${escapeHtml(q.options[k])}</span></button>`).join('');$$('.option').forEach(b=>b.onclick=()=>chooseAnswer(b.dataset.option));$('#markReview').checked=state.review.has(state.examIndex);updateNumberGrid();$('#prevQuestion').disabled=state.examIndex===0;$('#nextQuestion').textContent=state.examIndex===19?'Last question':'Next →'}
-async function chooseAnswer(letter){if(!state.exam||state.exam.status!=='active')return;const i=state.examIndex;state.answers[i]=letter;renderExamQuestion();try{await api(`/api/exam/${state.examId}/answer`,{method:'POST',body:JSON.stringify({question_index:i,answer:letter,review:state.review.has(i)})})}catch(e){showError($('#examResults'),e.message)}}
-$('#markReview').onchange=async()=>{const i=state.examIndex;if($('#markReview').checked)state.review.add(i);else state.review.delete(i);updateNumberGrid();try{await api(`/api/exam/${state.examId}/answer`,{method:'POST',body:JSON.stringify({question_index:i,answer:state.answers[i]||null,review:state.review.has(i)})})}catch(e){alert(e.message)}};$('#prevQuestion').onclick=()=>{if(state.examIndex>0){state.examIndex--;renderExamQuestion()}};$('#nextQuestion').onclick=()=>{if(state.examIndex<19){state.examIndex++;renderExamQuestion()}};
-function startTimer(){clearInterval(state.timerHandle);tickTimer();state.timerHandle=setInterval(tickTimer,1000)}function tickTimer(){if(!state.deadline)return;const sec=Math.max(0,Math.floor((state.deadline-Date.now())/1000));$('#timer').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('#timer').classList.toggle('urgent',sec<=60);if(sec<=0){clearInterval(state.timerHandle);finishExam(true)}}
-$('#submitExam').onclick=()=>{const answered=Object.keys(state.answers).length;$('#modalTitle').textContent='Submit examination?';$('#modalText').textContent=`You have answered ${answered} of 20 questions and left ${20-answered} unanswered. You can return to the exam or submit now.`;$('#modal').classList.remove('hidden');$('#modalCancel').focus()};$('#modalCancel').onclick=()=>$('#modal').classList.add('hidden');$('#modalConfirm').onclick=()=>{$('#modal').classList.add('hidden');finishExam(false)};
-async function finishExam(auto){if(state.examBusy||!state.examId)return;state.examBusy=true;clearInterval(state.timerHandle);$('#submitExam').disabled=true;try{const result=await api(`/api/exam/${state.examId}/submit`,{method:'POST',body:JSON.stringify({force:auto})});state.exam.status='completed';renderResults(result);if(auto)$('#examResults').insertAdjacentHTML('afterbegin','<div class="notice">Time is up. Your examination was submitted automatically.</div>')}catch(e){showError($('#examResults'),e.message);if(!auto&&state.deadline>Date.now())startTimer()}finally{state.examBusy=false;$('#submitExam').disabled=false}}
-function fmtTime(s){return Math.floor(s/60)+' min '+s%60+' sec'}function renderResults(r){$('#examActive').classList.add('hidden');$('#examResults').classList.remove('hidden');const review=r.review.all;$('#examResults').innerHTML=`<div class="card"><div class="results-hero"><div class="eyebrow">Examination complete</div><h2>${escapeHtml(r.title)}</h2><div class="score-ring"><strong>${r.score}/20</strong><span class="small muted">${r.percentage}%</span></div><p class="muted">${r.percentage>=70?'Good work. Review your missed questions to strengthen your understanding.':r.percentage>=50?'A useful attempt. Review the explanations and practise the weaker topics.':'Keep practising. Work through the explanations and try a new exam when ready.'}</p></div><div class="card-body"><div class="stats-grid"><div class="stat"><strong>${r.correct_count}</strong><span>Correct</span></div><div class="stat"><strong>${r.incorrect_count}</strong><span>Incorrect</span></div><div class="stat"><strong>${r.unanswered_count}</strong><span>Unanswered</span></div><div class="stat"><strong>${fmtTime(r.time_used_seconds)}</strong><span>Time used</span></div></div><h3>Topic performance</h3>${Object.entries(r.by_topic||{}).map(([t,v])=>`<div class="summary-row"><span>${escapeHtml(t)}</span><b>${v.correct}/${v.total} · ${Math.round(v.correct/v.total*100)}%</b></div>`).join('')}<div style="display:flex;gap:9px;flex-wrap:wrap;margin:18px 0"><button class="btn primary" id="reviewAllBtn">Review my answers</button><button class="btn" id="reviewWrongBtn">Review incorrect only</button><button class="btn" id="retryWrongBtn">Retry missed questions</button><button class="btn" id="analyseBtn">Analyse common pitfalls</button><button class="btn" id="newExamBtn">New examination</button><button class="btn" id="returnSolverBtn">Return to solver</button></div><div id="analysisArea"></div><div id="reviewArea"></div></div></div>`;$('#reviewAllBtn').onclick=()=>renderReview(review);$('#reviewWrongBtn').onclick=()=>renderReview(review.filter(x=>!x.correct&&x.selected!==null));$('#retryWrongBtn').onclick=()=>{const wrong=review.filter(x=>!x.correct);if(!wrong.length){alert('No missed questions to retry.');return}$('#examTopic').value=r.topic+' — practice the concepts from my missed questions';state.topic=$('#examTopic').value;$('#durationStep').classList.add('hidden');$('#examSetup').classList.remove('hidden');$('#examActive').classList.add('hidden');$('#examResults').classList.add('hidden');goView('cbt');$('#confirmTopic').click()};$('#newExamBtn').onclick=()=>{state.exam=null;state.examId=null;$('#examSetup').classList.remove('hidden');$('#durationStep').classList.add('hidden');$('#examActive').classList.add('hidden');$('#examResults').classList.add('hidden');$('#examTopic').value=state.topic;goView('cbt')};$('#returnSolverBtn').onclick=()=>goView('solve');$('#analyseBtn').onclick=analyseExam}
-function renderReview(items){const area=$('#reviewArea');area.innerHTML=`<h3 style="margin-top:24px">Answer review · ${items.length} questions</h3>`+items.map(r=>`<article class="review-item"><div class="question-meta"><span>QUESTION ${r.index+1} · ${escapeHtml(r.topic)}</span><span style="color:var(--${r.correct?'success':'danger'})">${r.correct?'Correct':r.selected===null?'Unanswered':'Incorrect'}</span></div><h4 style="margin-top:12px">${escapeHtml(r.question)}</h4>${'ABCD'.split('').map(k=>`<div class="review-option ${k===r.correct_answer?'good':k===r.selected?'bad':''}"><b>${k}.</b> ${escapeHtml(r.options[k])}${k===r.correct_answer?' ✓':''}${k===r.selected&&k!==r.correct_answer?' · Your answer':''}</div>`).join('')}<div class="notice"><b>Explanation:</b> ${escapeHtml(r.explanation)}</div><div class="small muted">${escapeHtml(r.difficulty||'')} · ${escapeHtml(r.topic||'')}</div></article>`).join('');area.scrollIntoView({behavior:'smooth',block:'start'})}
-async function analyseExam(){const area=$('#analysisArea');loading(area,'Analysing your incorrect responses for evidence-supported patterns…');$('#analyseBtn').disabled=true;try{const a=await api(`/api/exam/${state.examId}/analyse`,{method:'POST',body:JSON.stringify({})});area.innerHTML=`<div class="card" style="margin-top:18px"><div class="card-body"><h3>Common pitfalls & learning gaps</h3><p>${escapeHtml(a.summary)}</p>${(a.insights||[]).map(i=>`<div class="review-item"><span class="chip">${escapeHtml(i.badge||'Possible learning gap')}</span><p><b>Question ${Number(i.question_number)||'—'} · ${escapeHtml(i.confidence||'possible')} evidence</b></p><p>${escapeHtml(i.evidence||'')}</p><p><b>Why it may be incorrect:</b> ${escapeHtml(i.why_incorrect||'')}</p><p><b>Correct reasoning:</b> ${escapeHtml(i.correct_reasoning||'')}</p><p><b>Try next time:</b> ${escapeHtml(i.advice||'')}</p></div>`).join('')}</div></div>`}catch(e){showError(area,e.message)}finally{$('#analyseBtn').disabled=false}}
-// Keep current solver state separate from CBT state; only solver reset touches solver content.
-</script></body></html>
+<body>
+<svg class="sprite" aria-hidden="true"><defs>
+<symbol id="i-solve" viewBox="0 0 24 24"><path d="M18 5H6l6 7-6 7h12"/></symbol>
+<symbol id="i-explore" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36z"/></symbol>
+<symbol id="i-cbt" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+<symbol id="i-about" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+</defs></svg>
+
+<div class="shell">
+<aside class="side" aria-label="Main navigation">
+  <div class="brand"><div class="mark">K</div><div>KingMath-AI<small>LEARN WITH CLARITY</small></div></div>
+  <button class="nav-item" data-go="solve"><svg class="ic"><use href="#i-solve"/></svg>Solve</button>
+  <button class="nav-item" data-go="explore"><svg class="ic"><use href="#i-explore"/></svg>Practice topics</button>
+  <button class="nav-item" data-go="cbt"><svg class="ic"><use href="#i-cbt"/></svg>CBT exam</button>
+  <button class="nav-item" data-go="about"><svg class="ic"><use href="#i-about"/></svg>About</button>
+  <div class="spacer"></div>
+  <button class="nav-item" data-act="theme" aria-label="Toggle theme"></button>
+</aside>
+
+<div class="main">
+<header class="mtop"><div class="brand"><div class="mark">K</div>KingMath-AI</div><button class="btn sm" data-act="theme" aria-label="Toggle theme"></button></header>
+<main class="page">
+
+<!-- SOLVE -->
+<section class="view" data-view="solve" id="view-solve">
+  <div class="pagehead"><p class="eyebrow">AI tutor</p><h1>Understand the why, not just the answer.</h1><p class="lead">Type a question or snap a photo of it. Get clear steps you can follow.</p></div>
+  <div class="grid2">
+    <div class="card pad">
+      <label class="label" for="question">Your question</label>
+      <textarea id="question" maxlength="6000" placeholder="Type a question, equation or concept..."></textarea>
+      <div class="row between"><span class="hint">Ctrl/Cmd + Enter to solve</span><span class="hint" id="charCount">0 / 6000</span></div>
+      <div class="attach" id="dropzone">
+        <button class="btn soft" data-act="open-cam"><svg class="ic"><use href="#i-camera"/></svg>Camera</button>
+        <button class="btn" data-act="pick-file"><svg class="ic"><use href="#i-image"/></svg>Upload photo</button>
+        <span class="hint">Or drop / paste an image. Photos are shrunk on your device before sending.</span>
+        <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp,image/*" hidden>
+        <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      </div>
+      <div id="imagePreview"></div>
+      <label class="label mt" for="level">Learning level</label>
+      <select id="level"><option>Secondary school</option><option>Junior secondary</option><option>Senior secondary / WAEC</option><option>JAMB student</option><option>Independent learner</option></select>
+      <div class="row between mt"><button class="btn ghost" data-act="clear">Clear</button><button class="btn primary" id="solveBtn" data-act="solve">Solve question</button></div>
+      <div id="solveError"></div>
+      <div class="mt"><div class="label">Try a sample</div><div class="chips">
+        <button class="chip" data-act="sample" data-q="Solve 3x + 7 = 22 and verify the answer.">Linear equation</button>
+        <button class="chip" data-act="sample" data-q="A car travels 150 km in 2.5 hours. Calculate its average speed.">Average speed</button>
+        <button class="chip" data-act="sample" data-q="Explain the difference between ionic and covalent bonding with examples.">Bonding</button>
+        <button class="chip" data-act="sample" data-q="Differentiate y = 3x² + 4x − 5 with respect to x.">Differentiation</button></div></div>
+    </div>
+    <div class="card" id="solCard">
+      <div class="chead"><div><h2>Worked solution</h2><p>Reasoning you can follow</p></div></div>
+      <div id="solArea"><div class="empty"><div class="big">∑</div><h3>Your solution appears here</h3><span>Ask a question or add a photo to begin.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE -->
+<section class="view" data-view="explore" id="view-explore" hidden>
+  <div class="pagehead"><p class="eyebrow">Practice</p><h1>Explore topics</h1><p class="lead">Pick a topic to get a fresh practice question.</p></div>
+  <div class="card pad">
+    <div class="label">Mathematics</div><div class="tgrid" id="gMath"></div>
+    <div class="label">Physics</div><div class="tgrid" id="gPhys"></div>
+    <div class="label">Chemistry</div><div class="tgrid" id="gChem"></div>
+    <div class="ctrl"><input id="customTopic" class="field" maxlength="200" placeholder="Or enter your own topic..." aria-label="Custom topic">
+      <select id="topicDiff" aria-label="Difficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select>
+      <button class="btn primary" data-act="gen-topic">Generate</button></div>
+    <div id="topicResult"></div>
+  </div>
+</section>
+
+<!-- CBT -->
+<section class="view" data-view="cbt" id="view-cbt" hidden>
+  <div id="examSetup">
+    <div class="pagehead"><p class="eyebrow">Computer-based test</p><h1>Practise under exam conditions.</h1><p class="lead">A fresh 20-question multiple-choice exam, timed and marked instantly.</p></div>
+    <div class="card setup">
+      <div class="block"><h3>1. What do you want to practise?</h3>
+        <div class="chips" id="subjChips">
+          <button class="chip" data-act="subj" data-t="Mathematics">Mathematics</button><button class="chip" data-act="subj" data-t="WAEC Physics: Mechanics">Physics</button>
+          <button class="chip" data-act="subj" data-t="Chemistry: Stoichiometry and chemical calculations">Chemistry</button><button class="chip" data-act="subj" data-t="Biology">Biology</button>
+          <button class="chip" data-act="subj" data-t="Algebra">Algebra</button><button class="chip" data-act="subj" data-t="Trigonometry">Trigonometry</button>
+          <button class="chip" data-act="subj" data-t="University Calculus: Differentiation">Calculus</button><button class="chip" data-act="subj" data-t="Organic chemistry">Organic chemistry</button></div>
+        <label class="label mt" for="examTopic">Or describe it</label>
+        <textarea id="examTopic" rows="2" maxlength="300" placeholder="e.g. SS3 Mathematics: Quadratic equations"></textarea></div>
+      <div class="block"><h3>2. Time and difficulty</h3>
+        <div class="choices" id="durChoices"><button class="choice" data-act="dur" data-min="10">10 min</button><button class="choice" data-act="dur" data-min="15">15 min</button><button class="choice on" data-act="dur" data-min="20">20 min</button><button class="choice" data-act="dur" data-min="30">30 min</button><button class="choice" data-act="dur" data-min="45">45 min</button><button class="choice" data-act="dur" data-min="60">60 min</button></div>
+        <div class="row wrap mt"><div><label class="label" for="customDur">Custom (1-180 min)</label><input id="customDur" class="field" type="number" min="1" max="180" inputmode="numeric" placeholder="minutes"></div>
+        <div><label class="label" for="examDiff">Difficulty</label><select id="examDiff"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></div></div>
+        <div class="sum mt" id="examSum"></div></div>
+      <div class="block"><button class="btn primary block" id="startBtn" data-act="start-exam">Generate and start exam</button><div id="examErr"></div><p class="hint">The timer starts only after your exam is ready.</p></div>
+    </div>
+  </div>
+
+  <div id="examActive" hidden>
+    <div class="examtop"><div class="inner"><div class="examtitle"><b id="exTitle">Exam</b><span class="hint" id="exMeta"></span></div>
+      <div class="row"><div class="timer" id="timerBox"><svg class="ic"><use href="#i-clock"/></svg><span id="timer">00:00</span></div><button class="btn primary sm" data-act="submit-open">Submit</button></div></div>
+      <div class="bar mt2"><i id="examProg"></i></div></div>
+    <div class="exgrid">
+      <section class="card pad"><div class="qmeta"><span id="qPos"></span><span id="qTopic"></span></div>
+        <div class="qtext" id="qText"></div><div id="qOpts"></div>
+        <label class="flag"><input type="checkbox" id="flagBox"><svg class="ic"><use href="#i-flag"/></svg>Mark for review</label></section>
+      <aside class="card pad aside-nav"><h3>Questions</h3><p class="hint" id="ansLabel"></p><div class="numgrid"></div>
+        <div class="legend"><span>Blue = answered</span><span>Orange bar = flagged</span></div></aside>
+    </div>
+    <div class="examfoot"><button class="btn" data-act="prev">Back</button><button class="btn only-m" data-act="open-nav"><svg class="ic"><use href="#i-grid"/></svg>List</button><button class="btn primary" data-act="next">Next</button></div>
+  </div>
+
+  <div id="examResults" hidden></div>
+</section>
+
+<!-- ABOUT -->
+<section class="view" data-view="about" id="view-about" hidden>
+  <div class="pagehead"><p class="eyebrow">About</p><h1>Learning built around understanding.</h1><p class="lead">KingMath-AI takes you from a question to a clear explanation, then from practice to confidence.</p></div>
+  <div class="about"><div class="card"><div class="sym">∑</div><h3>Step-by-step solving</h3><p>Structured working, the key principle, and a verification step.</p></div>
+  <div class="card"><div class="sym">▣</div><h3>Camera and photos</h3><p>Snap a printed or handwritten question and get a worked solution.</p></div>
+  <div class="card"><div class="sym">✓</div><h3>Instant CBT marking</h3><p>Submit and see your score, evaluation, topic breakdown and explanations at once.</p></div></div>
+  <div class="card pad mt"><h3>A tutor, not just an answer machine</h3><p class="muted">Improve your learning through our AI assistant.</p></div>
+</section>
+
+</main></div></div>
+
+<nav class="tabbar" aria-label="Main navigation">
+  <button class="tab" data-go="solve"><svg class="ic"><use href="#i-solve"/></svg>Solve</button>
+  <button class="tab" data-go="explore"><svg class="ic"><use href="#i-explore"/></svg>Practice</button>
+  <button class="tab" data-go="cbt"><svg class="ic"><use href="#i-cbt"/></svg>CBT Exam</button>
+  <button class="tab" data-go="about"><svg class="ic"><use href="#i-about"/></svg>About</button>
+</nav>
+
+<dialog id="camDlg" class="cam" aria-label="Camera">
+  <div id="camLive"><video id="camVideo" playsinline muted autoplay></video></div>
+  <div id="camReview" hidden><img id="camStill" alt="Captured photo"></div>
+  <div id="camErr"></div>
+  <div class="dactions" id="camBtnsLive"><button class="btn ghost" data-act="cam-close">Cancel</button><button class="btn" data-act="cam-flip"><svg class="ic"><use href="#i-flip"/></svg>Flip</button><button class="btn primary" data-act="cam-shot"><svg class="ic"><use href="#i-camera"/></svg>Capture</button></div>
+  <div class="dactions" id="camBtnsReview" hidden><button class="btn" data-act="cam-retake">Retake</button><button class="btn primary" data-act="cam-use">Use photo</button></div>
+</dialog>
+
+<dialog id="confirmDlg"><h3>Submit examination?</h3><p class="muted" id="confirmText"></p>
+  <div class="dactions"><button class="btn" data-act="close-dlg">Go back</button><button class="btn primary" data-act="confirm-submit">Submit now</button></div></dialog>
+
+<dialog id="navDlg"><h3>Jump to question</h3><p class="hint" id="ansLabel2"></p><div class="numgrid"></div>
+  <div class="dactions"><button class="btn primary" data-act="close-dlg">Done</button></div></dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script nonce="__NONCE__">
+(()=>{'use strict';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ic=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const store={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}},del(k){try{localStorage.removeItem(k)}catch{}}};
+const S={image:null,imgUrl:null,busy:false,solution:null,question:'',exam:null,examId:null,idx:0,answers:{},review:new Set(),deadline:0,timer:null,submitting:false,examBusy:false,results:null,filter:'all',topicQ:null,dur:20};
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),3800)}
+function notice(el,msg,type='error'){el.innerHTML=msg?`<div class="notice ${type}" role="alert">${esc(msg)}</div>`:''}
+function busyBox(el,msg){el.innerHTML=`<div class="loading"><span class="spin"></span><span>${esc(msg)}</span></div>`}
+
+/* ---- API ---- */
+class ApiError extends Error{constructor(m,s){super(m);this.status=s}}
+async function api(url,o={}){
+  const opt={method:o.method||'GET',headers:{}};
+  if(o.body instanceof FormData)opt.body=o.body;
+  else if(o.body!==undefined){opt.headers['Content-Type']='application/json';opt.body=JSON.stringify(o.body)}
+  let r;try{r=await fetch(url,opt)}catch{throw new ApiError('Unable to reach KingMath-AI. Check your connection and try again.',0)}
+  let d={};try{d=await r.json()}catch{}
+  if(!r.ok)throw new ApiError(typeof d.detail==='string'?d.detail:'The request could not be completed. Please try again.',r.status);
+  return d}
+
+/* ---- theme ---- */
+function setTheme(t){document.documentElement.dataset.theme=t;store.set('km_theme',t);$('meta[name=theme-color]').content=t==='dark'?'#0d111c':'#f5f6fb';
+  $$('[data-act=theme]').forEach(b=>{b.innerHTML=ic(t==='dark'?'sun':'moon')+`<span>${t==='dark'?'Light mode':'Dark mode'}</span>`})}
+setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
+
+/* ---- router ---- */
+const VIEWS=['solve','explore','cbt','about'];
+function route(){const v=location.hash.slice(1),n=VIEWS.includes(v)?v:'solve';
+  $$('.view').forEach(s=>s.hidden=s.dataset.view!==n);
+  $$('[data-go]').forEach(b=>b.dataset.go===n?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'));
+  window.scrollTo(0,0)}
+function go(n){location.hash==='#'+n?route():(location.hash=n)}
+addEventListener('hashchange',route);
+
+/* ---- images ---- */
+const MAX_IN=20*1024*1024,MAX_OUT=6.5*1024*1024;
+async function shrink(file){
+  if(!file.type.startsWith('image/'))throw Error('Please choose an image file.');
+  if(file.size>MAX_IN)throw Error('That image is too large (max 20 MB).');
+  let bmp;
+  try{bmp=await createImageBitmap(file,{imageOrientation:'from-image'})}
+  catch{if(/^image\/(png|jpeg|webp)$/.test(file.type)&&file.size<=MAX_OUT)return file;throw Error('That image format is not supported. Try a JPG or PNG.')}
+  const sc=Math.min(1,1600/Math.max(bmp.width,bmp.height)),c=document.createElement('canvas');
+  c.width=Math.max(1,Math.round(bmp.width*sc));c.height=Math.max(1,Math.round(bmp.height*sc));
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);bmp.close&&bmp.close();
+  let b=await new Promise(r=>c.toBlob(r,'image/jpeg',.86));
+  if(b&&b.size>MAX_OUT)b=await new Promise(r=>c.toBlob(r,'image/jpeg',.6));
+  if(!b||b.size>MAX_OUT)throw Error('Could not make that image small enough. Try a closer photo.');
+  return b}
+async function setImage(file){
+  try{const b=await shrink(file);clearImage();S.image=b;S.imgUrl=URL.createObjectURL(b);
+    $('#imagePreview').innerHTML=`<div class="preview"><img src="${S.imgUrl}" alt="Attached question photo"><div><b>Photo attached</b><br><span class="muted">${(b.size/1024).toFixed(0)} KB, ready to send</span></div><button class="btn sm ghost" data-act="rm-img" aria-label="Remove photo">${ic('x')}</button></div>`;
+    notice($('#solveError'),'')}
+  catch(e){notice($('#solveError'),e.message)}}
+function clearImage(){if(S.imgUrl)URL.revokeObjectURL(S.imgUrl);S.image=S.imgUrl=null;$('#imagePreview').innerHTML='';$('#fileInput').value='';$('#cameraInput').value=''}
+$('#fileInput').addEventListener('change',e=>e.target.files[0]&&setImage(e.target.files[0]));
+$('#cameraInput').addEventListener('change',e=>e.target.files[0]&&setImage(e.target.files[0]));
+const dz=$('#dropzone');
+['dragenter','dragover'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add('drag')}));
+['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('drag')}));
+dz.addEventListener('drop',e=>{const f=[...e.dataTransfer.files].find(f=>f.type.startsWith('image/'));f&&setImage(f)});
+document.addEventListener('paste',e=>{if(location.hash!==''&&location.hash!=='#solve')return;const f=[...(e.clipboardData?.files||[])].find(f=>f.type.startsWith('image/'));if(f){e.preventDefault();setImage(f)}});
+
+/* ---- camera ---- */
+let stream=null,facing='environment',shot=null,shotUrl=null;
+function camState(review){$('#camLive').hidden=review;$('#camReview').hidden=!review;$('#camBtnsLive').hidden=review;$('#camBtnsReview').hidden=!review}
+async function startStream(){stopStream();
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:facing},width:{ideal:1920},height:{ideal:1080}}});
+    const v=$('#camVideo');v.srcObject=stream;await v.play().catch(()=>{});notice($('#camErr'),'')}
+  catch(e){notice($('#camErr'),e&&e.name==='NotAllowedError'?'Camera permission was denied. Allow camera access in your browser settings, or use Upload photo.':'No camera could be started. Use Upload photo instead.')}}
+function stopStream(){stream&&stream.getTracks().forEach(t=>t.stop());stream=null;$('#camVideo').srcObject=null}
+async function openCamera(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.isSecureContext){$('#cameraInput').click();return}
+  camState(false);notice($('#camErr'),'');$('#camDlg').showModal();await startStream()}
+$('#camDlg').addEventListener('close',()=>{stopStream();if(shotUrl){URL.revokeObjectURL(shotUrl);shotUrl=null}shot=null});
+function capture(){const v=$('#camVideo');if(!v.videoWidth){toast('Camera is not ready yet.');return}
+  const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);
+  c.toBlob(b=>{if(!b)return;shot=b;shotUrl=URL.createObjectURL(b);$('#camStill').src=shotUrl;stopStream();camState(true)},'image/jpeg',.92)}
+
+/* ---- solver ---- */
+function setBusy(b){S.busy=b;$$('#solveBtn,[data-a]').forEach(x=>x.disabled=b)}
+async function solve(){
+  if(S.busy)return;const q=$('#question').value.trim();
+  if(!q&&!S.image){notice($('#solveError'),'Enter a question or add a photo first.');return}
+  S.question=q||'Please solve the question shown in the attached image.';setBusy(true);notice($('#solveError'),'');
+  busyBox($('#solArea'),S.image?'Reading your photo and working through it...':'Working through your question...');
+  if(window.matchMedia('(max-width:860px)').matches)$('#solCard').scrollIntoView({behavior:'smooth',block:'start'});
+  try{let s;
+    if(S.image){const fd=new FormData();fd.append('file',S.image,'question.jpg');fd.append('question',q);fd.append('level',$('#level').value);s=await api('/api/solve-image',{method:'POST',body:fd})}
+    else s=await api('/api/solve',{method:'POST',body:{question:q,level:$('#level').value}});
+    S.solution=s;renderSolution(s)}
+  catch(e){$('#solArea').innerHTML=`<div class="empty"><div class="big">!</div><h3>We couldn't finish that</h3><span>${esc(e.message)}</span><button class="btn primary mt" data-act="solve">Try again</button></div>`}
+  finally{setBusy(false)}}
+const sec=(l,b)=>`<div class="sec"><div class="lbl2 mb">${l}</div>${b}</div>`;
+function renderSolution(s){
+  let h=`<div class="sol"><h3>${esc(s.title)}</h3>`;
+  if(s.understanding)h+=sec('Understanding the question',`<p class="pre">${esc(s.understanding)}</p>`);
+  if(s.principle)h+=sec('Key principle',`<div class="callout pre">${esc(s.principle)}</div>`);
+  if(s.steps&&s.steps.length)h+=`<div class="sec"><div class="sechead"><span class="lbl2">Step-by-step working</span><button class="link" data-act="toggle-steps">Expand all</button></div>`+
+    s.steps.map((st,i)=>`<details class="step"${i===0?' open':''}><summary><span class="num">${i+1}</span>${esc(st.title)}</summary><div class="stepbody">${st.working?`<div class="work">${esc(st.working)}</div>`:''}<p class="pre">${esc(st.explanation)}</p></div></details>`).join('')+'</div>';
+  if(s.final_answer)h+=`<div class="sec final"><div class="lbl2 mb">Final answer</div><p class="pre"><b>${esc(s.final_answer)}</b></p></div>`;
+  if(s.verification)h+=sec('Verification',`<p class="pre">${esc(s.verification)}</p>`);
+  if(s.notes&&s.notes!=='similar_question')h+=`<div class="notice pre">${esc(s.notes)}</div>`;
+  h+=`<div class="actions"><button class="btn sm" data-act="action" data-a="clearer">Explain more clearly</button><button class="btn sm" data-act="action" data-a="simpler">Explain simply</button><button class="btn sm" data-act="action" data-a="verify">Verify answer</button><button class="btn sm soft" data-act="action" data-a="similar">Similar question</button></div><div id="actFb"></div></div>`;
+  $('#solArea').innerHTML=h}
+async function runAction(a){
+  if(!S.solution||S.busy)return;setBusy(true);const fb=$('#actFb');
+  busyBox(fb,{clearer:'Making it clearer...',simpler:'Rewriting in simpler words...',similar:'Creating a similar question...',verify:'Independently checking the answer...'}[a]);
+  try{const r=await api('/api/action',{method:'POST',body:{question:S.question,solution:S.solution,action:a,level:$('#level').value}});
+    if(a==='similar'){S.question=String(r.final_answer||'').replace(/^New question:\s*/i,'');$('#question').value=S.question;$('#charCount').textContent=S.question.length+' / 6000';S.solution=null;clearImage();
+      $('#solArea').innerHTML=`<div class="sol"><p class="eyebrow">Practise on your own</p><h3>Your similar question</h3><p class="pre">${esc(S.question)}</p><div class="notice">Try it yourself first. When ready, solve it to compare.</div><button class="btn primary" data-act="solve">Solve this question</button></div>`}
+    else{S.solution=r;renderSolution(r);toast('Updated.')}}
+  catch(e){notice(fb,e.message)}finally{setBusy(false)}}
+function resetSolver(){S.solution=null;S.question='';$('#question').value='';$('#charCount').textContent='0 / 6000';clearImage();notice($('#solveError'),'');
+  $('#solArea').innerHTML='<div class="empty"><div class="big">∑</div><h3>Your solution appears here</h3><span>Ask a question or add a photo to begin.</span></div>'}
+$('#question').addEventListener('input',e=>{$('#charCount').textContent=e.target.value.length+' / 6000'});
+$('#question').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')solve()});
+
+/* ---- topics ---- */
+const T={m:[['Algebra','Equations and expressions','x'],['Geometry','Shapes and angles','△'],['Trigonometry','Sin, cos, tan','θ'],['Calculus','Limits, derivatives, integrals','∫'],['Statistics','Interpret data','σ'],['Probability','Chance and events','P'],['Mensuration','Area and volume','□'],['Coordinate geometry','Lines and curves','xy'],['Number theory','Primes and factors','ℕ']],
+ p:[['Mechanics','Motion, forces, energy','↗'],['Electricity','Circuits and current','Ω'],['Waves','Frequency and wavelength','〰'],['Optics','Lenses and reflection','◉'],['Thermodynamics','Heat and energy','T'],['Magnetism','Fields and induction','B']],
+ c:[['Organic chemistry','Hydrocarbons, groups','C'],['Chemical bonding','Ionic, covalent, metallic','⚛'],['Acids and bases','pH and salts','pH'],['Stoichiometry','Moles and equations','mol'],['Electrochemistry','Redox and cells','e⁻']]};
+const tg=(id,a)=>{$(id).innerHTML=a.map(([n,d,s])=>`<button class="tcard" data-act="topic-card" data-t="${esc(n)}"><div class="sym">${esc(s)}</div><b>${esc(n)}</b><span class="d">${esc(d)}</span></button>`).join('')};
+tg('#gMath',T.m);tg('#gPhys',T.p);tg('#gChem',T.c);
+async function genTopic(){const topic=$('#customTopic').value.trim();if(!topic){$('#customTopic').focus();return}
+  const out=$('#topicResult');busyBox(out,'Generating a fresh question...');
+  try{const r=await api('/api/topic-question',{method:'POST',body:{topic,difficulty:$('#topicDiff').value}});S.topicQ=r;
+    out.innerHTML=`<div class="card pad mt"><p class="eyebrow">${esc(r.difficulty)} practice</p><h3>${esc(r.topic)}</h3><p class="pre bigq">${esc(r.question)}</p>${r.hint?`<details class="notice"><summary>Need a hint?</summary><p class="pre">${esc(r.hint)}</p></details>`:''}<div class="actions"><button class="btn primary" data-act="topic-solve">Solve with KingMath-AI</button><button class="btn" data-act="topic-exam">Take a CBT on this topic</button></div></div>`;
+    out.scrollIntoView({behavior:'smooth',block:'nearest'})}
+  catch(e){notice(out,e.message)}}
+
+/* ---- CBT setup ---- */
+function curDur(){const c=Number($('#customDur').value);return Number.isInteger(c)&&c>=1&&c<=180?c:S.dur}
+function sumUpdate(){$('#examSum').textContent=`20 questions · ${curDur()} minutes · ${$('#examDiff').value}`}
+$('#customDur').addEventListener('input',()=>{if($('#customDur').value)$$('#durChoices .choice').forEach(x=>x.classList.remove('on'));sumUpdate()});
+$('#examDiff').addEventListener('change',sumUpdate);sumUpdate();
+
+async function startExam(){
+  if(S.examBusy)return;const topic=$('#examTopic').value.trim();
+  if(!topic){notice($('#examErr'),'Choose a subject or describe what you want to practise.');return}
+  const mins=curDur();S.examBusy=true;$('#startBtn').disabled=true;busyBox($('#examErr'),'Building and checking your 20 questions. The timer has not started...');
+  try{const ex=await api('/api/exam/generate',{method:'POST',body:{topic,difficulty:$('#examDiff').value,duration_minutes:mins,level:$('#level').value}});
+    const st=await api(`/api/exam/${ex.exam_id}/start`,{method:'POST',body:{}});notice($('#examErr'),'');loadExam(st)}
+  catch(e){notice($('#examErr'),e.message)}finally{S.examBusy=false;$('#startBtn').disabled=false}}
+
+function showPanel(p){['examSetup','examActive','examResults'].forEach(id=>{$('#'+id).hidden=id!==p});document.body.classList.toggle('in-exam',p==='examActive');window.scrollTo(0,0)}
+function loadExam(st){S.exam=st;S.examId=st.exam_id;S.answers=st.answers||{};S.review=new Set(st.review||[]);S.idx=0;S.results=null;
+  S.deadline=Date.now()+st.remaining_seconds*1000;store.set('km_exam',st.exam_id);
+  $('#exTitle').textContent=st.title;$('#exMeta').textContent=st.subject+' · '+st.difficulty;showPanel('examActive');renderQ();startTimer()}
+
+function renderQ(){const q=S.exam.questions[S.idx],n=S.exam.questions.length;
+  $('#qPos').textContent=`QUESTION ${S.idx+1} OF ${n}`;$('#qTopic').textContent=q.topic||'';$('#qText').textContent=q.question;
+  $('#qOpts').innerHTML='ABCD'.split('').map(k=>`<button class="opt${S.answers[S.idx]===k?' sel':''}" data-act="opt" data-k="${k}" aria-pressed="${S.answers[S.idx]===k}"><span class="l">${k}</span><span class="t">${esc(q.options[k])}</span></button>`).join('');
+  $('#flagBox').checked=S.review.has(S.idx);$('[data-act=prev]').disabled=S.idx===0;$('[data-act=next]').disabled=S.idx===n-1;updNav()}
+function updNav(){const n=S.exam.questions.length,a=Object.keys(S.answers).length;
+  const html=S.exam.questions.map((_,i)=>`<button class="qn${S.answers[i]!==undefined?' ans':''}${S.review.has(i)?' flg':''}${i===S.idx?' cur':''}" data-act="goq" data-q="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join('');
+  $$('.numgrid').forEach(g=>g.innerHTML=html);$('#ansLabel').textContent=$('#ansLabel2').textContent=`${a} of ${n} answered`;$('#examProg').style.width=(a/n*100)+'%'}
+async function chooseAnswer(k){if(!S.exam||S.exam.status==='completed'||S.submitting)return;const i=S.idx;S.answers[i]=k;renderQ();
+  try{await api(`/api/exam/${S.examId}/answer`,{method:'POST',body:{question_index:i,answer:k,review:S.review.has(i)}})}
+  catch(e){if(e.status===409||e.status===404)submitExam(true);else toast('Could not save that answer. Check your connection.')}}
+$('#flagBox').addEventListener('change',async()=>{const i=S.idx;$('#flagBox').checked?S.review.add(i):S.review.delete(i);updNav();
+  try{await api(`/api/exam/${S.examId}/answer`,{method:'POST',body:{question_index:i,answer:S.answers[i]??null,review:S.review.has(i)}})}catch{toast('Could not save the flag.')}});
+
+function startTimer(){clearInterval(S.timer);tick();S.timer=setInterval(tick,500)}
+function tick(){const sec=Math.max(0,Math.ceil((S.deadline-Date.now())/1000));
+  $('#timer').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('#timerBox').classList.toggle('urgent',sec<=60);
+  if(sec<=0){clearInterval(S.timer);submitExam(true)}}
+function openSubmit(){const n=S.exam.questions.length,a=Object.keys(S.answers).length,f=S.review.size;
+  $('#confirmText').textContent=`You answered ${a} of ${n}. ${n-a?`${n-a} unanswered. `:''}${f?`${f} flagged for review. `:''}Submit now and see your results instantly?`;$('#confirmDlg').showModal()}
+
+async function submitExam(auto){
+  if(S.submitting||!S.examId)return;S.submitting=true;clearInterval(S.timer);$('#confirmDlg').close();
+  const sb=$('[data-act=submit-open]');sb.disabled=true;sb.textContent='Marking...';
+  try{const r=await api(`/api/exam/${S.examId}/submit`,{method:'POST',body:{}});store.del('km_exam');S.exam.status='completed';S.results=r;renderResults(r,auto)}
+  catch(e){toast(e.message);S.submitting=false;sb.disabled=false;sb.textContent='Submit';
+    if(auto||S.deadline<=Date.now())setTimeout(()=>submitExam(true),3000);else startTimer();return}
+  S.submitting=false;sb.disabled=false;sb.textContent='Submit'}
+
+/* ---- results ---- */
+const fmt=s=>s>=60?`${Math.floor(s/60)}m ${s%60}s`:`${s}s`;
+const cls=p=>p>=70?'good':p>=50?'mid':'bad';
+function renderResults(r,auto){
+  showPanel('examResults');S.filter='all';const ev=r.evaluation||{},rows=r.review.all;
+  const topics=Object.entries(r.by_topic||{}).map(([t,v])=>{const p=Math.round(v.correct/v.total*100);return `<div class="tp"><div class="row between"><span>${esc(t)}</span><b>${v.correct}/${v.total} · ${p}%</b></div><div class="bar ${cls(p)}"><i data-w="${p}"></i></div></div>`}).join('');
+  $('#examResults').innerHTML=`
+  ${auto?'<div class="notice">Time is up. Your exam was submitted automatically.</div>':''}
+  <div class="card"><div class="hero-r"><p class="eyebrow">Exam complete</p><h2>${esc(r.title)}</h2>
+    <div class="ring ${cls(r.percentage)}" data-p="${r.percentage}"><div><strong>${r.score}/${r.total}</strong><span class="hint">${r.percentage}%</span></div></div>
+    <span class="band">${esc(ev.band||'')}</span><p class="muted center-p">${esc(ev.summary||'')}</p></div>
+  <div class="pad"><div class="stats"><div class="stat g"><strong>${r.correct_count}</strong><span>Correct</span></div><div class="stat b"><strong>${r.incorrect_count}</strong><span>Incorrect</span></div><div class="stat w"><strong>${r.unanswered_count}</strong><span>Unanswered</span></div><div class="stat"><strong>${fmt(r.time_used_seconds)}</strong><span>of ${fmt(r.duration_seconds)}</span></div></div></div></div>
+  <div class="grid2 mt"><div class="card pad"><h3>Evaluation</h3>
+    ${ev.strengths&&ev.strengths.length?`<p class="lbl2">Strengths</p><div class="chips">${ev.strengths.map(t=>`<span class="badge correct">${esc(t)}</span>`).join('')}</div>`:''}
+    ${ev.focus&&ev.focus.length?`<p class="lbl2 mt">Focus areas</p><div class="chips">${ev.focus.map(t=>`<span class="badge incorrect">${esc(t)}</span>`).join('')}</div>`:''}
+    <p class="lbl2 mt">Next steps</p><ul class="tips">${(ev.tips||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>
+  <div class="card pad"><h3>Topic performance</h3>${topics}</div></div>
+  <div class="actions"><button class="btn primary" data-act="new-exam">New exam</button><button class="btn" data-act="weak-exam">Practise weak topics</button><button class="btn" data-act="analyse">Analyse pitfalls</button><button class="btn" data-act="to-solver">Back to solver</button></div>
+  <div id="analysis"></div>
+  <h2 class="mt3">Review your answers</h2><div id="tabs" class="tabs"></div><div id="rlist"></div>`;
+  $$('[data-w]').forEach(e=>e.style.width=e.dataset.w+'%');$$('.ring').forEach(e=>e.style.setProperty('--p',e.dataset.p));
+  renderReview();window.scrollTo(0,0)}
+function renderReview(){const r=S.results,rows=r.review.all;
+  const f={all:()=>true,incorrect:x=>x.status==='incorrect',unanswered:x=>x.status==='unanswered',correct:x=>x.status==='correct',flagged:x=>x.flagged};
+  const cnt=k=>rows.filter(f[k]).length,L={all:'All',incorrect:'Incorrect',unanswered:'Unanswered',correct:'Correct',flagged:'Flagged'};
+  $('#tabs').innerHTML=Object.keys(L).map(k=>`<button class="chip${S.filter===k?' on':''}" data-act="filter" data-f="${k}">${L[k]} (${cnt(k)})</button>`).join('');
+  const list=rows.filter(f[S.filter]);
+  $('#rlist').innerHTML=list.length?list.map(x=>`<article class="ritem ${x.status}"><div class="row between wrap"><span class="hint"><b>Q${x.index+1}</b> · ${esc(x.topic)}</span><span class="row"><span class="badge ${x.status}">${x.status==='correct'?'✓ Correct':x.status==='incorrect'?'✗ Incorrect':'— Unanswered'}</span>${x.flagged?`<span class="badge flagged">${ic('flag')}Flagged</span>`:''}</span></div>
+   <p class="pre qq">${esc(x.question)}</p>
+   ${'ABCD'.split('').map(k=>`<div class="ropt${k===x.correct_answer?' good':k===x.selected?' bad':''}"><b>${k}.</b> ${esc(x.options[k])}${k===x.correct_answer?' ✓ Correct answer':''}${k===x.selected&&k!==x.correct_answer?' ✗ Your answer':''}${k===x.selected&&k===x.correct_answer?' (your answer)':''}</div>`).join('')}
+   <div class="expl"><b>Explanation:</b> ${esc(x.explanation)}</div></article>`).join(''):'<div class="notice">Nothing to show in this filter.</div>'}
+async function analyse(){const a=$('#analysis');busyBox(a,'Looking for patterns in your mistakes...');
+  try{const r=await api(`/api/exam/${S.examId}/analyse`,{method:'POST',body:{}});
+    a.innerHTML=`<div class="card pad mt"><h3>Common pitfalls</h3><p>${esc(r.summary)}</p>${(r.insights||[]).map(i=>`<div class="ritem"><span class="badge flagged">${esc(i.badge)}</span> <b>Q${Number(i.question_number)||'?'} · ${esc(i.confidence)} evidence</b><p>${esc(i.evidence)}</p><p><b>Why it may be wrong:</b> ${esc(i.why_incorrect)}</p><p><b>Correct reasoning:</b> ${esc(i.correct_reasoning)}</p><p><b>Try next time:</b> ${esc(i.advice)}</p></div>`).join('')}</div>`}
+  catch(e){notice(a,e.message)}}
+async function resume(){const id=store.get('km_exam');if(!id)return;
+  try{const st=await api('/api/exam/'+encodeURIComponent(id));
+    if(st.status==='active'){loadExam(st);go('cbt');toast('Welcome back. Your exam is still running.')}
+    else if(st.status==='completed'){S.examId=id;S.exam=st;S.results=await api(`/api/exam/${id}/results`);store.del('km_exam');renderResults(S.results,false);go('cbt')}
+    else store.del('km_exam')}catch{store.del('km_exam')}}
+
+/* ---- events ---- */
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(g){go(g.dataset.go);return}
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  switch(a){
+    case 'theme':setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');break;
+    case 'solve':solve();break;
+    case 'clear':if(($('#question').value.trim()||S.solution||S.image)&&!confirm('Clear the question and solution?'))break;resetSolver();break;
+    case 'sample':$('#question').value=b.dataset.q;$('#charCount').textContent=b.dataset.q.length+' / 6000';$('#question').focus();break;
+    case 'pick-file':$('#fileInput').click();break;
+    case 'open-cam':openCamera();break;
+    case 'rm-img':clearImage();break;
+    case 'cam-close':$('#camDlg').close();break;
+    case 'cam-flip':facing=facing==='environment'?'user':'environment';startStream();break;
+    case 'cam-shot':capture();break;
+    case 'cam-retake':camState(false);startStream();break;
+    case 'cam-use':{const f=shot;$('#camDlg').close();f&&setImage(f);break}
+    case 'toggle-steps':{const ds=$$('.step'),open=ds.some(d=>!d.open);ds.forEach(d=>d.open=open);b.textContent=open?'Collapse all':'Expand all';break}
+    case 'action':runAction(b.dataset.a);break;
+    case 'topic-card':$('#customTopic').value=b.dataset.t;genTopic();break;
+    case 'gen-topic':genTopic();break;
+    case 'topic-solve':go('solve');$('#question').value=S.topicQ.question;$('#charCount').textContent=S.topicQ.question.length+' / 6000';$('#question').focus();break;
+    case 'topic-exam':$('#examTopic').value=S.topicQ.topic;go('cbt');showPanel('examSetup');break;
+    case 'subj':$('#examTopic').value=b.dataset.t;$$('#subjChips .chip').forEach(x=>x.classList.toggle('on',x===b));break;
+    case 'dur':$$('#durChoices .choice').forEach(x=>x.classList.toggle('on',x===b));$('#customDur').value='';S.dur=Number(b.dataset.min);sumUpdate();break;
+    case 'start-exam':startExam();break;
+    case 'opt':chooseAnswer(b.dataset.k);break;
+    case 'prev':if(S.idx>0){S.idx--;renderQ()}break;
+    case 'next':if(S.idx<S.exam.questions.length-1){S.idx++;renderQ()}break;
+    case 'goq':S.idx=Number(b.dataset.q);renderQ();$('#navDlg').open&&$('#navDlg').close();break;
+    case 'open-nav':$('#navDlg').showModal();break;
+    case 'submit-open':openSubmit();break;
+    case 'confirm-submit':submitExam(false);break;
+    case 'close-dlg':b.closest('dialog').close();break;
+    case 'filter':S.filter=b.dataset.f;renderReview();break;
+    case 'analyse':analyse();break;
+    case 'new-exam':S.exam=S.examId=null;showPanel('examSetup');break;
+    case 'weak-exam':{const f=(S.results.evaluation.focus||[]);$('#examTopic').value=(f.length?S.results.topic+': '+f.join(', '):S.results.topic).slice(0,300);showPanel('examSetup');break}
+    case 'to-solver':go('solve');break;
+  }});
+document.addEventListener('keydown',e=>{
+  if($('#examActive').hidden||document.querySelector('dialog[open]')||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  const k=e.key.toUpperCase();
+  if('ABCD'.includes(k)&&k.length===1)chooseAnswer(k);else if('1234'.includes(k)&&k.length===1)chooseAnswer('ABCD'[Number(k)-1]);
+  else if(e.key==='ArrowRight'&&S.idx<S.exam.questions.length-1){S.idx++;renderQ()}else if(e.key==='ArrowLeft'&&S.idx>0){S.idx--;renderQ()}});
+addEventListener('beforeunload',e=>{if(!$('#examActive').hidden){e.preventDefault();e.returnValue=''}});
+
+route();resume();
+})();
+</script>
+</body>
+</html>
