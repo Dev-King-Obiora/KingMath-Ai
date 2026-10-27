@@ -1,274 +1,66 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KingMath-Ai Math Solver & CBT Platform</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#0B0F19',
-                            card: 'rgba(17, 24, 39, 0.75)',
-                            border: 'rgba(255, 255, 255, 0.12)',
-                            accent: '#00F0FF',
-                            purple: '#6366F1',
-                            gold: '#F59E0B'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts & FontAwesome Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- KaTeX CDN for mathematical formula rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-            onload="renderMathInElement(document.body);"></script>
-
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        body {
-            background-color: #0B0F19;
-            color: #F3F4F6;
-            font-family: 'Inter', sans-serif;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
-            background-attachment: fixed;
-        }
-
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .glass-modal {
-            background: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .neon-glow {
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
-        }
-
-        .gold-glow {
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        }
-
-        /* Maintenance Overlay Styles */
-        #maintenance-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            z-index: 999999;
-            display: flex; /* CHANGE TO 'none' TO HIDE MAINTENANCE OVERLAY */
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .maintenance-card {
-            background: rgba(30, 41, 59, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            padding: 32px 24px;
-            max-width: 420px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.25);
-            color: #f8fafc;
-        }
-
-        .maintenance-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #818cf8;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #818cf8;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #818cf8;
-            animation: pulse-dot 1.5s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.85); }
-        }
-
-        /* Custom Scrollbars */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.8); }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 9999px; }
-    </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#10213d">
+<title>KingMath-AI — Learn with clarity</title>
+<style>
+:root{color-scheme:light;--navy:#10213d;--navy2:#172e52;--blue:#2867d7;--blue2:#eaf1ff;--bg:#f5f7fb;--surface:#fff;--text:#182338;--muted:#68758a;--border:#e1e7f0;--success:#16835c;--danger:#c03942;--warning:#a76b12;--shadow:0 8px 28px rgba(22,40,70,.06);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+[data-theme="dark"]{color-scheme:dark;--navy:#0d1729;--navy2:#17253c;--blue:#82adff;--blue2:#1b2b47;--bg:#101722;--surface:#172130;--text:#e8edf5;--muted:#a0aec1;--border:#2a374a;--success:#56d6a4;--danger:#ff8e96;--warning:#f3c36d;--shadow:0 8px 28px rgba(0,0,0,.18)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55}button,input,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:2px}.app{min-height:100vh}.topbar{height:72px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1240px)/2));position:sticky;top:0;z-index:10}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.4px;font-size:19px}.brand-mark{width:37px;height:37px;background:var(--navy);color:white;border-radius:11px;display:grid;place-items:center;font-weight:800}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.2px;font-weight:700;margin-top:-3px}.nav{display:flex;gap:5px;align-items:center}.nav button,.icon-btn{border:0;background:transparent;color:var(--muted);border-radius:9px;padding:10px 13px;font-weight:650}.nav button.active,.nav button:hover{background:var(--blue2);color:var(--blue)}.icon-btn{border:1px solid var(--border);padding:9px 11px;color:var(--text)}.mobile-menu{display:none}.container{max-width:1180px;padding:28px 22px 70px;margin:auto}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:15px 0 25px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase}.hero h1{font-size:clamp(27px,4vw,38px);letter-spacing:-1.2px;line-height:1.15;margin:8px 0 10px}.hero p{color:var(--muted);margin:0;max-width:650px}.hero-actions{display:flex;gap:10px;flex-shrink:0}.btn{border:1px solid var(--border);background:var(--surface);color:var(--text);padding:10px 15px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,border-color .15s}.btn:hover{border-color:var(--blue);transform:translateY(-1px)}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}.btn.blue{background:var(--blue);border-color:var(--blue);color:white}.btn.subtle{background:var(--blue2);border-color:transparent;color:var(--blue)}.btn.danger{color:var(--danger)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px;align-items:start}.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.card-head{padding:19px 21px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}.card-head h2,.card-head h3{margin:0;font-size:16px;letter-spacing:-.25px}.card-head p{margin:3px 0 0;color:var(--muted);font-size:12px}.card-body{padding:20px}.label{font-size:12px;font-weight:750;display:block;margin-bottom:8px}.field,textarea,select{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px 13px}.field:focus,textarea:focus,select:focus{border-color:var(--blue);outline:none}.question-input{min-height:155px;resize:vertical;line-height:1.6}.input-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.muted{color:var(--muted)}.small{font-size:12px}.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.chip{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:99px;padding:7px 11px;font-size:12px}.chip:hover{border-color:var(--blue);color:var(--blue)}.upload-box{border:1px dashed var(--border);border-radius:11px;padding:12px;margin-top:15px;display:flex;align-items:center;gap:12px}.upload-icon{background:var(--blue2);color:var(--blue);width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}.upload-box .grow{flex:1;min-width:0}.preview{margin-top:12px;position:relative;display:inline-block}.preview img{max-width:100%;max-height:240px;object-fit:contain;border:1px solid var(--border);border-radius:10px}.preview button{position:absolute;right:7px;top:7px}.solution-empty{min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px}.empty-icon{width:54px;height:54px;background:var(--blue2);color:var(--blue);border-radius:16px;display:grid;place-items:center;font-size:24px;margin-bottom:16px}.solution-empty h3{margin:0 0 6px}.solution-empty p{margin:0;color:var(--muted);max-width:270px;font-size:13px}.solution-content{padding:20px}.solution-title{font-size:21px;line-height:1.3;margin:0 0 16px}.section-block{margin:17px 0}.section-label{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:7px}.prose{white-space:pre-wrap;overflow-wrap:anywhere}.principle-box{padding:12px 14px;background:var(--blue2);border-radius:10px;border-left:3px solid var(--blue)}.step{border:1px solid var(--border);border-radius:11px;margin:9px 0;overflow:hidden}.step-toggle{width:100%;border:0;background:transparent;color:var(--text);padding:12px 13px;display:flex;justify-content:space-between;gap:12px;text-align:left;font-weight:750}.step-body{padding:0 14px 15px}.working{background:var(--bg);border-radius:8px;padding:11px 12px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;margin:7px 0}.final-box{background:color-mix(in srgb,var(--success) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--success) 30%,var(--border));padding:14px;border-radius:11px}.final-box .section-label{color:var(--success)}.solution-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.solution-actions .btn{font-size:12px;padding:9px 11px}.loading{display:flex;align-items:center;gap:10px;color:var(--muted);padding:18px}.spinner{width:17px;height:17px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.notice{border:1px solid var(--border);background:var(--bg);border-radius:10px;padding:12px 14px;margin:12px 0;font-size:13px}.notice.error{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,var(--border))}.notice.success{color:var(--success)}.section-view{display:none}.section-view.active{display:block}.topic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:20px}.topic-card{padding:17px;border:1px solid var(--border);background:var(--surface);border-radius:13px;text-align:left;color:var(--text)}.topic-card:hover{border-color:var(--blue);transform:translateY(-2px)}.topic-symbol{width:37px;height:37px;border-radius:10px;display:grid;place-items:center;background:var(--blue2);color:var(--blue);font-weight:800;margin-bottom:12px}.topic-card b{display:block;margin-bottom:3px}.topic-card span{font-size:12px;color:var(--muted)}.explore-controls{display:grid;grid-template-columns:1fr 190px auto;gap:10px;margin-top:20px}.exam-setup{max-width:820px;margin:8px auto}.setup-step{padding:21px;border-bottom:1px solid var(--border)}.setup-step:last-child{border-bottom:0}.setup-step h3{font-size:16px;margin:0 0 6px}.setup-step p{font-size:13px;color:var(--muted);margin:0 0 14px}.choice-row{display:flex;flex-wrap:wrap;gap:9px}.choice{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:10px;padding:10px 14px;font-weight:700}.choice.selected{border-color:var(--blue);background:var(--blue2);color:var(--blue)}.exam-summary{background:var(--bg);border-radius:12px;padding:16px;margin:16px 0}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--border)}.summary-row:last-child{border-bottom:0}.exam-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.timer{font-variant-numeric:tabular-nums;font-size:20px;font-weight:850;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:9px 14px}.timer.urgent{color:var(--danger);border-color:var(--danger)}.exam-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px}.exam-question{padding:22px}.question-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;font-weight:700}.question-text{font-size:20px;line-height:1.5;margin:23px 0}.option{width:100%;display:flex;align-items:flex-start;gap:12px;padding:13px;margin:9px 0;text-align:left;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text)}.option .letter{width:27px;height:27px;display:grid;place-items:center;border:1px solid var(--border);border-radius:7px;font-weight:800;flex-shrink:0}.option.selected{border-color:var(--blue);background:var(--blue2)}.option.selected .letter{background:var(--blue);color:white;border-color:var(--blue)}.exam-nav{padding:17px}.number-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:14px 0}.qnum{aspect-ratio:1;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--muted);font-weight:750}.qnum.current{outline:2px solid var(--blue);color:var(--blue)}.qnum.answered{background:var(--blue2);border-color:var(--blue);color:var(--blue)}.qnum.review{box-shadow:inset 0 -3px 0 var(--warning)}.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--muted)}.legend span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--border);margin-right:5px}.legend .l-answered:before{background:var(--blue)}.legend .l-review:before{background:var(--warning)}.exam-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}.results-hero{text-align:center;padding:28px}.score-ring{width:124px;height:124px;border-radius:50%;border:8px solid var(--blue2);display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 16px}.score-ring strong{font-size:28px}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{padding:15px;border:1px solid var(--border);border-radius:11px;background:var(--surface)}.stat strong{display:block;font-size:22px}.stat span{font-size:12px;color:var(--muted)}.review-item{padding:17px;border:1px solid var(--border);border-radius:12px;margin:11px 0}.review-item h4{margin:0 0 12px}.review-option{font-size:13px;padding:8px 10px;border-radius:7px;margin:5px 0;background:var(--bg)}.review-option.good{border:1px solid var(--success);color:var(--success)}.review-option.bad{border:1px solid var(--danger);color:var(--danger)}.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.about-card{padding:20px}.about-card h3{margin:0 0 7px}.about-card p{color:var(--muted);font-size:13px;margin:0}.footer{margin-top:35px;text-align:center;color:var(--muted);font-size:12px}.hidden{display:none!important}.modal-backdrop{position:fixed;inset:0;background:#071225a8;display:grid;place-items:center;padding:18px;z-index:30}.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;width:min(460px,100%);box-shadow:var(--shadow)}.modal h3{margin:0 0 8px}.modal p{color:var(--muted);font-size:13px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.hero-actions{width:100%}.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-layout{grid-template-columns:1fr}.exam-nav{order:-1}.number-grid{grid-template-columns:repeat(10,1fr)}.qnum{aspect-ratio:1.1}.about-grid{grid-template-columns:1fr}.topbar{padding:0 15px}.nav{gap:0}.nav button{padding:9px 8px;font-size:12px}}
+@media(max-width:560px){.topbar{height:62px}.brand{font-size:16px}.brand-mark{width:33px;height:33px}.brand small{font-size:9px}.nav{display:none;position:absolute;top:61px;left:0;right:0;padding:8px;background:var(--surface);border-bottom:1px solid var(--border);flex-direction:column;align-items:stretch}.nav.open{display:flex}.nav button{text-align:left}.mobile-menu{display:inline-flex}.container{padding:21px 13px 50px}.hero h1{font-size:29px}.hero-actions{flex-wrap:wrap}.card-head{padding:16px}.card-body{padding:15px}.question-input{min-height:130px}.topic-grid{gap:9px}.topic-card{padding:13px}.explore-controls{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.exam-question{padding:16px}.question-text{font-size:18px}.number-grid{grid-template-columns:repeat(5,1fr)}.exam-bottom{flex-wrap:wrap}.exam-bottom .btn{flex:1}.solution-actions .btn{flex:1 1 42%}.input-foot{align-items:stretch}.input-foot .btn{white-space:nowrap}.timer{font-size:17px}.results-hero{padding:20px}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-cyan-500 selection:text-black">
-
-    <!-- MAINTENANCE MODE OVERLAY -->
-    <div id="maintenance-overlay">
-        <div class="maintenance-card">
-            <div class="text-4xl mb-4">🛠️</div>
-            <h2 class="text-2xl font-bold mb-2 text-white">Under Maintenance</h2>
-            <p class="text-sm text-gray-400 mb-6 leading-relaxed">KingMath AI is currently undergoing quick system upgrades to serve you better. We will be back online shortly!</p>
-            <div class="maintenance-status">
-                <span class="status-dot"></span> System updates in progress
-            </div>
-        </div>
-    </div>
-
-    <!-- TOP NAVIGATION BAR -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-white/10 px-4 lg:px-8 py-3.5">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('solver')">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-extrabold text-xl shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-crown"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-black tracking-tight text-white flex items-center gap-1.5">
-                        KingMath <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">AI</span>
-                    </span>
-                    <p class="text-[10px] text-gray-400 -mt-1 tracking-wider uppercase">WAEC • JAMB • NECO</p>
-                </div>
-            </div>
-
-            <nav class="hidden md:flex items-center space-x-1 glass-panel px-3 py-1.5 rounded-full border border-white/10">
-                <button id="nav-solver" onclick="switchTab('solver')" class="px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 bg-cyan-500 text-black shadow-md">
-                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>AI Solver
-                </button>
-                <button id="nav-cbt" onclick="switchTab('cbt')" class="px-4 py-1.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5 transition-all duration-200">
-                    <i class="fa-solid fa-file-pen mr-2"></i>CBT Engine
-                </button>
-                <button id="nav-pricing" onclick="openUpgradeModal()" class="px-4 py-1.5 rounded-full text-sm font-semibold text-amber-400 hover:bg-amber-500/10 transition-all duration-200">
-                    <i class="fa-solid fa-gem mr-2"></i>Upgrade to Pro
-                </button>
-            </nav>
-
-            <div class="flex items-center space-x-3">
-                <div id="user-tier-badge" class="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs">
-                    <span id="credit-count" class="font-bold text-cyan-400">10 Free Credits Left</span>
-                </div>
-                <button id="auth-btn" onclick="openAuthModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-sm transition-all duration-200 shadow-md flex items-center gap-2">
-                    <i class="fa-solid fa-user-circle"></i>
-                    <span id="auth-btn-text">Sign In</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- MOBILE NAVIGATION TABS -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-panel border-t border-white/10 px-6 py-2 flex justify-around items-center">
-        <button onclick="switchTab('solver')" class="flex flex-col items-center text-xs font-medium text-cyan-400">
-            <i class="fa-solid fa-wand-magic-sparkles text-lg mb-0.5"></i><span>Solver</span>
-        </button>
-        <button onclick="switchTab('cbt')" class="flex flex-col items-center text-xs font-medium text-gray-400 hover:text-white">
-            <i class="fa-solid fa-file-pen text-lg mb-0.5"></i><span>CBT Mock</span>
-        </button>
-        <button onclick="openUpgradeModal()" class="flex flex-col items-center text-xs font-medium text-amber-400">
-            <i class="fa-solid fa-crown text-lg mb-0.5"></i><span>Pro Plan</span>
-        </button>
-    </div>
-
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-6xl mx-auto px-4 lg:px-8 py-8 flex-grow">
-        <section id="section-solver" class="space-y-8">
-            <div class="text-center space-y-3 max-w-2xl mx-auto">
-                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-                    Solve Any Math Problem with <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Step-by-Step AI</span>
-                </h1>
-                <p class="text-gray-400 text-sm md:text-base">Tailored to helping students prepare for exams and practice using a clean CBT environment</p>
-            </div>
-
-            <div class="glass-panel rounded-3xl p-6 md:p-8 space-y-6 border border-white/10 shadow-2xl">
-                <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                    <div class="flex items-center space-x-2">
-                        <button id="btn-mode-text" onclick="setInputMode('text')" class="px-4 py-2 rounded-xl text-xs md:text-sm font-semibold bg-white/10 text-white border border-white/20">
-                            <i class="fa-solid fa-pen-nib mr-2"></i>Text & Equations
-                        </button>
-                    </div>
-                </div>
-                <div id="container-text-input" class="space-y-4">
-                    <textarea id="math-problem-input" rows="4" class="w-full bg-slate-950/60 border border-white/10 rounded-2xl p-4 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50" placeholder="Type your math equation or word problem here..."></textarea>
-                </div>
-                <button onclick="solveMathProblem()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-slate-950 font-bold text-base transition-all shadow-xl">
-                    Generate Step-by-Step Worked Solution
-                </button>
-            </div>
-
-            <div id="solution-container" class="hidden glass-panel rounded-3xl p-6 md:p-8 space-y-6 border border-cyan-500/30 neon-glow">
-                <h3 class="text-lg font-bold text-white tracking-wide">Worked Solution Breakdown</h3>
-                <div id="solution-rendered-content" class="space-y-4 text-gray-200 text-sm md:text-base leading-relaxed"></div>
-            </div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="glass-panel border-t border-white/10 py-6 px-4 text-center text-xs text-gray-400 mt-12 mb-16 md:mb-0">
-        <p>© 2026 KingMath AI. Empowering Nigerian Secondary School & UTME Excellence.</p>
-    </footer>
-
-    <script>
-        const BACKEND_URL = "https://king-math-ai-backend.onrender.com";
-        
-        async function solveMathProblem() {
-            const inputVal = document.getElementById('math-problem-input').value.trim();
-            if (!inputVal) return alert("Please enter a math question.");
-            const solutionCard = document.getElementById('solution-container');
-            const solutionContent = document.getElementById('solution-rendered-content');
-            solutionCard.classList.remove('hidden');
-            solutionContent.innerHTML = "Computing solution...";
-
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/solve`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: inputVal, exam_level: 'WAEC_JAMB' })
-                });
-                const data = await response.json();
-                solutionContent.innerHTML = data.solution || "No solution returned.";
-            } catch (err) {
-                solutionContent.innerHTML = "Failed to connect to AI server.";
-            }
-        }
-    </script>
-</body>
-</html>
+<body><div class="app" id="app">
+<header class="topbar"><div class="brand"><div class="brand-mark">K</div><div>KingMath-AI<small>LEARN WITH CLARITY</small></div></div><nav class="nav" id="nav"><button class="active" data-view="solve">Solve</button><button data-view="explore">Explore Topics</button><button data-view="cbt">Start CBT Exam</button><button data-view="about">About</button></nav><div style="display:flex;gap:8px"><button class="icon-btn" id="themeToggle" aria-label="Toggle light or dark mode" title="Toggle theme">☾</button><button class="icon-btn mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button></div></header>
+<main class="container">
+<section class="section-view active" id="view-solve"><div class="hero"><div><div class="eyebrow">Your personal learning workspace</div><h1>Understand the why,<br>not just the answer.</h1><p>Work through mathematics and science questions with clear steps, useful explanations, and a tutor that helps you learn at your pace.</p></div><div class="hero-actions"><button class="btn" id="newQuestion">＋ New question</button><button class="btn primary" id="heroCbt">Start CBT Exam ↗</button></div></div>
+<div class="layout"><section class="card"><div class="card-head"><div><h2>Ask KingMath-AI</h2><p>Mathematics, physics, chemistry and science</p></div><span class="small muted">● Ready to help</span></div><div class="card-body"><label class="label" for="question">Your question</label><textarea id="question" class="question-input" maxlength="6000" placeholder="Type a question, equation, or concept you want to understand…"></textarea><div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px"><span class="small muted">Be as specific as you can.</span><span class="small muted" id="charCount">0 / 6000</span></div><div class="upload-box"><div class="upload-icon">▧</div><div class="grow"><b style="font-size:13px">Solve from an image</b><div class="small muted">PNG, JPG or WebP · up to 7 MB</div></div><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp" class="hidden"><button class="btn" id="chooseImage">Upload image</button></div><div id="imagePreview" class="preview hidden"></div><label class="label" for="level" style="margin-top:16px">Learning level</label><select id="level"><option>Secondary school</option><option>Junior secondary</option><option>Senior secondary / WAEC</option><option>University</option><option>Independent learner</option></select><div class="input-foot"><button class="btn danger" id="clearQuestion">Clear</button><button class="btn primary" id="solveBtn">Solve question <span>→</span></button></div><div id="solveError"></div><div style="margin-top:22px"><div class="label">Try a sample question</div><div class="chip-row"><button class="chip sample" data-q="Solve 3x + 7 = 22 and verify the answer.">Linear equation</button><button class="chip sample" data-q="A car travels 150 km in 2.5 hours. Calculate its average speed.">Average speed</button><button class="chip sample" data-q="Explain the difference between ionic and covalent bonding with examples.">Chemical bonding</button><button class="chip sample" data-q="Differentiate y = 3x² + 4x − 5 with respect to x.">Differentiation</button></div></div></div></section>
+<section class="card" id="solutionCard"><div class="card-head"><div><h2>Worked solution</h2><p>Reasoning you can follow and revisit</p></div><button class="icon-btn" id="showAllTop" title="Show all steps">↕</button></div><div id="solutionArea"><div class="solution-empty"><div class="empty-icon">∑</div><h3>Your solution appears here</h3><p>Ask a question or upload a clear image to get a structured, step-by-step explanation.</p></div></div></section></div><div class="footer">KingMath-AI · Learn carefully. Practise confidently.</div></section>
+<section class="section-view" id="view-explore"><div class="hero"><div><div class="eyebrow">Build understanding</div><h1>Explore topics</h1><p>Choose a subject and difficulty to get a fresh practice question generated for you.</p></div></div><div class="card"><div class="card-head"><div><h2>Find your next challenge</h2><p>Pick a topic below or enter your own.</p></div></div><div class="card-body"><div class="label">Mathematics</div><div class="topic-grid" id="mathTopics"></div><div class="label" style="margin-top:24px">Physics</div><div class="topic-grid" id="physicsTopics"></div><div class="label" style="margin-top:24px">Chemistry</div><div class="topic-grid" id="chemTopics"></div><div class="explore-controls"><input id="customTopic" class="field" placeholder="Or enter a custom topic…"><select id="topicDifficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select><button class="btn primary" id="generateTopic">Generate question</button></div><div id="topicResult"></div></div></div></section>
+<section class="section-view" id="view-cbt"><div class="hero"><div><div class="eyebrow">Computer-based test practice</div><h1>Practise under exam conditions.</h1><p>Build a fresh, personalised 20-question multiple-choice examination around your subject, topic, and available time.</p></div></div><div class="exam-setup card" id="examSetup"><div class="card-head"><div><h2>Welcome to KingMath-AI CBT Practice</h2><p>Let's set up an examination that fits your goals.</p></div><span class="small muted">20 questions</span></div><div class="setup-step"><h3>1. What would you like to practise?</h3><p>Choose a suggestion or describe your examination in your own words.</p><div class="chip-row" id="examSuggestions"><button class="chip exam-topic" data-topic="Mathematics">Mathematics</button><button class="chip exam-topic" data-topic="WAEC Physics: Mechanics">Physics</button><button class="chip exam-topic" data-topic="Chemistry: Stoichiometry and chemical calculations">Chemistry</button><button class="chip exam-topic" data-topic="Biology">Biology</button><button class="chip exam-topic" data-topic="Algebra">Algebra</button><button class="chip exam-topic" data-topic="Trigonometry">Trigonometry</button><button class="chip exam-topic" data-topic="University Calculus: Differentiation">Calculus</button><button class="chip exam-topic" data-topic="Organic chemistry">Organic chemistry</button></div><label class="label" for="examTopic" style="margin-top:16px">Subject or examination description</label><textarea id="examTopic" rows="3" placeholder="e.g. SS3 Mathematics: Quadratic equations"></textarea><div class="input-foot"><span class="small muted">A specific topic helps tailor the questions.</span><button class="btn primary" id="confirmTopic">Continue →</button></div><div id="examSetupError"></div></div><div class="setup-step hidden" id="durationStep"><h3>2. How much time would you like?</h3><p>Choose a duration. The timer starts only when you start the examination.</p><div class="choice-row" id="durationChoices"><button class="choice" data-min="10">10 min</button><button class="choice" data-min="15">15 min</button><button class="choice selected" data-min="20">20 min</button><button class="choice" data-min="30">30 min</button><button class="choice" data-min="45">45 min</button><button class="choice" data-min="60">60 min</button></div><div style="margin-top:12px;max-width:240px"><label class="label" for="customDuration">Or custom duration (minutes)</label><input id="customDuration" class="field" type="number" min="1" max="180" placeholder="1–180 minutes"></div><label class="label" for="examDifficulty" style="margin-top:14px">Difficulty</label><select id="examDifficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select><div class="exam-summary" id="examSummary"></div><div class="input-foot"><button class="btn" id="backSetup">← Back</button><button class="btn primary" id="startExam">Generate & start exam →</button></div><div id="examGenerateError"></div></div></div>
+<div id="examActive" class="hidden"><div class="exam-header"><div><div class="eyebrow">KingMath-AI CBT</div><h2 id="activeExamTitle" style="margin:4px 0">Practice Examination</h2><div class="small muted" id="activeExamMeta"></div></div><div class="timer" id="timer">20:00</div></div><div class="exam-layout"><section class="card"><div class="exam-question"><div class="question-meta"><span id="questionPosition">QUESTION 1 OF 20</span><span id="questionTopic">Topic</span></div><div class="question-text" id="examQuestionText"></div><div id="examOptions"></div><label style="display:flex;align-items:center;gap:8px;margin-top:15px;font-size:13px"><input id="markReview" type="checkbox"> Mark this question for review</label><div class="exam-bottom"><button class="btn" id="prevQuestion">← Previous</button><button class="btn primary" id="nextQuestion">Next →</button></div></div></section><aside class="card exam-nav"><h3 style="margin:0">Question navigator</h3><p class="small muted" id="answeredLabel">0 of 20 answered</p><div class="number-grid" id="numberGrid"></div><div class="legend"><span class="l-answered">Answered</span><span class="l-review">Review</span><span>Unanswered</span></div><button class="btn primary" style="width:100%;margin-top:19px" id="submitExam">Submit examination</button><p class="small muted">Your selected answers are saved as you go.</p></aside></div></div>
+<div id="examResults" class="hidden"></div></section>
+<section class="section-view" id="view-about"><div class="hero"><div><div class="eyebrow">About the platform</div><h1>Learning built around understanding.</h1><p>KingMath-AI is designed to help learners move from a question to a clear explanation, then from practice to greater confidence.</p></div></div><div class="about-grid"><div class="card about-card"><div class="topic-symbol">∑</div><h3>Step-by-step solving</h3><p>Structured working, relevant principles, readable notation, and verification when appropriate.</p></div><div class="card about-card"><div class="topic-symbol">▧</div><h3>Image-based questions</h3><p>Submit a clear picture of a printed or handwritten question and receive a worked explanation.</p></div><div class="card about-card"><div class="topic-symbol">✓</div><h3>Personalised CBT</h3><p>Generate a fresh 20-question practice exam for your topic, difficulty, and selected duration.</p></div></div><div class="card" style="margin-top:18px"><div class="card-body"><h3 style="margin-top:0">A tutor, not just an answer machine</h3><p class="muted">Use the explanation controls to clarify reasoning, simplify difficult concepts, verify a result, or practise with a similar question. Generated explanations can make mistakes, so check important results against your course materials and teacher's guidance.</p><p class="small muted">KingMath-AI uses server-configured AI services. No provider API key is placed in your browser. Active CBT sessions are held in server memory in this starter version and may expire if the server restarts.</p></div></div></section>
+</main></div>
+<div class="modal-backdrop hidden" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h3 id="modalTitle">Confirm submission</h3><p id="modalText"></p><div class="modal-actions"><button class="btn" id="modalCancel">Go back</button><button class="btn primary" id="modalConfirm">Submit exam</button></div></div></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={solution:null,question:'',image:null,imageUrl:null,solverBusy:false,exam:null,examId:null,examIndex:0,answers:{},review:new Set(),deadline:null,timerHandle:null,examBusy:false,topic:'',difficulty:'Intermediate',duration:20,sessionId:sessionStorage.getItem('km_session')||crypto.randomUUID()};sessionStorage.setItem('km_session',state.sessionId);
+const headers={'Content-Type':'application/json','X-Session-ID':state.sessionId};
+async function api(url,opts={}){const h={...headers,...(opts.headers||{})};if(opts.body instanceof FormData)delete h['Content-Type'];let r;try{r=await fetch(url,{...opts,headers:h})}catch(e){throw Error('Unable to reach KingMath-AI. Check your connection and try again.')}let data;try{data=await r.json()}catch{data={}}if(!r.ok)throw Error(data.detail||'The request could not be completed. Please try again.');return data}
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function pretty(s=''){return escapeHtml(s).replace(/\n/g,'<br>')}
+function showError(el,msg){el.innerHTML=msg?`<div class="notice error" role="alert">${escapeHtml(msg)} <button class="btn" onclick="this.parentElement.remove()" style="padding:4px 8px;margin-left:6px">Dismiss</button></div>`:''}
+function loading(el,msg){el.innerHTML=`<div class="loading"><span class="spinner"></span><span>${escapeHtml(msg)}</span></div>`}
+function goView(name){if(name==='cbt'&&state.exam&&state.exam.status==='active'){} $$('.section-view').forEach(x=>x.classList.toggle('active',x.id==='view-'+name));$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===name));$('#nav').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'})}
+$$('.nav button').forEach(b=>b.addEventListener('click',()=>goView(b.dataset.view)));$('#heroCbt').onclick=()=>goView('cbt');$('#menuToggle').onclick=()=>$('#nav').classList.toggle('open');
+$('#themeToggle').onclick=()=>{let dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';localStorage.setItem('km_theme',dark?'dark':'light');$('#themeToggle').textContent=dark?'☀':'☾'};
+if(localStorage.getItem('km_theme')==='dark'){document.documentElement.dataset.theme='dark';$('#themeToggle').textContent='☀'}
+$('#question').addEventListener('input',()=>$('#charCount').textContent=$('#question').value.length+' / 6000');$$('.sample').forEach(b=>b.onclick=()=>{$('#question').value=b.dataset.q;$('#charCount').textContent=$('#question').value.length+' / 6000';$('#question').focus()});
+$('#chooseImage').onclick=()=>$('#imageFile').click();$('#imageFile').onchange=()=>{const f=$('#imageFile').files[0];if(!f)return;if(!['image/png','image/jpeg','image/webp'].includes(f.type)||f.size>7*1024*1024){showError($('#solveError'),'Choose a PNG, JPG or WebP image smaller than 7 MB.');$('#imageFile').value='';return}state.image=f;if(state.imageUrl)URL.revokeObjectURL(state.imageUrl);state.imageUrl=URL.createObjectURL(f);$('#imagePreview').classList.remove('hidden');$('#imagePreview').innerHTML=`<img src="${state.imageUrl}" alt="Preview of question image"><button class="btn" id="removeImage" aria-label="Remove image">✕</button>`;$('#removeImage').onclick=clearImage;showError($('#solveError'),'')};
+function clearImage(){state.image=null;if(state.imageUrl)URL.revokeObjectURL(state.imageUrl);state.imageUrl=null;$('#imageFile').value='';$('#imagePreview').classList.add('hidden');$('#imagePreview').innerHTML=''}
+$('#clearQuestion').onclick=()=>{if(($('#question').value.trim()||state.solution||state.image)&&!confirm('Clear the current question and solution? Your CBT exam will not be affected.'))return;resetSolver()};$('#newQuestion').onclick=()=>{resetSolver();$('#question').focus()};function resetSolver(){state.solution=null;state.question='';$('#question').value='';$('#charCount').textContent='0 / 6000';clearImage();$('#solveError').innerHTML='';$('#solutionArea').innerHTML='<div class="solution-empty"><div class="empty-icon">∑</div><h3>Your solution appears here</h3><p>Ask a question or upload a clear image to get a structured, step-by-step explanation.</p></div>'}
+$('#solveBtn').onclick=solveQuestion;$('#question').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')solveQuestion()});
+async function solveQuestion(){if(state.solverBusy)return;const q=$('#question').value.trim();if(!q&&!state.image){showError($('#solveError'),'Enter a question or upload an image first.');return}state.question=q||'Please solve the question shown in the uploaded image.';state.solverBusy=true;$('#solveBtn').disabled=true;$('#solveError').innerHTML='';loading($('#solutionArea'),state.image?'Reading the image and working through the question…':'Working through your question…');try{let sol;if(state.image){const fd=new FormData();fd.append('file',state.image);fd.append('question',q);fd.append('level',$('#level').value);sol=await api('/api/solve-image',{method:'POST',body:fd})}else{sol=await api('/api/solve',{method:'POST',body:JSON.stringify({question:q,level:$('#level').value})})}state.solution=sol;renderSolution(sol)}catch(e){$('#solutionArea').innerHTML='<div class="solution-empty"><div class="empty-icon">!</div><h3>We couldn’t finish that</h3><p>'+escapeHtml(e.message)+'</p><button class="btn primary" style="margin-top:15px" onclick="solveQuestion()">Try again</button></div>'}finally{state.solverBusy=false;$('#solveBtn').disabled=false}}
+function renderSolution(sol){let html=`<div class="solution-content"><h3 class="solution-title">${escapeHtml(sol.title||'Worked solution')}</h3>`;if(sol.understanding)html+=`<div class="section-block"><div class="section-label">Understanding the question</div><div class="prose">${pretty(sol.understanding)}</div></div>`;if(sol.principle)html+=`<div class="section-block"><div class="section-label">Relevant principle</div><div class="principle-box prose">${pretty(sol.principle)}</div></div>`;if(sol.steps?.length){html+=`<div class="section-block"><div class="section-label">Step-by-step working</div><div class="small muted">Reveal each step as you work, or show all steps.</div><div id="stepsList">`;sol.steps.forEach((s,i)=>{html+=`<div class="step"><button class="step-toggle" aria-expanded="false" data-step="${i}"><span>${escapeHtml(s.title||'Step '+(i+1))}</span><span>＋</span></button><div class="step-body hidden" id="stepBody${i}">${s.working?`<div class="working">${pretty(s.working)}</div>`:''}<div class="prose">${pretty(s.explanation||'')}</div></div></div>`});html+='</div></div>'}if(sol.final_answer)html+=`<div class="section-block final-box"><div class="section-label">Final answer</div><div class="prose"><b>${pretty(sol.final_answer)}</b></div></div>`;if(sol.verification)html+=`<div class="section-block"><div class="section-label">Verification</div><div class="prose">${pretty(sol.verification)}</div></div>`;if(sol.notes)html+=`<div class="notice">${pretty(sol.notes)}</div>`;html+=`<div class="solution-actions"><button class="btn" data-action="clearer">Explain more clearly</button><button class="btn" data-action="simpler">Explain more simply</button><button class="btn" data-action="similar">Generate similar question</button><button class="btn" data-action="verify">Verify answer</button><button class="btn subtle" id="revealAll">Show all steps</button></div><div id="actionFeedback"></div></div>`;$('#solutionArea').innerHTML=html;$$('.step-toggle').forEach(b=>b.onclick=()=>toggleStep(Number(b.dataset.step)));$$('[data-action]').forEach(b=>b.onclick=()=>doAction(b.dataset.action));$('#revealAll').onclick=()=>setAllSteps(true);$('#showAllTop').onclick=()=>setAllSteps(true)}
+function toggleStep(i,force){const body=$('#stepBody'+i),btn=$(`[data-step="${i}"]`);if(!body||!btn)return;const open=force===undefined?body.classList.contains('hidden'):force;body.classList.toggle('hidden',!open);btn.setAttribute('aria-expanded',String(open));btn.lastElementChild.textContent=open?'−':'＋'}function setAllSteps(show){$$('.step-body').forEach((b,i)=>toggleStep(i,show));if($('#revealAll'))$('#revealAll').textContent=show?'Hide all steps':'Show all steps'}
+async function doAction(action){if(!state.solution||state.solverBusy)return;state.solverBusy=true;$$('[data-action]').forEach(b=>b.disabled=true);const fb=$('#actionFeedback');loading(fb,{clearer:'Making the explanation clearer…',simpler:'Rewriting this in simpler language…',similar:'Creating a similar practice question…',verify:'Independently checking the answer…'}[action]);try{const sol=await api('/api/action',{method:'POST',body:JSON.stringify({question:state.question,solution:state.solution,action,level:$('#level').value})});if(action==='similar'){state.question=sol.final_answer.replace(/^New question:\s*/i,'');$('#question').value=state.question;$('#charCount').textContent=$('#question').value.length+' / 6000';state.solution=null;$('#solutionArea').innerHTML=`<div class="solution-content"><div class="eyebrow">Practice independently</div><h3 class="solution-title">Your similar question</h3><div class="prose">${pretty(state.question)}</div><div class="notice">Try it yourself first. When you’re ready, submit it to see a worked solution.</div><button class="btn primary" onclick="solveQuestion()">Solve this question →</button></div>`}else{state.solution=sol;renderSolution(sol);$('#actionFeedback').innerHTML='<div class="notice success">Updated explanation ready.</div>'}}catch(e){showError(fb,e.message)}finally{state.solverBusy=false;$$('[data-action]').forEach(b=>b.disabled=false)}}
+const topicSets={math:[['Algebra','Solve equations and understand expressions.','x'],['Geometry','Angles, shapes and geometric reasoning.','△'],['Trigonometry','Sine, cosine, tangent and identities.','θ'],['Calculus','Limits, differentiation and integration.','∫'],['Statistics','Summarise and interpret data.','σ'],['Probability','Chance, events and distributions.','P'],['Mensuration','Perimeter, area, surface area and volume.','□'],['Coordinate geometry','Lines, gradients and curves.','xy'],['Number theory','Factors, primes and divisibility.','ℕ']],physics:[['Mechanics','Motion, forces, energy and momentum.','↗'],['Electricity','Circuits, current, voltage and resistance.','Ω'],['Waves','Frequency, wavelength and wave behaviour.','〰'],['Optics','Reflection, refraction and lenses.','◉'],['Thermodynamics','Heat, temperature and energy transfer.','T'],['Magnetism','Magnetic fields and induction.','B']],chem:[['Organic chemistry','Hydrocarbons and functional groups.','C'],['Chemical bonding','Ionic, covalent and metallic bonds.','⚛'],['Acids and bases','pH, neutralisation and salts.','pH'],['Stoichiometry','Moles, equations and chemical quantities.','mol'],['Electrochemistry','Redox reactions and electrochemical cells.','e⁻']]};
+function buildTopics(id,arr){$(id).innerHTML=arr.map(([name,desc,sym])=>`<button class="topic-card" data-topic-name="${escapeHtml(name)}"><span class="topic-symbol">${escapeHtml(sym)}</span><b>${escapeHtml(name)}</b><span>${escapeHtml(desc)}</span></button>`).join('');$$(id+' .topic-card').forEach(b=>b.onclick=()=>{$('#customTopic').value=b.dataset.topicName;generateTopic()})}buildTopics('#mathTopics',topicSets.math);buildTopics('#physicsTopics',topicSets.physics);buildTopics('#chemTopics',topicSets.chem);
+$('#generateTopic').onclick=generateTopic;async function generateTopic(){const topic=$('#customTopic').value.trim();if(!topic){$('#customTopic').focus();return}const out=$('#topicResult');loading(out,'Generating a fresh practice question…');$('#generateTopic').disabled=true;try{const r=await api('/api/topic-question',{method:'POST',body:JSON.stringify({topic,difficulty:$('#topicDifficulty').value})});out.innerHTML=`<div class="card" style="margin-top:18px"><div class="card-body"><div class="eyebrow">${escapeHtml(r.difficulty)} practice</div><h3>${escapeHtml(r.topic)}</h3><p style="font-size:17px">${pretty(r.question)}</p>${r.hint?`<details class="notice"><summary>Need a hint?</summary><p>${pretty(r.hint)}</p></details>`:''}<button class="btn primary" id="practiceTopic">Solve with KingMath-AI →</button></div></div>`;$('#practiceTopic').onclick=()=>{goView('solve');$('#question').value=r.question;$('#charCount').textContent=$('#question').value.length+' / 6000';$('#question').focus()}}catch(e){showError(out,e.message)}finally{$('#generateTopic').disabled=false}}
+$$('.exam-topic').forEach(b=>b.onclick=()=>{$('#examTopic').value=b.dataset.topic;$$('.exam-topic').forEach(x=>x.classList.toggle('selected',x===b))});$('#confirmTopic').onclick=()=>{const t=$('#examTopic').value.trim();if(!t){showError($('#examSetupError'),'Choose a suggested subject or enter your own topic.');return}state.topic=t;$('#durationStep').classList.remove('hidden');renderSummary();$('#durationStep').scrollIntoView({behavior:'smooth',block:'nearest'});showError($('#examSetupError'),'')};$$('#durationChoices .choice').forEach(b=>b.onclick=()=>{$$('#durationChoices .choice').forEach(x=>x.classList.toggle('selected',x===b));$('#customDuration').value='';state.duration=Number(b.dataset.min);renderSummary()});$('#customDuration').oninput=()=>{const n=Number($('#customDuration').value);if(n>=1&&n<=180){$$('#durationChoices .choice').forEach(x=>x.classList.remove('selected'));state.duration=n;renderSummary()}};$('#examDifficulty').onchange=renderSummary;function renderSummary(){if(!state.topic)return;const d=Number($('#customDuration').value);if(d>=1&&d<=180)state.duration=d;$('#examSummary').innerHTML=`<b>Examination setup</b><div class="summary-row"><span class="muted">Subject / topic</span><b>${escapeHtml(state.topic)}</b></div><div class="summary-row"><span class="muted">Difficulty</span><b>${escapeHtml($('#examDifficulty').value)}</b></div><div class="summary-row"><span class="muted">Questions</span><b>20 multiple-choice</b></div><div class="summary-row"><span class="muted">Duration</span><b>${state.duration} minutes</b></div><div class="summary-row"><span class="muted">Mode</span><b>Timed CBT practice</b></div>`}
+$('#backSetup').onclick=()=>$('#durationStep').classList.add('hidden');$('#startExam').onclick=startExam;async function startExam(){if(state.examBusy)return;if(!state.topic){showError($('#examSetupError'),'Enter an examination topic first.');return}const duration=Number($('#customDuration').value)||state.duration;if(!Number.isInteger(duration)||duration<1||duration>180){showError($('#examGenerateError'),'Duration must be between 1 and 180 minutes.');return}state.examBusy=true;$('#startExam').disabled=true;loading($('#examGenerateError'),'Generating and validating your 20-question examination. The timer has not started yet…');try{const exam=await api('/api/exam/generate',{method:'POST',body:JSON.stringify({topic:state.topic,difficulty:$('#examDifficulty').value,duration_minutes:duration,count:20,level:$('#level').value})});state.exam=exam;state.examId=exam.exam_id;state.answers={};state.review=new Set();state.examIndex=0;const started=await api(`/api/exam/${state.examId}/start`,{method:'POST',body:JSON.stringify({})});state.exam=started;state.answers=started.answers||{};state.review=new Set(started.review||[]);state.deadline=started.deadline*1000;$('#examSetup').classList.add('hidden');$('#examResults').classList.add('hidden');$('#examActive').classList.remove('hidden');$('#activeExamTitle').textContent=started.title;$('#activeExamMeta').textContent=started.subject+' · '+started.difficulty+' · 20 questions';renderExamQuestion();buildNumberGrid();startTimer();}catch(e){showError($('#examGenerateError'),e.message)}finally{state.examBusy=false;$('#startExam').disabled=false}}
+function buildNumberGrid(){$('#numberGrid').innerHTML=state.exam.questions.map((q,i)=>`<button class="qnum" data-num="${i}" aria-label="Question ${i+1}">${i+1}</button>`).join('');$$('.qnum').forEach(b=>b.onclick=()=>{state.examIndex=Number(b.dataset.num);renderExamQuestion()});updateNumberGrid()}
+function updateNumberGrid(){$$('.qnum').forEach((b,i)=>{b.classList.toggle('current',i===state.examIndex);b.classList.toggle('answered',state.answers[i]!==undefined);b.classList.toggle('review',state.review.has(i))});$('#answeredLabel').textContent=Object.keys(state.answers).length+' of 20 answered'}
+function renderExamQuestion(){const q=state.exam.questions[state.examIndex];$('#questionPosition').textContent=`QUESTION ${state.examIndex+1} OF 20`;$('#questionTopic').textContent=q.topic||state.topic;$('#examQuestionText').textContent=q.question;$('#examOptions').innerHTML='ABCD'.split('').map(k=>`<button class="option ${state.answers[state.examIndex]===k?'selected':''}" data-option="${k}"><span class="letter">${k}</span><span>${escapeHtml(q.options[k])}</span></button>`).join('');$$('.option').forEach(b=>b.onclick=()=>chooseAnswer(b.dataset.option));$('#markReview').checked=state.review.has(state.examIndex);updateNumberGrid();$('#prevQuestion').disabled=state.examIndex===0;$('#nextQuestion').textContent=state.examIndex===19?'Last question':'Next →'}
+async function chooseAnswer(letter){if(!state.exam||state.exam.status!=='active')return;const i=state.examIndex;state.answers[i]=letter;renderExamQuestion();try{await api(`/api/exam/${state.examId}/answer`,{method:'POST',body:JSON.stringify({question_index:i,answer:letter,review:state.review.has(i)})})}catch(e){showError($('#examResults'),e.message)}}
+$('#markReview').onchange=async()=>{const i=state.examIndex;if($('#markReview').checked)state.review.add(i);else state.review.delete(i);updateNumberGrid();try{await api(`/api/exam/${state.examId}/answer`,{method:'POST',body:JSON.stringify({question_index:i,answer:state.answers[i]||null,review:state.review.has(i)})})}catch(e){alert(e.message)}};$('#prevQuestion').onclick=()=>{if(state.examIndex>0){state.examIndex--;renderExamQuestion()}};$('#nextQuestion').onclick=()=>{if(state.examIndex<19){state.examIndex++;renderExamQuestion()}};
+function startTimer(){clearInterval(state.timerHandle);tickTimer();state.timerHandle=setInterval(tickTimer,1000)}function tickTimer(){if(!state.deadline)return;const sec=Math.max(0,Math.floor((state.deadline-Date.now())/1000));$('#timer').textContent=String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');$('#timer').classList.toggle('urgent',sec<=60);if(sec<=0){clearInterval(state.timerHandle);finishExam(true)}}
+$('#submitExam').onclick=()=>{const answered=Object.keys(state.answers).length;$('#modalTitle').textContent='Submit examination?';$('#modalText').textContent=`You have answered ${answered} of 20 questions and left ${20-answered} unanswered. You can return to the exam or submit now.`;$('#modal').classList.remove('hidden');$('#modalCancel').focus()};$('#modalCancel').onclick=()=>$('#modal').classList.add('hidden');$('#modalConfirm').onclick=()=>{$('#modal').classList.add('hidden');finishExam(false)};
+async function finishExam(auto){if(state.examBusy||!state.examId)return;state.examBusy=true;clearInterval(state.timerHandle);$('#submitExam').disabled=true;try{const result=await api(`/api/exam/${state.examId}/submit`,{method:'POST',body:JSON.stringify({force:auto})});state.exam.status='completed';renderResults(result);if(auto)$('#examResults').insertAdjacentHTML('afterbegin','<div class="notice">Time is up. Your examination was submitted automatically.</div>')}catch(e){showError($('#examResults'),e.message);if(!auto&&state.deadline>Date.now())startTimer()}finally{state.examBusy=false;$('#submitExam').disabled=false}}
+function fmtTime(s){return Math.floor(s/60)+' min '+s%60+' sec'}function renderResults(r){$('#examActive').classList.add('hidden');$('#examResults').classList.remove('hidden');const review=r.review.all;$('#examResults').innerHTML=`<div class="card"><div class="results-hero"><div class="eyebrow">Examination complete</div><h2>${escapeHtml(r.title)}</h2><div class="score-ring"><strong>${r.score}/20</strong><span class="small muted">${r.percentage}%</span></div><p class="muted">${r.percentage>=70?'Good work. Review your missed questions to strengthen your understanding.':r.percentage>=50?'A useful attempt. Review the explanations and practise the weaker topics.':'Keep practising. Work through the explanations and try a new exam when ready.'}</p></div><div class="card-body"><div class="stats-grid"><div class="stat"><strong>${r.correct_count}</strong><span>Correct</span></div><div class="stat"><strong>${r.incorrect_count}</strong><span>Incorrect</span></div><div class="stat"><strong>${r.unanswered_count}</strong><span>Unanswered</span></div><div class="stat"><strong>${fmtTime(r.time_used_seconds)}</strong><span>Time used</span></div></div><h3>Topic performance</h3>${Object.entries(r.by_topic||{}).map(([t,v])=>`<div class="summary-row"><span>${escapeHtml(t)}</span><b>${v.correct}/${v.total} · ${Math.round(v.correct/v.total*100)}%</b></div>`).join('')}<div style="display:flex;gap:9px;flex-wrap:wrap;margin:18px 0"><button class="btn primary" id="reviewAllBtn">Review my answers</button><button class="btn" id="reviewWrongBtn">Review incorrect only</button><button class="btn" id="retryWrongBtn">Retry missed questions</button><button class="btn" id="analyseBtn">Analyse common pitfalls</button><button class="btn" id="newExamBtn">New examination</button><button class="btn" id="returnSolverBtn">Return to solver</button></div><div id="analysisArea"></div><div id="reviewArea"></div></div></div>`;$('#reviewAllBtn').onclick=()=>renderReview(review);$('#reviewWrongBtn').onclick=()=>renderReview(review.filter(x=>!x.correct&&x.selected!==null));$('#retryWrongBtn').onclick=()=>{const wrong=review.filter(x=>!x.correct);if(!wrong.length){alert('No missed questions to retry.');return}$('#examTopic').value=r.topic+' — practice the concepts from my missed questions';state.topic=$('#examTopic').value;$('#durationStep').classList.add('hidden');$('#examSetup').classList.remove('hidden');$('#examActive').classList.add('hidden');$('#examResults').classList.add('hidden');goView('cbt');$('#confirmTopic').click()};$('#newExamBtn').onclick=()=>{state.exam=null;state.examId=null;$('#examSetup').classList.remove('hidden');$('#durationStep').classList.add('hidden');$('#examActive').classList.add('hidden');$('#examResults').classList.add('hidden');$('#examTopic').value=state.topic;goView('cbt')};$('#returnSolverBtn').onclick=()=>goView('solve');$('#analyseBtn').onclick=analyseExam}
+function renderReview(items){const area=$('#reviewArea');area.innerHTML=`<h3 style="margin-top:24px">Answer review · ${items.length} questions</h3>`+items.map(r=>`<article class="review-item"><div class="question-meta"><span>QUESTION ${r.index+1} · ${escapeHtml(r.topic)}</span><span style="color:var(--${r.correct?'success':'danger'})">${r.correct?'Correct':r.selected===null?'Unanswered':'Incorrect'}</span></div><h4 style="margin-top:12px">${escapeHtml(r.question)}</h4>${'ABCD'.split('').map(k=>`<div class="review-option ${k===r.correct_answer?'good':k===r.selected?'bad':''}"><b>${k}.</b> ${escapeHtml(r.options[k])}${k===r.correct_answer?' ✓':''}${k===r.selected&&k!==r.correct_answer?' · Your answer':''}</div>`).join('')}<div class="notice"><b>Explanation:</b> ${escapeHtml(r.explanation)}</div><div class="small muted">${escapeHtml(r.difficulty||'')} · ${escapeHtml(r.topic||'')}</div></article>`).join('');area.scrollIntoView({behavior:'smooth',block:'start'})}
+async function analyseExam(){const area=$('#analysisArea');loading(area,'Analysing your incorrect responses for evidence-supported patterns…');$('#analyseBtn').disabled=true;try{const a=await api(`/api/exam/${state.examId}/analyse`,{method:'POST',body:JSON.stringify({})});area.innerHTML=`<div class="card" style="margin-top:18px"><div class="card-body"><h3>Common pitfalls & learning gaps</h3><p>${escapeHtml(a.summary)}</p>${(a.insights||[]).map(i=>`<div class="review-item"><span class="chip">${escapeHtml(i.badge||'Possible learning gap')}</span><p><b>Question ${Number(i.question_number)||'—'} · ${escapeHtml(i.confidence||'possible')} evidence</b></p><p>${escapeHtml(i.evidence||'')}</p><p><b>Why it may be incorrect:</b> ${escapeHtml(i.why_incorrect||'')}</p><p><b>Correct reasoning:</b> ${escapeHtml(i.correct_reasoning||'')}</p><p><b>Try next time:</b> ${escapeHtml(i.advice||'')}</p></div>`).join('')}</div></div>`}catch(e){showError(area,e.message)}finally{$('#analyseBtn').disabled=false}}
+// Keep current solver state separate from CBT state; only solver reset touches solver content.
+</script></body></html>
